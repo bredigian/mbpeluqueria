@@ -1,14 +1,18 @@
 "use client"
 
 import { Hour } from "@/types/hour.types"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useShiftData } from "@/store/shift-data"
 
 const Time = ({ data }: { data: Hour }) => {
   const { push } = useRouter()
+  const { setHour } = useShiftData()
 
   const handleSelect = () => {
-    if (data.isAvailable) push("/confirmation")
+    if (data.isAvailable) {
+      setHour(data)
+      push("/confirmation")
+    }
   }
 
   return (

@@ -1,13 +1,37 @@
+"use client"
+
 import ButtonBack from "@/components/ButtonBack"
 import ButtonNext from "@/components/ButtonNext"
 import Calendar from "@/components/Calendar"
-import Link from "next/link"
 import Subtitle from "@/components/Subtitle"
 import Title from "@/components/Title"
 import { useGetDays } from "@/hooks/get-days"
+import { useEffect, useState } from "react"
+import { Date } from "@/types/date.types"
+import { useRouter } from "next/navigation"
+import { useShiftData } from "@/store/shift-data"
 
 const Date = () => {
   const calendar = useGetDays()
+  const { push } = useRouter()
+  const { user, setDay } = useShiftData()
+
+  const [selectedDay, setSelectedDay] = useState<Date>()
+
+  const handleSelectedDay = (day: Date) => {
+    setSelectedDay(day)
+  }
+
+  const onContinue = () => {
+    if (selectedDay) {
+      setDay(selectedDay)
+      push("/hour")
+    }
+  }
+
+  useEffect(() => {
+    if (!user) push("/")
+  }, [])
 
   return (
     <main className="flex flex-col gap-8 py-12 px-10">
@@ -18,10 +42,15 @@ const Date = () => {
           Seleccioná la fecha en la que desees reservar el turno
         </Subtitle>
       </div>
-      <Calendar data={calendar} />
-      <Link className="self-end mt-16" href={"/hour"}>
-        <ButtonNext>Continuar</ButtonNext>
-      </Link>
+      <Calendar
+        data={calendar}
+        selectedDay={selectedDay}
+        handleSelectedDay={handleSelectedDay}
+      />
+
+      <ButtonNext onClick={onContinue} style="self-end mt-16" type="button">
+        Continuar
+      </ButtonNext>
     </main>
   )
 }

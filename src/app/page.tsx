@@ -25,9 +25,6 @@ const Home = () => {
         </Subtitle>
       </div>
       <Form />
-      <Link className="self-end mt-16" href={"/date"}>
-        <ButtonNext>Continuar</ButtonNext>
-      </Link>
     </main>
   )
 }
