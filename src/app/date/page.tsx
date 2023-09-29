@@ -47,10 +47,11 @@ const Date = () => {
         selectedDay={selectedDay}
         handleSelectedDay={handleSelectedDay}
       />
-
-      <ButtonNext onClick={onContinue} style="self-end mt-16" type="button">
-        Continuar
-      </ButtonNext>
+      {selectedDay && (
+        <ButtonNext onClick={onContinue} style="self-end mt-16" type="button">
+          Continuar
+        </ButtonNext>
+      )}
     </main>
   )
 }
