@@ -1,6 +1,6 @@
 import { Date } from "./date.types"
 import { Hour } from "./hour.types"
-import { User } from "./shift.types"
+import { User } from "./user.types"
 
 export interface SummaryItem {
   item: string

@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { type User } from "@/types/shift.types"
+import { type User } from "@/types/user.types"
 import { Date } from "@/types/date.types"
 import { Hour } from "@/types/hour.types"
 
