@@ -3,5 +3,6 @@ export interface Date {
   month: number
   year: number
   dateString: string
+  fullDateString: string
   dayWeek: number
 }

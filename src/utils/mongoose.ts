@@ -9,7 +9,9 @@ const connectionState = {
 export const connectDB = async () => {
   if (connectionState.isConnected === ConnectionStates.connected) return
 
-  const db = await connect(MONGODB_URI, {})
+  const db = await connect(MONGODB_URI, {
+    dbName: "mbpeluqueria",
+  })
   connectionState.isConnected = db.connection.readyState
 }
 

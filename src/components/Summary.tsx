@@ -20,7 +20,7 @@ const Summary = ({
       <div className="flex flex-col gap-6">
         <SummaryItem data={{ item: "Nombre", value: data.user?.name }} />
         <SummaryItem data={{ item: "Teléfono", value: data.user?.phone }} />
-        <SummaryItem data={{ item: "Día", value: data.day?.dateString }} />
+        <SummaryItem data={{ item: "Día", value: data.day?.fullDateString }} />
         <SummaryItem data={{ item: "Horario", value: data.hour?.hour }} />
       </div>
       <div className="h-22 self-center grid place-items-center">

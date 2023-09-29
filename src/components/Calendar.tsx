@@ -1,5 +1,5 @@
 import { type Date } from "@/types/date.types"
-import { Month } from "@/types/month.types"
+import { Month } from "@/types/enums.types"
 
 const Calendar = ({
   data,

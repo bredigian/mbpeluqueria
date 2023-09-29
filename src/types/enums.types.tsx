@@ -12,3 +12,13 @@ export enum Month {
   Noviembre = 10,
   Diciembre = 11,
 }
+
+export enum Day {
+  Dom = 0,
+  Lun = 1,
+  Mar = 2,
+  Mié = 3,
+  Jue = 4,
+  Vie = 5,
+  Sáb = 6,
+}

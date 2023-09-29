@@ -5,16 +5,21 @@ import { HourSchema } from "./Hour"
 import { Summary } from "@/types/summary.types"
 import { UserSchema } from "./User"
 
-const ShiftSchema: Schema<Summary> = new Schema({
-  user: {
-    type: UserSchema,
+const ShiftSchema: Schema<Summary> = new Schema(
+  {
+    user: {
+      type: UserSchema,
+    },
+    day: {
+      type: DateSchema,
+    },
+    hour: {
+      type: HourSchema,
+    },
   },
-  day: {
-    type: DateSchema,
-  },
-  hour: {
-    type: HourSchema,
-  },
-})
+  {
+    timestamps: true,
+  }
+)
 
-export default models.Shift || model<Summary>("Shift", ShiftSchema)
+export default models.Shift || model<Summary>("Shift", ShiftSchema, "shifts")

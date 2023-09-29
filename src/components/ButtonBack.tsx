@@ -3,10 +3,15 @@
 import { ArrowLeftIcon } from "@heroicons/react/20/solid"
 import { useRouter } from "next/navigation"
 
-const ButtonBack = () => {
-  const { back } = useRouter()
+const ButtonBack = ({ isConfirmed }: { isConfirmed?: boolean }) => {
+  const { back, push } = useRouter()
   return (
-    <ArrowLeftIcon onClick={back} className="w-6 h-6 text-yellow-regular" />
+    <ArrowLeftIcon
+      onClick={() => {
+        isConfirmed ? push("/") : back()
+      }}
+      className="w-6 h-6 text-yellow-regular"
+    />
   )
 }
 

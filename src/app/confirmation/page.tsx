@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react"
 
+import { API_URL } from "@/constants/api"
 import ButtonBack from "@/components/ButtonBack"
 import Summary from "@/components/Summary"
 import Title from "@/components/Title"
+import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useShiftData } from "@/store/shift-data"
 
@@ -17,13 +19,22 @@ const Confirmation = () => {
 
   const onConfirm = async () => {
     setSending(true)
-    const prom = new Promise((resolve, reject) => {
-      setTimeout(() => resolve(""), 4000)
-    })
-    await prom.then(() => {
-      setIsOk(true)
-      setSending(false)
-    })
+    const data = { user, day, hour }
+    try {
+      const response = await axios.post(
+        `${API_URL}/shifts`,
+        JSON.stringify(data),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      if (response.status === 201) {
+        setSending(false)
+        setIsOk(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
@@ -32,7 +43,7 @@ const Confirmation = () => {
 
   return (
     <main className="flex flex-col gap-8 py-12 px-10">
-      <ButtonBack />
+      <ButtonBack isConfirmed={isOk} />
       <Title>Finalización</Title>
       <Summary
         data={{

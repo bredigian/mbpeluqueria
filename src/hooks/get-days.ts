@@ -1,3 +1,5 @@
+import { Day, Month } from "@/types/enums.types"
+
 export const useGetDays = () => {
   const getDaysInMonth = (month: number, year: number) => {
     const date = new Date(year, month, 1)
@@ -23,6 +25,9 @@ export const useGetDays = () => {
       year: day.getFullYear(),
       dayWeek: day.getDay(),
       dateString: day.toDateString(),
+      fullDateString: `${Day[day.getDay()]}. ${day.getDate()} de ${
+        Month[day.getMonth()]
+      }`,
     }
   })
 }
