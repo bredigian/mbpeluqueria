@@ -15,7 +15,7 @@ const ButtonNext = ({
     <button
       onClick={onClick}
       type={type}
-      className={`${style} text-yellow-regular text-sm font-medium flex gap-2 items-center`}
+      className={`${style} hover:cursor-pointer text-yellow-regular text-sm font-medium flex gap-2 items-center`}
     >
       {children}
       <ArrowRightIcon className="w-[22px] h-[22px]" />

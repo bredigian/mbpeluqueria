@@ -28,7 +28,7 @@ const Calendar = ({
               className={`${
                 !isWeekend ? "text-white-regular" : "text-white-semi-light"
               } 
-              ${isPast && "text-white-semi-light"}
+              ${isPast ? "text-white-semi-light" : "hover:cursor-pointer"}
               ${
                 selectedDay?.day !== date?.day
                   ? "bg-transparent"

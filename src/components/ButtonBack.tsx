@@ -10,7 +10,7 @@ const ButtonBack = ({ isConfirmed }: { isConfirmed?: boolean }) => {
       onClick={() => {
         isConfirmed ? push("/") : back()
       }}
-      className="w-6 h-6 text-yellow-regular"
+      className="w-6 h-6 text-yellow-regular hover:cursor-pointer"
     />
   )
 }

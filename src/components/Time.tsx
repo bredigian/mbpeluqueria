@@ -19,7 +19,7 @@ const Time = ({ data }: { data: Hour }) => {
     <div
       onClick={handleSelect}
       className={`flex items-center justify-between w-full ${
-        data.isAvailable ? "bg-dark-bold" : "bg-dark-light"
+        data.isAvailable ? "bg-dark-bold hover:cursor-pointer" : "bg-dark-light"
       } py-4 px-6 rounded-full`}
     >
       <span

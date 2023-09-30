@@ -42,7 +42,7 @@ const Confirmation = () => {
   }, [])
 
   return (
-    <main className="flex flex-col gap-8 py-12 px-10">
+    <main className="flex flex-col gap-8 py-10 px-8">
       <ButtonBack isConfirmed={isOk} />
       <Title>Finalización</Title>
       <Summary
