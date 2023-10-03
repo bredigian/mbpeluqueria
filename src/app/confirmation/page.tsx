@@ -7,11 +7,12 @@ import ButtonBack from "@/components/ButtonBack"
 import Summary from "@/components/Summary"
 import Title from "@/components/Title"
 import axios from "axios"
+import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { useShiftData } from "@/store/shift-data"
 
 const Confirmation = () => {
-  const { user, day, hour } = useShiftData()
+  const { user, day, hour, confirm } = useShiftData()
   const { push } = useRouter()
 
   const [sending, setSending] = useState(false)
@@ -19,21 +20,12 @@ const Confirmation = () => {
 
   const onConfirm = async () => {
     setSending(true)
-    const data = { user, day, hour }
     try {
-      const response = await axios.post(
-        `${API_URL}/shifts`,
-        JSON.stringify(data),
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-      if (response.status === 201) {
-        setSending(false)
-        setIsOk(true)
-      }
+      await confirm()
+      setSending(false)
+      setIsOk(true)
     } catch (error) {
-      console.log(error)
+      toast.error(error as string)
     }
   }
 

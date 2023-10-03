@@ -1,5 +1,5 @@
 import { type Date } from "@/types/date.types"
-import { Month } from "@/types/enums.types"
+import { Day, Month } from "@/types/enums.types"
 
 const Calendar = ({
   data,
@@ -20,7 +20,12 @@ const Calendar = ({
       <div className="grid grid-cols-7 place-items-center gap-6 max-w-xl">
         {data.map((date) => {
           const isWeekend = date.dayWeek === 0
-          const isToday = date.dateString === currentDate.toDateString()
+
+          const today = `${
+            Day[currentDate.getDay()]
+          }. ${currentDate.getDate()} de ${Month[currentDate.getMonth()]}`
+
+          const isToday = date.dateString === today
           const isPast = date.day < currentDate.getDate()
 
           return (

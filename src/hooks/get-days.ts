@@ -24,8 +24,7 @@ export const useGetDays = () => {
       month: day.getMonth(),
       year: day.getFullYear(),
       dayWeek: day.getDay(),
-      dateString: day.toDateString(),
-      fullDateString: `${Day[day.getDay()]}. ${day.getDate()} de ${
+      dateString: `${Day[day.getDay()]}. ${day.getDate()} de ${
         Month[day.getMonth()]
       }`,
     }

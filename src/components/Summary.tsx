@@ -3,6 +3,7 @@ import Button from "./Button"
 import SummaryItem from "./SummaryItem"
 import { Pulsar } from "@uiball/loaders"
 import { CheckCircleIcon } from "@heroicons/react/24/outline"
+import { CONTACT_NUMBER } from "@/constants/contact"
 
 const Summary = ({
   data,
@@ -11,16 +12,21 @@ const Summary = ({
   onConfirm,
 }: {
   data: Summary
-  sending: boolean
-  isOk: boolean
-  onConfirm: () => void
+  sending?: boolean
+  isOk?: boolean
+  onConfirm?: () => void
 }) => {
   return (
     <div className="flex flex-col gap-16 bg-dark-bold p-8 rounded-3xl min-h-[370px]">
       <div className="flex flex-col gap-6">
         <SummaryItem data={{ item: "Nombre", value: data.user?.name }} />
         <SummaryItem data={{ item: "Teléfono", value: data.user?.phone }} />
-        <SummaryItem data={{ item: "Día", value: data.day?.fullDateString }} />
+        <SummaryItem
+          data={{
+            item: "Día",
+            value: data.day?.dateString,
+          }}
+        />
         <SummaryItem data={{ item: "Horario", value: data.hour?.hour }} />
       </div>
       <div className="h-22 self-center grid place-items-center">
@@ -34,9 +40,18 @@ const Summary = ({
             </span>
           </div>
         ) : (
-          <Button onClick={onConfirm}>Confirmar</Button>
+          <Button onClick={onConfirm as any}>Confirmar</Button>
         )}
       </div>
+      {isOk && (
+        <a
+          href={`https://api.whatsapp.com/send?phone=${CONTACT_NUMBER}&text=*❌%20Cancelación%20de%20turno%20❌*%0A*Nombre:*%20_${data.user.name}_%0A*Teléfono:*%20_${data.user.phone}_%0A*Día:*%20_${data.day.dateString}_%0A*Horario:*%20_${data.hour.hour}_`}
+          target="_blank"
+          className="text-xs underline text-white-semi-light self-center"
+        >
+          Necesito cancelar el turno
+        </a>
+      )}
     </div>
   )
 }

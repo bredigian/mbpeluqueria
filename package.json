@@ -2,6 +2,10 @@
   "name": "mbpeluqueria",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Gianluca Bredice Developer",
+    "email": "devbredicegian@gmail.com"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,14 +16,18 @@
     "@heroicons/react": "^2.0.18",
     "@uiball/loaders": "^1.3.0",
     "axios": "1.5.1",
+    "js-cookie": "3.0.5",
+    "jsonwebtoken": "9.0.2",
     "mongoose": "7.5.3",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.46.2",
+    "sonner": "1.0.3",
     "zustand": "4.4.1"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.4",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
