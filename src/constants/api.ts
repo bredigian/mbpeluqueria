@@ -1,4 +1,2 @@
-export const MONGODB_URI =
-  "mongodb+srv://devbredicegian:nvU8X0UtgqRNppst@devbredicegian-cluster.r5ufgxy.mongodb.net/?retryWrites=true&w=majority"
-
-export const API_URL = "/api"
+export const MONGODB_URI = process.env.NEXT_PUBLIC_MONGO_URI
+export const API_URL = process.env.NEXT_PUBLIC_URL_API
