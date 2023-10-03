@@ -1,7 +1,7 @@
 "use client"
 
 import { ArrowLeftIcon } from "@heroicons/react/20/solid"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next-nprogress-bar"
 
 const ButtonBack = ({ isConfirmed }: { isConfirmed?: boolean }) => {
   const { back, push } = useRouter()

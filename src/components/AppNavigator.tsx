@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 
 import Cookies from "js-cookie"
+import ProviderProgressBar from "./ProviderProgressBar"
 import ScreenLoader from "./ScreenLoader"
 import Summary from "./Summary"
 import Title from "./Title"
@@ -42,7 +43,7 @@ const AppNavigator = ({ children }: { children: React.ReactNode }) => {
           />
         </main>
       ) : (
-        children
+        <ProviderProgressBar>{children}</ProviderProgressBar>
       )}
     </>
   )

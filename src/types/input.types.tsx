@@ -3,7 +3,7 @@ import { FieldError, UseFormRegister } from "react-hook-form"
 
 export enum InputType {
   Text = "text",
-  Phone = "tel",
+  Phone = "number",
 }
 
 export interface ErrorMessageType {

@@ -8,7 +8,7 @@ import { Pulsar } from "@uiball/loaders"
 import Subtitle from "@/components/Subtitle"
 import Title from "@/components/Title"
 import { useHours } from "@/store/hours"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
 const Hour = () => {

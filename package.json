@@ -20,6 +20,7 @@
     "jsonwebtoken": "9.0.2",
     "mongoose": "7.5.3",
     "next": "latest",
+    "next-nprogress-bar": "2.1.2",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.46.2",

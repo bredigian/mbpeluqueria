@@ -1,7 +1,7 @@
 "use client"
 
 import { Hour } from "@/types/hour.types"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
 const Time = ({ data }: { data: Hour }) => {

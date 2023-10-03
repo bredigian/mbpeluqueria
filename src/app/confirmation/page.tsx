@@ -8,7 +8,7 @@ import Summary from "@/components/Summary"
 import Title from "@/components/Title"
 import axios from "axios"
 import { toast } from "sonner"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
 const Confirmation = () => {

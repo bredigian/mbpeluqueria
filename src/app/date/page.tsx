@@ -8,7 +8,7 @@ import Title from "@/components/Title"
 import { useGetDays } from "@/hooks/get-days"
 import { useEffect, useState } from "react"
 import { Date } from "@/types/date.types"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
 const Date = () => {

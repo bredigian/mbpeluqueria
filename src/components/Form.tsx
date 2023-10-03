@@ -4,8 +4,9 @@ import ButtonNext from "./ButtonNext"
 import { FormValues } from "@/types/form.types"
 import Input from "./Input"
 import { InputType } from "@/types/input.types"
+import Link from "next/link"
 import { useForm } from "react-hook-form"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
 const Form = () => {
