@@ -1,5 +1,5 @@
 import { API_URL } from "@/constants/api"
-import { Date } from "@/types/date.types"
+import { type Date as DateType } from "@/types/date.types"
 import { Hour } from "@/types/hour.types"
 import { Summary } from "@/types/summary.types"
 import axios from "axios"
@@ -11,7 +11,7 @@ export const useHours = create((set: any, get: any) => ({
   hours: null as unknown as Hour[],
   error: null as unknown as string,
 
-  getHours: async (day: Date) => {
+  getHours: async (day: DateType) => {
     try {
       const response = await axios.get(`${API_URL}/shifts`, {
         params: {
@@ -23,7 +23,6 @@ export const useHours = create((set: any, get: any) => ({
       const { shifts } = response.data
 
       if (shifts.length === 0) {
-        console.log("Todos los turnos estan disponibles")
         const availableHours: Hour[] = get().workHours.map((hour: string) => {
           return {
             hour,
@@ -36,9 +35,19 @@ export const useHours = create((set: any, get: any) => ({
           (shift: Summary) => shift.hour.hour
         )
         const availableHours: Hour[] = get().workHours.map((hour: string) => {
+          const isPast =
+            new Date(
+              day.year,
+              day.month,
+              day.day,
+              parseInt(hour.split(":")[0]),
+              parseInt(hour.split(":")[1])
+            ) < new Date()
+
           return {
             hour,
-            isAvailable: hoursNotAvailables.includes(hour) ? false : true,
+            isAvailable:
+              hoursNotAvailables.includes(hour) || isPast ? false : true,
           }
         })
         set({ hours: availableHours })

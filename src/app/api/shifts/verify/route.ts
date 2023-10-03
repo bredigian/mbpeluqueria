@@ -10,15 +10,35 @@ export const GET = async (req: Request) => {
   try {
     const shiftAssigned = await Shift.findById(_id)
 
+    const { day, hour } = shiftAssigned
+    const hourTime = parseInt(hour.hour.split(":")[0])
+    const minutesTime = parseInt(hour.hour.split(":")[1])
+
+    const isPast =
+      Date.now() >
+      new Date(day?.year, day?.month, day?.day, hourTime, minutesTime).getTime()
+
+    if (!isPast) {
+      return NextResponse.json(
+        {
+          message: "Turno asignado verificado correctamente",
+          ok: true,
+          shiftAssigned,
+        },
+        {
+          status: 200,
+          statusText: "Verify OK",
+        }
+      )
+    }
     return NextResponse.json(
       {
-        message: "Turno asignado verificado correctamente",
+        message: "El turno asignado ya ha pasado",
         ok: true,
-        shiftAssigned,
       },
       {
         status: 200,
-        statusText: "Verify OK",
+        statusText: "Shift already passed",
       }
     )
   } catch (error) {
