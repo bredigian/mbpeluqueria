@@ -24,9 +24,17 @@ export const useHours = create((set: any, get: any) => ({
 
       if (shifts.length === 0) {
         const availableHours: Hour[] = get().workHours.map((hour: string) => {
+          const isPast =
+            new Date(
+              day.year,
+              day.month,
+              day.day,
+              parseInt(hour.split(":")[0]),
+              parseInt(hour.split(":")[1])
+            ) < new Date()
           return {
             hour,
-            isAvailable: true,
+            isAvailable: isPast ? false : true,
           }
         })
         set({ hours: availableHours })
