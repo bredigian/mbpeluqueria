@@ -13,13 +13,14 @@ import { useShiftData } from "@/store/shift-data"
 
 const Hour = () => {
   const { day } = useShiftData()
-  const { hours, getHours } = useHours()
+  const { hours, getHours, getWorkHours } = useHours()
   const { push } = useRouter()
 
   const [loading, setLoading] = useState(false)
 
   const fetchHours = async () => {
     setLoading(true)
+    await getWorkHours()
     await getHours(day)
     setTimeout(() => {
       setLoading(false)
@@ -27,8 +28,9 @@ const Hour = () => {
   }
 
   useEffect(() => {
-    if (!day) push("/date")
-    fetchHours()
+    if (!day) {
+      push("/date")
+    } else fetchHours()
   }, [])
 
   return (

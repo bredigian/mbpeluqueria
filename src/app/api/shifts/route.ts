@@ -1,3 +1,4 @@
+import Day from "@/models/Day"
 import { NextResponse } from "next/server"
 import Shift from "@/models/Shift"
 import { connectDB } from "@/utils/mongoose"
@@ -8,6 +9,7 @@ export const GET = async (req: Request) => {
   try {
     const url = new URL(req.url)
     const day = url.searchParams.get("day")
+    const dayWeek = url.searchParams.get("dayWeek")
     const month = url.searchParams.get("month")
     const year = url.searchParams.get("year")
 
@@ -17,9 +19,14 @@ export const GET = async (req: Request) => {
       "day.year": year,
     }) //Find obtiene todos los documentos de la coleccion Shift
 
+    const dayData = await Day.findOne({
+      weekday: dayWeek,
+    })
+
     return NextResponse.json(
       {
         shifts,
+        dayData,
       },
       {
         status: 200,
