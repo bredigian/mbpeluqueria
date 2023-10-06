@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 import { Date } from "@/types/date.types"
 import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
-
+import { motion } from "framer-motion"
 const Date = () => {
   const calendar = useGetDays()
   const { push } = useRouter()
@@ -34,7 +34,12 @@ const Date = () => {
   }, [])
 
   return (
-    <main className="flex flex-col gap-8 py-10 px-8">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col gap-8 py-10 px-8"
+    >
       <ButtonBack />
       <div className="flex flex-col items-start gap-2">
         <Title>Fecha</Title>
@@ -52,7 +57,7 @@ const Date = () => {
           Continuar
         </ButtonNext>
       )}
-    </main>
+    </motion.main>
   )
 }
 

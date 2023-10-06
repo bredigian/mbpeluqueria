@@ -7,6 +7,7 @@ import ProviderProgressBar from "./ProviderProgressBar"
 import ScreenLoader from "./ScreenLoader"
 import Summary from "./Summary"
 import Title from "./Title"
+import { motion } from "framer-motion"
 import { useShiftData } from "@/store/shift-data"
 
 const AppNavigator = ({ children }: { children: React.ReactNode }) => {
@@ -31,7 +32,12 @@ const AppNavigator = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {assigned ? (
-        <main className="flex flex-col gap-8 py-10 px-8 w-full">
+        <motion.main
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="flex flex-col gap-8 py-10 px-8 w-full"
+        >
           <Title style="self-center">¡Ya tenés un turno asignado!</Title>
           <Summary
             data={{
@@ -41,7 +47,7 @@ const AppNavigator = ({ children }: { children: React.ReactNode }) => {
             }}
             isOk
           />
-        </main>
+        </motion.main>
       ) : (
         <ProviderProgressBar>{children}</ProviderProgressBar>
       )}

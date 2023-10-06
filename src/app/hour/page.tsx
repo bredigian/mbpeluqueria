@@ -7,6 +7,7 @@ import DayTime from "@/components/DayTime"
 import { Pulsar } from "@uiball/loaders"
 import Subtitle from "@/components/Subtitle"
 import Title from "@/components/Title"
+import { motion } from "framer-motion"
 import { useHours } from "@/store/hours"
 import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
@@ -32,7 +33,12 @@ const Hour = () => {
   }, [])
 
   return (
-    <main className="flex flex-col gap-8 py-10 px-8">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col gap-8 py-10 px-8"
+    >
       <ButtonBack />
       <div className="flex flex-col gap-2">
         <Title>Horario</Title>
@@ -45,7 +51,7 @@ const Hour = () => {
       ) : (
         <DayTime hours={hours} />
       )}
-    </main>
+    </motion.main>
   )
 }
 

@@ -1,13 +1,25 @@
 import Time from "./Time"
 import { type Hour } from "@/types/hour.types"
-
+import { motion } from "framer-motion"
 const DayTime = ({ hours }: { hours: Hour[] }) => {
   return (
-    <div className="flex flex-col gap-6 max-h-[410px] overflow-auto px-3">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col gap-6 max-h-[410px] overflow-auto px-3"
+    >
       {hours?.map((hour) => {
-        return <Time key={hour.hour} data={hour} />
+        const delay = hours.indexOf(hour) * 0.05
+        return (
+          <Time
+            key={hour.hour}
+            data={hour}
+            delay={hours.indexOf(hour) === 0 ? 0 : delay}
+          />
+        )
       })}
-    </div>
+    </motion.div>
   )
 }
 

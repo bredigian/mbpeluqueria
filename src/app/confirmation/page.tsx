@@ -7,6 +7,7 @@ import ButtonBack from "@/components/ButtonBack"
 import Summary from "@/components/Summary"
 import Title from "@/components/Title"
 import axios from "axios"
+import { motion } from "framer-motion"
 import { toast } from "sonner"
 import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
@@ -34,7 +35,12 @@ const Confirmation = () => {
   }, [])
 
   return (
-    <main className="flex flex-col gap-8 py-10 px-8">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col gap-8 py-10 px-8"
+    >
       <ButtonBack isConfirmed={isOk} />
       <Title>Finalización</Title>
       <Summary
@@ -47,7 +53,7 @@ const Confirmation = () => {
         sending={sending}
         isOk={isOk}
       />
-    </main>
+    </motion.main>
   )
 }
 

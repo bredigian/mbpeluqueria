@@ -1,10 +1,11 @@
 "use client"
 
 import { Hour } from "@/types/hour.types"
+import { motion } from "framer-motion"
 import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
-const Time = ({ data }: { data: Hour }) => {
+const Time = ({ data, delay }: { data: Hour; delay: number }) => {
   const { push } = useRouter()
   const { setHour } = useShiftData()
 
@@ -16,7 +17,10 @@ const Time = ({ data }: { data: Hour }) => {
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3, delay: delay }}
       onClick={handleSelect}
       className={`flex items-center justify-between w-full ${
         data.isAvailable ? "bg-dark-bold hover:cursor-pointer" : "bg-dark-light"
@@ -36,7 +40,7 @@ const Time = ({ data }: { data: Hour }) => {
       >
         {data.isAvailable ? "Disponible" : "No disponible"}
       </span>
-    </div>
+    </motion.div>
   )
 }
 

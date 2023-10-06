@@ -1,3 +1,5 @@
+"use client"
+
 import ButtonNext from "@/components/ButtonNext"
 import Form from "@/components/Form"
 import Image from "next/image"
@@ -5,10 +7,15 @@ import Link from "next/link"
 import Subtitle from "@/components/Subtitle"
 import Title from "@/components/Title"
 import logo from "@/assets/images/logo.jpg"
-
+import { motion } from "framer-motion"
 const Home = () => {
   return (
-    <main className="flex flex-col items-center gap-8 py-16 px-6">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col items-center gap-8 py-16 px-6"
+    >
       <Image
         width={160}
         height={160}
@@ -25,7 +32,7 @@ const Home = () => {
         </Subtitle>
       </div>
       <Form />
-    </main>
+    </motion.main>
   )
 }
 
