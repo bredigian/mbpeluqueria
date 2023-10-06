@@ -1,5 +1,6 @@
 "use client"
 
+import Error, { ErrorProps } from "next/error"
 import { useEffect, useState } from "react"
 
 import { API_URL } from "@/constants/api"
@@ -25,8 +26,9 @@ const Confirmation = () => {
       await confirm()
       setSending(false)
       setIsOk(true)
-    } catch (error) {
-      toast.error(error as string)
+    } catch (error: any) {
+      toast.error(error?.message)
+      setSending(false)
     }
   }
 

@@ -53,6 +53,14 @@ export const useShiftData = create((set: any, get: any) => ({
       hour: get().hour,
     }
     try {
+      const availableResponse = await axios.get(`${API_URL}/shifts/available`, {
+        params: {
+          data: JSON.stringify(data),
+        },
+      })
+      if (availableResponse.status !== 200) {
+        throw new Error("El turno ya no está disponible")
+      }
       const response = await axios.post(
         `${API_URL}/shifts`,
         JSON.stringify(data),
@@ -66,7 +74,9 @@ export const useShiftData = create((set: any, get: any) => ({
         set({ assigned: true })
       }
     } catch (error) {
-      throw new Error("Ocurrío un error al confirmar el turno")
+      throw new Error(
+        "Ocurrío un error al confirmar el turno o el turno ya no está disponible"
+      )
     }
   },
 }))

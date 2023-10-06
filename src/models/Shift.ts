@@ -12,6 +12,7 @@ const ShiftSchema: Schema<Summary> = new Schema(
     },
     day: {
       type: DateSchema,
+      unique: true,
     },
     hour: {
       type: HourSchema,
