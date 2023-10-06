@@ -23,7 +23,9 @@ const Time = ({ data, delay }: { data: Hour; delay: number }) => {
       transition={{ duration: 0.3, delay: delay }}
       onClick={handleSelect}
       className={`flex items-center justify-between w-full ${
-        data.isAvailable ? "bg-dark-bold hover:cursor-pointer" : "bg-dark-light"
+        data.isAvailable
+          ? "bg-dark-regular hover:cursor-pointer"
+          : "bg-dark-light"
       } py-4 px-6 rounded-full`}
     >
       <span

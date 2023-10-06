@@ -17,7 +17,7 @@ const Summary = ({
   onConfirm?: () => void
 }) => {
   return (
-    <div className="flex flex-col gap-16 bg-dark-bold p-8 rounded-3xl min-h-[370px]">
+    <div className="flex flex-col gap-16 bg-dark-regular p-8 rounded-3xl min-h-[370px]">
       <div className="flex flex-col gap-6">
         <SummaryItem data={{ item: "Nombre", value: data.user?.name }} />
         <SummaryItem data={{ item: "Teléfono", value: data.user?.phone }} />
@@ -40,7 +40,13 @@ const Summary = ({
             </span>
           </div>
         ) : (
-          <Button onClick={onConfirm as any}>Confirmar</Button>
+          <Button
+            backgroundColor="bg-white-light"
+            textColor="text-dark-regular"
+            onClick={onConfirm as any}
+          >
+            Confirmar
+          </Button>
         )}
       </div>
       {isOk && (

@@ -15,9 +15,10 @@ const config: Config = {
       },
       colors: {
         dark: {
-          light: "#2C2A2F50",
-          regular: "#37353A",
-          bold: "#2C2A2F",
+          light: "#0d0d0d60",
+          regular: "#0d0d0d",
+          bold: "#000000",
+          transparent: "#0d0d0d95",
         },
         white: {
           "extra-light": "#ffffff35",

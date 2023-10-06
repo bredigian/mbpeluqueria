@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: #37353a;
+  --bg-color: #000000;
 }
 
 /* Estilos para la barra de desplazamiento */

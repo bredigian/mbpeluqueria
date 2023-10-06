@@ -38,7 +38,7 @@ const Date = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-col gap-8 py-10 px-8"
+      className="relative flex flex-col gap-8 py-10 px-8"
     >
       <ButtonBack />
       <div className="flex flex-col items-start gap-2">
@@ -53,7 +53,11 @@ const Date = () => {
         handleSelectedDay={handleSelectedDay}
       />
       {selectedDay && (
-        <ButtonNext onClick={onContinue} style="self-end mt-16" type="button">
+        <ButtonNext
+          onClick={onContinue}
+          style="absolute self-end bottom-0"
+          type="button"
+        >
           Continuar
         </ButtonNext>
       )}

@@ -25,7 +25,7 @@ const Input = ({
       <input
         id={name}
         type={type}
-        className="bg-white-extra-light rounded-full text-sm text-[#ffffff80] px-4 py-2 outline-none w-full"
+        className="bg-dark-regular rounded-full text-sm text-[#ffffff80] px-4 py-2 outline-none w-full"
         autoComplete="off"
         {...register(name, {
           required: {
