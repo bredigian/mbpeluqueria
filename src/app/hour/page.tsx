@@ -22,9 +22,7 @@ const Hour = () => {
     setLoading(true)
     await getWorkHours()
     await getHours(day)
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000)
+    setLoading(false)
   }
 
   useEffect(() => {
