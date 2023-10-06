@@ -6,4 +6,5 @@ export interface Hour {
 export interface WorkHour {
   value: string
   _id: string
+  __v: number
 }

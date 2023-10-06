@@ -7,6 +7,10 @@ export const WorkHourSchema = new Schema<WorkHour>({
     type: String,
     required: true,
   },
+  __v: {
+    type: Number,
+    select: false,
+  },
 })
 
 export default models.WorkHour ||
