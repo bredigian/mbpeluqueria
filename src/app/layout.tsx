@@ -7,7 +7,7 @@ import { Toaster } from "sonner"
 
 const inter = Inter({ subsets: ["latin"] })
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: "MB Peluquería",
   description: "Reservá tu turno para cortarte el pelo acá mismo en instantes.",
   keywords:
