@@ -10,6 +10,12 @@ export const useGetDays = () => {
       date.setDate(date.getDate() + 1)
     }
 
+    const firstDayOfMonth = days[0].getDay()
+
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      days.unshift(null)
+    }
+
     return days
   }
 
@@ -18,7 +24,17 @@ export const useGetDays = () => {
   const currentYear = today.getFullYear()
 
   const days = getDaysInMonth(currentMonth, currentYear)
+
   return days.map((day) => {
+    if (day === null) {
+      return {
+        day: null,
+        month: currentMonth,
+        year: currentYear,
+        dayWeek: null,
+        dateString: "",
+      }
+    }
     return {
       day: day.getDate(),
       month: day.getMonth(),

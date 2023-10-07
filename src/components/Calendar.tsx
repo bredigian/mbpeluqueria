@@ -17,6 +17,18 @@ const Calendar = ({
       <h3 className="text-yellow-regular font-bold text-base">
         {Month[data[0].month]}
       </h3>
+      <div className="grid grid-cols-7 place-items-center gap-6 w-full">
+        {[0, 1, 2, 3, 4, 5, 6].map((index: number) => {
+          return (
+            <span
+              className="text-white-extra-light text-sm"
+              key={`dia-${index}`}
+            >
+              {Day[index]}
+            </span>
+          )
+        })}
+      </div>
       <div className="grid grid-cols-7 place-items-center gap-6 max-w-xl">
         {data.map((date) => {
           const isWeekend = date.dayWeek === 0
