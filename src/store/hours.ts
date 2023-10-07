@@ -13,19 +13,17 @@ export const useHours = create((set: any, get: any) => ({
   getWorkHours: async () => {
     try {
       const response = await axios.get(`${API_URL}/hours`)
-      if (response.status === 200) {
-        const { workHours } = response.data
-        const sortedHours = workHours.sort((a: WorkHour, b: WorkHour) => {
-          const [hourA, minutesA] = a.value.split(":")
-          const [hourB, minutesB] = b.value.split(":")
-          if (hourA < hourB) return -1
-          if (hourA > hourB) return 1
-          if (minutesA < minutesB) return -1
-          if (minutesA > minutesB) return 1
-          return 0
-        })
-        set({ workHours: sortedHours })
-      }
+      const { workHours } = response.data
+      const sortedHours = workHours.sort((a: WorkHour, b: WorkHour) => {
+        const [hourA, minutesA] = a.value.split(":")
+        const [hourB, minutesB] = b.value.split(":")
+        if (hourA < hourB) return -1
+        if (hourA > hourB) return 1
+        if (minutesA < minutesB) return -1
+        if (minutesA > minutesB) return 1
+        return 0
+      })
+      set({ workHours: sortedHours })
     } catch (error) {
       throw new Error("Ocurrío un error al obtener los horarios de trabajo")
     }
