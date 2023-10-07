@@ -28,10 +28,10 @@ export const useGetDays = () => {
   return days.map((day) => {
     if (day === null) {
       return {
-        day: null,
+        day: null as unknown as number,
         month: currentMonth,
         year: currentYear,
-        dayWeek: null,
+        dayWeek: null as unknown as number,
         dateString: "",
       }
     }
