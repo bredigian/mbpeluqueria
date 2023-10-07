@@ -14,7 +14,7 @@ import { useShiftData } from "@/store/shift-data"
 
 const Hour = () => {
   const { day } = useShiftData()
-  const { hours, getHours, getWorkHours } = useHours()
+  const { hours, getHours } = useHours()
   const { push } = useRouter()
 
   const [loading, setLoading] = useState(false)
@@ -26,20 +26,11 @@ const Hour = () => {
     setLoading(false)
   }
 
-  const fetchWorkHours = async () => {
-    await getWorkHours()
-    setLoading(false)
-  }
-
   useEffect(() => {
     if (!day) {
       push("/date")
     } else fetchHours()
   }, [])
-
-  useEffect(() => {
-    fetchWorkHours()
-  }, [day])
 
   return (
     <motion.main

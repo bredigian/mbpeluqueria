@@ -10,27 +10,6 @@ export const useHours = create((set: any, get: any) => ({
   hours: null as unknown as Hour[],
   error: null as unknown as string,
 
-  getWorkHours: async () => {
-    try {
-      const response = await axios.get(`${API_URL}/hours`)
-      if (response.status === 200) {
-        const { workHours } = response.data
-        const sortedHours = workHours.sort((a: WorkHour, b: WorkHour) => {
-          const [hourA, minutesA] = a.value.split(":")
-          const [hourB, minutesB] = b.value.split(":")
-          if (hourA < hourB) return -1
-          if (hourA > hourB) return 1
-          if (minutesA < minutesB) return -1
-          if (minutesA > minutesB) return 1
-          return 0
-        })
-        set({ workHours: sortedHours })
-      }
-    } catch (error) {
-      throw new Error("Ocurrío un error al obtener los horarios de trabajo")
-    }
-  },
-
   getHours: async (day: DateType) => {
     try {
       const response = await axios.get(`${API_URL}/shifts`, {
@@ -41,60 +20,18 @@ export const useHours = create((set: any, get: any) => ({
           year: day.year,
         },
       })
-      const { shifts, dayData } = response.data
-      if (shifts.length === 0) {
-        const availableHours: Hour[] = get().workHours?.map(
-          (hour: WorkHour) => {
-            const isPast =
-              new Date(
-                day.year,
-                day.month,
-                day.day,
-                parseInt(hour.value.split(":")[0]),
-                parseInt(hour.value.split(":")[1])
-              ) < new Date()
-            const isEnabled = dayData.hours.find(
-              (workHour: WorkHour) => workHour.value === hour.value
-            )
+      const { hours, message } = response.data
 
-            return {
-              hour: hour.value,
-              isAvailable: isPast || isEnabled === undefined ? false : true,
-            }
-          }
-        )
-        set({ hours: availableHours })
-      } else {
-        const hoursNotAvailables = shifts.map(
-          (shift: Summary) => shift.hour.hour
-        )
-        const availableHours: Hour[] = get().workHours?.map(
-          (hour: WorkHour) => {
-            const isPast =
-              new Date(
-                day.year,
-                day.month,
-                day.day,
-                parseInt(hour.value.split(":")[0]),
-                parseInt(hour.value.split(":")[1])
-              ) < new Date()
-
-            const isEnabled = dayData.hours.find(
-              (workHour: WorkHour) => workHour.value === hour.value
-            )
-            return {
-              hour: hour.value,
-              isAvailable:
-                isEnabled === undefined ||
-                isPast ||
-                hoursNotAvailables.includes(hour.value)
-                  ? false
-                  : true,
-            }
-          }
-        )
-        set({ hours: availableHours })
-      }
+      const sortedHours = hours.sort((a: Hour, b: Hour) => {
+        const [hourA, minutesA] = a.hour.split(":")
+        const [hourB, minutesB] = b.hour.split(":")
+        if (hourA < hourB) return -1
+        if (hourA > hourB) return 1
+        if (minutesA < minutesB) return -1
+        if (minutesA > minutesB) return 1
+        return 0
+      })
+      set({ hours: sortedHours })
     } catch (error) {
       set({ error })
     }
