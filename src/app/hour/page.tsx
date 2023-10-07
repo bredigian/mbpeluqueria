@@ -21,8 +21,13 @@ const Hour = () => {
 
   const fetchHours = async () => {
     setLoading(true)
-    await getWorkHours()
+
     await getHours(day)
+    setLoading(false)
+  }
+
+  const fetchWorkHours = async () => {
+    await getWorkHours()
     setLoading(false)
   }
 
@@ -31,6 +36,10 @@ const Hour = () => {
       push("/date")
     } else fetchHours()
   }, [])
+
+  useEffect(() => {
+    fetchWorkHours()
+  }, [day])
 
   return (
     <motion.main
