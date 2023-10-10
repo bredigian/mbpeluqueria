@@ -1,3 +1,4 @@
+import Day from "@/models/Day"
 import { NextResponse } from "next/server"
 import Shift from "@/models/Shift"
 import { connectDB } from "@/utils/mongoose"
@@ -6,15 +7,35 @@ export const GET = async (req: Request) => {
   await connectDB()
   try {
     const url = new URL(req.url)
-    const day = url.searchParams.get("data") as any
+    const data = url.searchParams.get("data") as string
+    const dataParsed = JSON.parse(data)
 
-    const dayParsed = JSON.parse(day)
+    const dayData = await Day.findOne({
+      weekday: dataParsed.day.dayWeek,
+    })
+
+    const hourEnabled = dayData.hours.find(
+      (hour: any) => hour.value === dataParsed.hour.hour
+    )
+
+    if (!hourEnabled) {
+      return NextResponse.json(
+        {
+          message: "El turno ya no está disponible",
+          ok: false,
+        },
+        {
+          status: 400,
+          statusText: "Bad Request",
+        }
+      )
+    }
 
     const shiftExists = await Shift.findOne({
-      "day.day": dayParsed.day.day,
-      "day.month": dayParsed.day.month,
-      "day.year": dayParsed.day.year,
-      "hour.hour": dayParsed.hour.hour,
+      "day.day": dataParsed.day.day,
+      "day.month": dataParsed.day.month,
+      "day.year": dataParsed.day.year,
+      "hour.hour": dataParsed.hour.hour,
     })
 
     if (!shiftExists) {

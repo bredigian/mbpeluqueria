@@ -27,13 +27,12 @@ export const useShiftData = create((set: any, get: any) => ({
 
   verifyShift: async (_id: string) => {
     try {
-      const response = await axios.get(`${API_URL}/shifts/verify`, {
-        params: {
-          _id,
-        },
+      const response = await fetch(`${API_URL}/shifts/verify?_id=${_id}`, {
+        method: "GET",
+        cache: "no-store",
       })
       if (response.status === 200) {
-        const { shiftAssigned } = response.data
+        const { shiftAssigned } = await response.json()
         set({
           user: shiftAssigned.user,
           day: shiftAssigned.day,
@@ -53,29 +52,32 @@ export const useShiftData = create((set: any, get: any) => ({
       hour: get().hour,
     }
     try {
-      const availableResponse = await axios.get(`${API_URL}/shifts/available`, {
-        params: {
-          data: JSON.stringify(data),
-        },
-      })
+      const availableResponse = await fetch(
+        `${API_URL}/shifts/available?data=${JSON.stringify(data)}`,
+        {
+          method: "GET",
+          cache: "no-store",
+        }
+      )
       if (availableResponse.status !== 200) {
         throw new Error("El turno ya no está disponible")
       }
-      const response = await axios.post(
-        `${API_URL}/shifts`,
-        JSON.stringify(data),
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+      const response = await fetch(`${API_URL}/shifts`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       if (response.status === 201) {
-        const { _id } = response.data
+        const { _id } = await response.json()
         Cookies.set("shift-assigned", _id)
         set({ assigned: true })
       }
     } catch (error) {
       throw new Error(
-        "Ocurrío un error al confirmar el turno o el turno ya no está disponible"
+        "Ocurrío un error al confirmar el turno.\nEl turno ya no está disponible"
       )
     }
   },

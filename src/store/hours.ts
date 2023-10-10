@@ -12,15 +12,22 @@ export const useHours = create((set: any, get: any) => ({
 
   getHours: async (day: DateType) => {
     try {
-      const response = await axios.get(`${API_URL}/shifts`, {
-        params: {
-          day: day.day,
-          dayWeek: day.dayWeek,
-          month: day.month,
-          year: day.year,
+      const data = {
+        day: day.day,
+        dayWeek: day.dayWeek,
+        month: day.month,
+        year: day.year,
+      }
+      const response = await fetch(`${API_URL}/hours`, {
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
         },
+        method: "POST",
+        cache: "no-store",
       })
-      const { hours, message } = response.data
+
+      const { hours, message } = await response.json()
 
       const sortedHours = hours.sort((a: Hour, b: Hour) => {
         const [hourA, minutesA] = a.hour.split(":")

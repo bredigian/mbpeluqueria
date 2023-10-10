@@ -4,6 +4,7 @@ import { connectDB } from "@/utils/mongoose"
 
 export const GET = async (req: Request) => {
   await connectDB()
+
   const url = new URL(req.url)
   const _id = url.searchParams.get("_id")
 
