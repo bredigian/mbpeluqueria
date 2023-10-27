@@ -1,6 +1,11 @@
 import { Day, Month } from "@/types/enums.types"
 
+import { type Date } from "@/types/date.types"
+import { useState } from "react"
+
 export const useGetDays = () => {
+  const [calendar, setCalendar] = useState<Date[]>([])
+
   const getDaysInMonth = (month: number, year: number) => {
     const date = new Date(year, month, 1)
     const days = []
@@ -19,30 +24,37 @@ export const useGetDays = () => {
     return days
   }
 
-  const today = new Date()
-  const currentMonth = today.getMonth()
-  const currentYear = today.getFullYear()
+  const setData = (month: number, year: number) => {
+    const days = getDaysInMonth(month, year)
 
-  const days = getDaysInMonth(currentMonth, currentYear)
+    const parsedDays = () => {
+      return days.map((day) => {
+        if (day === null) {
+          return {
+            day: null as unknown as number,
+            month: month,
+            year: year,
+            dayWeek: null as unknown as number,
+            dateString: "",
+          }
+        }
+        return {
+          day: day.getDate(),
+          month: day.getMonth(),
+          year: day.getFullYear(),
+          dayWeek: day.getDay(),
+          dateString: `${Day[day.getDay()]}. ${day.getDate()} de ${
+            Month[day.getMonth()]
+          }`,
+        }
+      })
+    }
 
-  return days.map((day) => {
-    if (day === null) {
-      return {
-        day: null as unknown as number,
-        month: currentMonth,
-        year: currentYear,
-        dayWeek: null as unknown as number,
-        dateString: "",
-      }
-    }
-    return {
-      day: day.getDate(),
-      month: day.getMonth(),
-      year: day.getFullYear(),
-      dayWeek: day.getDay(),
-      dateString: `${Day[day.getDay()]}. ${day.getDate()} de ${
-        Month[day.getMonth()]
-      }`,
-    }
-  })
+    setCalendar(parsedDays())
+  }
+
+  return {
+    calendar,
+    setData,
+  }
 }

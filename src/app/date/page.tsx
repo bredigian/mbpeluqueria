@@ -12,13 +12,30 @@ import { useGetDays } from "@/hooks/get-days"
 import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
-const Date = () => {
-  const calendar = useGetDays()
+const DateScreen = () => {
+  const { calendar, setData } = useGetDays()
   const { push } = useRouter()
   const { user, day, setDay } = useShiftData()
 
+  const handleNextMonth = () => {
+    setData(
+      calendar[0].month !== 11 ? calendar[0].month + 1 : 0,
+      calendar[0].year
+    )
+  }
+
+  const handlePrevMonth = () => {
+    setData(calendar[0].month - 1, calendar[0].year)
+  }
+
   useEffect(() => {
     if (!user) push("/")
+
+    const today = new Date()
+    const currentMonth = today.getMonth()
+    const currentYear = today.getFullYear()
+
+    setData(currentMonth, currentYear)
   }, [])
 
   return (
@@ -35,7 +52,13 @@ const Date = () => {
           Seleccioná la fecha en la que desees reservar el turno
         </Subtitle>
       </div>
-      <Calendar data={calendar} selectedDay={day} handleSelectedDay={setDay} />
+      <Calendar
+        data={calendar}
+        selectedDay={day}
+        handleSelectedDay={setDay}
+        handleNextMonth={handleNextMonth}
+        handlePrevMonth={handlePrevMonth}
+      />
       {day && (
         <Link
           href={"/hour"}
@@ -49,4 +72,4 @@ const Date = () => {
   )
 }
 
-export default Date
+export default DateScreen
