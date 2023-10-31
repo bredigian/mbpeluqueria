@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 
-import Cookies from "js-cookie"
 import ProviderProgressBar from "./ProviderProgressBar"
 import ScreenLoader from "./ScreenLoader"
 import Summary from "./Summary"
@@ -16,7 +15,7 @@ const AppNavigator = ({ children }: { children: React.ReactNode }) => {
 
   const verify = async () => {
     try {
-      const _id = Cookies.get("shift-assigned")
+      const _id = localStorage.getItem("shift-assigned")
       if (_id) await verifyShift(_id)
     } catch (error) {
       console.log(error)
