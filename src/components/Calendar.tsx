@@ -84,7 +84,7 @@ const Calendar = ({
                 selectedDay?.month !== date?.month ||
                 selectedDay?.year !== date?.year
                   ? "bg-transparent"
-                  : "bg-yellow-regular"
+                  : "bg-yellow-regular text-dark-bold"
               } grid place-items-center w-10 h-10 p-1 rounded-full border-2 ${
                 isToday ? "border-yellow-regular" : "border-transparent"
               }`}
