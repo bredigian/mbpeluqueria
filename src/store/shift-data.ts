@@ -2,9 +2,7 @@ import { create } from "zustand"
 import { type User } from "@/types/user.types"
 import { Date } from "@/types/date.types"
 import { Hour } from "@/types/hour.types"
-import axios from "axios"
 import { API_URL } from "@/constants/api"
-import Cookies from "js-cookie"
 
 export const useShiftData = create((set: any, get: any) => ({
   user: null as unknown as User,
@@ -39,6 +37,8 @@ export const useShiftData = create((set: any, get: any) => ({
           hour: shiftAssigned.hour,
           assigned: true,
         })
+      } else {
+        localStorage.removeItem("shift-assigned")
       }
     } catch (error) {
       throw new Error("Ocurrío un error al verificar el turno")
@@ -72,7 +72,7 @@ export const useShiftData = create((set: any, get: any) => ({
       })
       if (response.status === 201) {
         const { _id } = await response.json()
-        Cookies.set("shift-assigned", _id)
+        localStorage.setItem("shift-assigned", _id)
         set({ assigned: true })
       }
     } catch (error) {

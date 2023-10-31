@@ -1,13 +1,10 @@
 "use client"
 
-import Error, { ErrorProps } from "next/error"
 import { useEffect, useState } from "react"
 
-import { API_URL } from "@/constants/api"
 import ButtonBack from "@/components/ButtonBack"
 import Summary from "@/components/Summary"
 import Title from "@/components/Title"
-import axios from "axios"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
 import { useRouter } from "next-nprogress-bar"
