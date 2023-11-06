@@ -1,3 +1,4 @@
+import { DateExtended } from "@/hooks/get-days"
 import { type Date } from "@/types/date.types"
 import { Day, Month } from "@/types/enums.types"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
@@ -10,7 +11,7 @@ const Calendar = ({
   handleNextMonth,
   handlePrevMonth,
 }: {
-  data: Date[]
+  data: DateExtended[]
   selectedDay: Date | undefined
   handleSelectedDay: (day: Date) => void
   handleNextMonth?: () => void
@@ -73,7 +74,9 @@ const Calendar = ({
                 !isWeekend ? "text-white-regular" : "text-white-semi-light"
               } 
               ${
-                isNextMonth
+                date.isComplete
+                  ? "text-white-semi-light"
+                  : isNextMonth
                   ? "text-white-regular cursor-pointer"
                   : isPast
                   ? "text-white-semi-light"
@@ -84,16 +87,17 @@ const Calendar = ({
                 selectedDay?.month !== date?.month ||
                 selectedDay?.year !== date?.year
                   ? "bg-transparent"
-                  : "bg-yellow-regular text-dark-bold"
+                  : "bg-yellow-regular text-black"
               } grid place-items-center w-10 h-10 p-1 rounded-full border-2 ${
                 isToday ? "border-yellow-regular" : "border-transparent"
               }`}
               onClick={() => {
-                if (!isWeekend) {
-                  if (!isPast || isNextMonth) {
-                    handleSelectedDay(date)
+                if (!date.isComplete)
+                  if (!isWeekend) {
+                    if (!isPast || isNextMonth) {
+                      handleSelectedDay(date)
+                    }
                   }
-                }
               }}
               key={`$${date.dateString}${v4()}`}
             >

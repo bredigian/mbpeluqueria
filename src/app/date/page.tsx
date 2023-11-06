@@ -13,7 +13,7 @@ import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
 const DateScreen = () => {
-  const { calendar, setData } = useGetDays()
+  const { calendar, error, setData } = useGetDays()
   const { push } = useRouter()
   const { user, day, setDay } = useShiftData()
 
