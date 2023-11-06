@@ -3,6 +3,7 @@ import { type Date } from "@/types/date.types"
 import { Day, Month } from "@/types/enums.types"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
 import { v4 } from "uuid"
+import { motion } from "framer-motion"
 
 const Calendar = ({
   data,
@@ -20,7 +21,12 @@ const Calendar = ({
   const currentDate = new Date()
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col items-center gap-4"
+    >
       <div className="flex items-center justify-between w-full">
         {currentDate.getMonth() < data[0]?.month ? (
           <ArrowLeftIcon
@@ -87,7 +93,7 @@ const Calendar = ({
                 selectedDay?.month !== date?.month ||
                 selectedDay?.year !== date?.year
                   ? "bg-transparent"
-                  : "bg-yellow-regular text-black"
+                  : "bg-yellow-regular text-dark-bold"
               } grid place-items-center w-10 h-10 p-1 rounded-full border-2 ${
                 isToday ? "border-yellow-regular" : "border-transparent"
               }`}
@@ -106,7 +112,7 @@ const Calendar = ({
           )
         })}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
