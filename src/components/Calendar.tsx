@@ -33,7 +33,7 @@ const Calendar = ({
         <h3 className="text-yellow-regular font-bold text-base">
           {Month[data[0]?.month]}
         </h3>
-        {currentDate.getMonth() + 1 >= data[0]?.month ? ( // +1 for show two next months
+        {currentDate.getMonth() + 1 > data[0]?.month ? ( // +1 for show two next months
           <ArrowRightIcon
             className="w-6 text-yellow-regular cursor-pointer"
             onClick={handleNextMonth}
