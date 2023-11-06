@@ -11,6 +11,7 @@ export interface DateExtended extends Date {
 export const useGetDays = () => {
   const [calendar, setCalendar] = useState<DateExtended[]>([])
   const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const getDaysInMonth = (month: number, year: number) => {
     const date = new Date(year, month, 1)
@@ -31,6 +32,7 @@ export const useGetDays = () => {
   }
 
   const setData = async (month: number, year: number) => {
+    setLoading(true)
     const days = getDaysInMonth(month, year)
 
     try {
@@ -94,11 +96,13 @@ export const useGetDays = () => {
       setError(true)
       throw new Error("Ocurrío un error al obtener los datos del calendario")
     }
+    setLoading(false)
   }
 
   return {
     calendar,
     error,
+    loading,
     setData,
   }
 }
