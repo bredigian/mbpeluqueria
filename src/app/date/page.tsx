@@ -4,6 +4,7 @@ import ButtonBack from "@/components/ButtonBack"
 import ButtonNext from "@/components/ButtonNext"
 import Calendar from "@/components/Calendar"
 import Link from "next/link"
+import { Pulsar } from "@uiball/loaders"
 import Subtitle from "@/components/Subtitle"
 import Title from "@/components/Title"
 import { motion } from "framer-motion"
@@ -13,7 +14,7 @@ import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
 
 const DateScreen = () => {
-  const { calendar, setData } = useGetDays()
+  const { calendar, loading, setData } = useGetDays()
   const { push } = useRouter()
   const { user, day, setDay } = useShiftData()
 
@@ -52,14 +53,20 @@ const DateScreen = () => {
           Seleccioná la fecha en la que desees reservar el turno
         </Subtitle>
       </div>
-      <Calendar
-        data={calendar}
-        selectedDay={day}
-        handleSelectedDay={setDay}
-        handleNextMonth={handleNextMonth}
-        handlePrevMonth={handlePrevMonth}
-      />
-      {day && (
+      {!loading ? (
+        <Calendar
+          data={calendar}
+          selectedDay={day}
+          handleSelectedDay={setDay}
+          handleNextMonth={handleNextMonth}
+          handlePrevMonth={handlePrevMonth}
+        />
+      ) : (
+        <div className="grid place-items-center h-24">
+          <Pulsar size={52} color="#D2BF9D" />
+        </div>
+      )}
+      {day && !loading && (
         <Link
           href={"/hour"}
           prefetch={false}

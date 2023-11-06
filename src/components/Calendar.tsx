@@ -1,3 +1,4 @@
+import { DateExtended } from "@/hooks/get-days"
 import { type Date } from "@/types/date.types"
 import { Day, Month } from "@/types/enums.types"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
@@ -10,7 +11,7 @@ const Calendar = ({
   handleNextMonth,
   handlePrevMonth,
 }: {
-  data: Date[]
+  data: DateExtended[]
   selectedDay: Date | undefined
   handleSelectedDay: (day: Date) => void
   handleNextMonth?: () => void
@@ -32,7 +33,7 @@ const Calendar = ({
         <h3 className="text-yellow-regular font-bold text-base">
           {Month[data[0]?.month]}
         </h3>
-        {currentDate.getMonth() + 1 >= data[0]?.month ? ( // +1 for show two next months
+        {currentDate.getMonth() + 1 > data[0]?.month ? ( // +1 for show two next months
           <ArrowRightIcon
             className="w-6 text-yellow-regular cursor-pointer"
             onClick={handleNextMonth}
@@ -73,7 +74,9 @@ const Calendar = ({
                 !isWeekend ? "text-white-regular" : "text-white-semi-light"
               } 
               ${
-                isNextMonth
+                date.isComplete
+                  ? "text-white-semi-light"
+                  : isNextMonth
                   ? "text-white-regular cursor-pointer"
                   : isPast
                   ? "text-white-semi-light"
@@ -84,16 +87,17 @@ const Calendar = ({
                 selectedDay?.month !== date?.month ||
                 selectedDay?.year !== date?.year
                   ? "bg-transparent"
-                  : "bg-yellow-regular"
+                  : "bg-yellow-regular text-black"
               } grid place-items-center w-10 h-10 p-1 rounded-full border-2 ${
                 isToday ? "border-yellow-regular" : "border-transparent"
               }`}
               onClick={() => {
-                if (!isWeekend) {
-                  if (!isPast || isNextMonth) {
-                    handleSelectedDay(date)
+                if (!date.isComplete)
+                  if (!isWeekend) {
+                    if (!isPast || isNextMonth) {
+                      handleSelectedDay(date)
+                    }
                   }
-                }
               }}
               key={`$${date.dateString}${v4()}`}
             >
