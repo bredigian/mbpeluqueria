@@ -20,29 +20,29 @@ export const GET = async (req: Request) => {
 
     if (!shifts) throw new Error("No se encontraron turnos")
 
-    const sortedShifts = shifts?.sort((a, b) => {
-      const dateA: any = new Date(
-        a.day.year,
-        a.day.month,
-        a.day.day,
-        parseInt(a.hour.hour.split(":")[0]),
-        parseInt(a.hour.hour.split(":")[1])
-      )
-      const dateB: any = new Date(
-        b.day.year,
-        b.day.month,
-        b.day.day,
-        parseInt(b.hour.hour.split(":")[0]),
-        parseInt(b.hour.hour.split(":")[1])
-      )
-      return dateA - dateB
-    })
-
-    const finallyShifts = sortedShifts?.toReversed()
+    const sortedShifts = shifts
+      ?.sort((a, b) => {
+        const dateA: any = new Date(
+          a.day.year,
+          a.day.month,
+          a.day.day,
+          parseInt(a.hour.hour.split(":")[0]),
+          parseInt(a.hour.hour.split(":")[1])
+        )
+        const dateB: any = new Date(
+          b.day.year,
+          b.day.month,
+          b.day.day,
+          parseInt(b.hour.hour.split(":")[0]),
+          parseInt(b.hour.hour.split(":")[1])
+        )
+        return dateA - dateB
+      })
+      .reverse()
 
     return NextResponse.json(
       {
-        shifts: finallyShifts,
+        shifts: sortedShifts,
       },
       {
         status: 200,
