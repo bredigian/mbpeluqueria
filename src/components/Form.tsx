@@ -4,7 +4,8 @@ import ButtonNext from "./ButtonNext"
 import { FormValues } from "@/types/form.types"
 import Input from "./Input"
 import { InputType } from "@/types/input.types"
-import Link from "next/link"
+import { User } from "@/types/user.types"
+import { toast } from "sonner"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
@@ -14,14 +15,18 @@ const Form = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>()
+  } = useForm<User>()
 
   const { setUser } = useShiftData()
   const { push } = useRouter()
 
-  const onSubmit = (data: FormValues) => {
-    setUser(data)
-    push("/date")
+  const onSubmit = async (data: User) => {
+    try {
+      await setUser(data)
+      push("/dashboard")
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   }
 
   return (
@@ -55,7 +60,11 @@ const Form = () => {
       >
         Teléfono
       </Input>
-      <ButtonNext style="self-end mt-16" type="submit">
+      <p className="text-yellow-light text-start text-[10px] ml-2">
+        Nota: por favor, complete y verifique sus datos adecuadamente ya que
+        esto es de uso único y una vez enviado, no podrá revertirlo.
+      </p>
+      <ButtonNext style="self-end mt-12" type="submit">
         Continuar
       </ButtonNext>
     </form>

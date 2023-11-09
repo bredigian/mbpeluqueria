@@ -1,37 +1,23 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
-import Form from "@/components/Form"
 import Image from "next/image"
-import ScreenLoader from "@/components/ScreenLoader"
+import Menu from "@/components/Menu"
 import Subtitle from "@/components/Subtitle"
 import Title from "@/components/Title"
 import logo from "@/assets/images/logo.jpg"
 import { motion } from "framer-motion"
-import { toast } from "sonner"
+import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useShiftData } from "@/store/shift-data"
 
-const Home = () => {
-  const { getUser } = useShiftData()
-  const [loading, setLoading] = useState(true)
+const Dashboard = () => {
+  const { user, clearData } = useShiftData()
   const { push } = useRouter()
 
-  const fetchUser = async () => {
-    try {
-      await getUser()
-      push("/dashboard")
-    } catch (error: any) {
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
-    fetchUser()
+    if (!user) push("/")
+    else clearData()
   }, [])
-
-  if (loading) return <ScreenLoader />
 
   return (
     <motion.main
@@ -50,15 +36,14 @@ const Home = () => {
         }}
       />
       <section className="flex flex-col items-start gap-2 ml-2">
-        <Title>¡Bienvenido!</Title>
+        <Title>¡Hola, {user?.name.split(" ")[0]}!</Title>
         <Subtitle>
-          En este sistema podrás gestionar los turnos que reserves. Pero
-          primero, necesitamos que completes los siguientes datos:
+          En este menú podrás seleccionar la opción de lo que desees gestionar
         </Subtitle>
       </section>
-      <Form />
+      <Menu />
     </motion.main>
   )
 }
 
-export default Home
+export default Dashboard

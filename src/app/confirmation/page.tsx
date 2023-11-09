@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import ButtonBack from "@/components/ButtonBack"
 import Summary from "@/components/Summary"
 import Title from "@/components/Title"
+import { User } from "@/types/user.types"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
 import { useRouter } from "next-nprogress-bar"
@@ -44,7 +45,8 @@ const Confirmation = () => {
       <Title>Finalización</Title>
       <Summary
         data={{
-          user,
+          _id: user?._id as string,
+          user: user as User,
           day,
           hour,
         }}

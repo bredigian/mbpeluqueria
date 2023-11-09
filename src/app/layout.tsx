@@ -1,8 +1,8 @@
 import "./globals.css"
 
-import AppNavigator from "@/components/AppNavigator"
 import { Inter } from "next/font/google"
 import type { Metadata } from "next"
+import ProviderProgressBar from "@/components/ProviderProgressBar"
 import { Toaster } from "sonner"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} max-w-sm mx-auto`}>
-        <AppNavigator>{children}</AppNavigator>
+        <ProviderProgressBar>{children}</ProviderProgressBar>
         <Toaster />
       </body>
     </html>

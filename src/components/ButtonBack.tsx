@@ -3,14 +3,22 @@
 import { ArrowLeftIcon } from "@heroicons/react/20/solid"
 import { useRouter } from "next-nprogress-bar"
 
-const ButtonBack = ({ isConfirmed }: { isConfirmed?: boolean }) => {
+const ButtonBack = ({
+  isConfirmed,
+  path,
+  style,
+}: {
+  isConfirmed?: boolean
+  path?: string
+  style?: string
+}) => {
   const { back, push } = useRouter()
   return (
     <ArrowLeftIcon
       onClick={() => {
-        isConfirmed ? push("/") : back()
+        isConfirmed ? push("/") : path ? push(path) : back()
       }}
-      className="w-6 h-6 text-yellow-regular hover:cursor-pointer"
+      className={`w-6 h-6 text-yellow-regular hover:cursor-pointer ${style}`}
     />
   )
 }

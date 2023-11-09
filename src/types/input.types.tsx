@@ -1,5 +1,6 @@
 import { type FormValues } from "./form.types"
 import { FieldError, UseFormRegister } from "react-hook-form"
+import { User } from "./user.types"
 
 export enum InputType {
   Text = "text",
@@ -12,7 +13,7 @@ export interface ErrorMessageType {
 }
 
 export interface InputProps {
-  register: UseFormRegister<FormValues>
+  register: UseFormRegister<User>
   name: keyof FormValues
   children: React.ReactNode
   type: InputType
