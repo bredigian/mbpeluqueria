@@ -27,6 +27,8 @@ const Shift = ({
     (data.day.day <= currentDate.getDate() &&
       data.hour.hour < `${currentDate.getHours()}:${currentDate.getMinutes()}}`)
 
+  const isNextMonth = data?.day?.month > currentDate.getMonth()
+
   const { cancelShift } = useShifts()
 
   const [showModal, setShowModal] = useState(false)
@@ -51,7 +53,7 @@ const Shift = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay: delay }}
       className={`${
-        !isPast ? "bg-dark-regular" : "bg-dark-light"
+        !isPast || isNextMonth ? "bg-dark-regular" : "bg-dark-light"
       } flex flex-col items-center gap-4 w-full py-4 px-6 rounded-3xl overflow-hidden duration-200 ${
         active !== data?._id ? "h-[55px]" : "h-28"
       }`}
@@ -59,7 +61,7 @@ const Shift = ({
       <div className="flex items-center justify-between w-full">
         <span
           className={`${
-            !isPast ? "text-yellow-regular" : "text-yellow-light"
+            !isPast || isNextMonth ? "text-yellow-regular" : "text-yellow-light"
           } font-medium text-base`}
         >
           {Day[data?.day?.dayWeek]}. {data?.day?.day}/{data?.day?.month + 1}/
@@ -67,22 +69,22 @@ const Shift = ({
         </span>
         <span
           className={`${
-            !isPast ? "text-yellow-regular" : "text-yellow-light"
+            !isPast || isNextMonth ? "text-yellow-regular" : "text-yellow-light"
           } font-semibold text-base`}
         >
           {data?.hour?.hour}
         </span>
         <FaChevronDown
-          onClick={!isPast ? handleActive : null}
+          onClick={!isPast || isNextMonth ? handleActive : null}
           className={`w-4 h-4 ${
-            !isPast ? "text-yellow-regular" : "text-yellow-light"
+            !isPast || isNextMonth ? "text-yellow-regular" : "text-yellow-light"
           } ${
             active !== data?._id ? "transform rotate-0" : "transform rotate-180"
           } duration-200`}
         />
       </div>
       <button
-        onClick={!isPast ? handleModal : () => null}
+        onClick={!isPast || isNextMonth ? handleModal : () => null}
         className="bg-yellow-regular text-dark-bold py-2 px-4 rounded-full text-sm font-medium"
       >
         Cancelar
