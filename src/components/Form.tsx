@@ -1,14 +1,17 @@
 "use client"
 
 import ButtonNext from "./ButtonNext"
-import { FormValues } from "@/types/form.types"
 import Input from "./Input"
 import { InputType } from "@/types/input.types"
+import Modal from "./Modal"
+import { Pulsar } from "@uiball/loaders"
+import Title from "./Title"
 import { User } from "@/types/user.types"
 import { toast } from "sonner"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next-nprogress-bar"
 import { useShiftData } from "@/store/shift-data"
+import { useState } from "react"
 
 const Form = () => {
   const {
@@ -19,14 +22,17 @@ const Form = () => {
 
   const { setUser } = useShiftData()
   const { push } = useRouter()
+  const [sending, setSending] = useState(false)
 
   const onSubmit = async (data: User) => {
+    setSending(true)
     try {
       await setUser(data)
       push("/dashboard")
     } catch (error: any) {
       toast.error(error.message)
     }
+    setSending(false)
   }
 
   return (
@@ -64,9 +70,15 @@ const Form = () => {
         Nota: por favor, complete y verifique sus datos adecuadamente ya que
         esto es de uso único y una vez enviado, no podrá revertirlo.
       </p>
-      <ButtonNext style="self-end mt-12" type="submit">
-        Continuar
-      </ButtonNext>
+      {!sending ? (
+        <ButtonNext style="self-end mt-12" type="submit">
+          Continuar
+        </ButtonNext>
+      ) : (
+        <div className="self-end grid place-items-center h-6 mt-8">
+          <Pulsar size={52} color="#D2BF9D" />
+        </div>
+      )}
     </form>
   )
 }
