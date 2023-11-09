@@ -4,6 +4,7 @@ import SummaryItem from "./SummaryItem"
 import { Pulsar } from "@uiball/loaders"
 import { CheckCircleIcon } from "@heroicons/react/24/outline"
 import { CONTACT_NUMBER } from "@/constants/contact"
+import Link from "next/link"
 
 const Summary = ({
   data,
@@ -50,13 +51,23 @@ const Summary = ({
         )}
       </div>
       {isOk && (
-        <a
-          href={`https://api.whatsapp.com/send?phone=${CONTACT_NUMBER}&text=*❌%20Cancelación%20de%20turno%20❌*%0A*Nombre:*%20_${data.user.name}_%0A*Teléfono:*%20_${data.user.phone}_%0A*Día:*%20_${data.day.dateString}_%0A*Horario:*%20_${data.hour.hour}_`}
-          target="_blank"
-          className="text-xs underline text-white-semi-light self-center"
-        >
-          Necesito cancelar el turno
-        </a>
+        <p className="text-xs text-white-semi-light text-center">
+          Podés cancelar el turno accediendo a{" "}
+          <Link
+            href="/dashboard/my-shifts"
+            className="underline text-yellow-regular"
+          >
+            Mis turnos
+          </Link>{" "}
+          o haciendo click en este{" "}
+          <a
+            href={`https://api.whatsapp.com/send?phone=${CONTACT_NUMBER}&text=*❌%20Cancelación%20de%20turno%20❌*%0A*Nombre:*%20_${data.user.name}_%0A*Teléfono:*%20_${data.user.phone}_%0A*Día:*%20_${data.day.dateString}_%0A*Horario:*%20_${data.hour.hour}_`}
+            target="_blank"
+            className="underline text-yellow-regular"
+          >
+            link
+          </a>
+        </p>
       )}
     </div>
   )

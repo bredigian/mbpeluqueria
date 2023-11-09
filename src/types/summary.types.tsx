@@ -8,6 +8,7 @@ export interface SummaryItem {
 }
 
 export interface Summary {
+  _id: string
   user: User
   day: Date
   hour: Hour
