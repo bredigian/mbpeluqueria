@@ -1,23 +1,31 @@
 "use client"
 
+import { useEffect, useState } from "react"
+
 import Image from "next/image"
 import Menu from "@/components/Menu"
+import ScreenLoader from "@/components/ScreenLoader"
 import Subtitle from "@/components/Subtitle"
 import Title from "@/components/Title"
 import logo from "@/assets/images/logo.jpg"
 import { motion } from "framer-motion"
-import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useShiftData } from "@/store/shift-data"
 
 const Dashboard = () => {
   const { user, clearData } = useShiftData()
   const { push } = useRouter()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!user) push("/")
-    else clearData()
+    else {
+      clearData()
+      setLoading(false)
+    }
   }, [])
+
+  if (loading) return <ScreenLoader />
 
   return (
     <motion.main

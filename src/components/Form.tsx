@@ -3,9 +3,7 @@
 import ButtonNext from "./ButtonNext"
 import Input from "./Input"
 import { InputType } from "@/types/input.types"
-import Modal from "./Modal"
 import { Pulsar } from "@uiball/loaders"
-import Title from "./Title"
 import { User } from "@/types/user.types"
 import { toast } from "sonner"
 import { useForm } from "react-hook-form"
@@ -50,6 +48,7 @@ const Form = () => {
           minLength: "Debe tener al menos 8 caracteres",
           required: "El nombre es requerido",
         }}
+        placeholder="Ej: Martin Bordon"
       >
         Nombre y Apellido
       </Input>
@@ -58,11 +57,14 @@ const Form = () => {
         type={InputType.Phone}
         register={register}
         minLength={10}
+        maxLength={10}
         error={errors.phone}
         errorMessage={{
           minLength: "Debe tener al menos 10 caracteres",
+          maxLength: "Debe tener como máximo  10 caracteres",
           required: "El teléfono es requerido",
         }}
+        placeholder="Ej: 2281123456"
       >
         Teléfono
       </Input>

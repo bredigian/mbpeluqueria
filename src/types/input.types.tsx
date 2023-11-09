@@ -10,6 +10,7 @@ export enum InputType {
 export interface ErrorMessageType {
   required: string
   minLength: string
+  maxLength?: string
 }
 
 export interface InputProps {
@@ -18,6 +19,8 @@ export interface InputProps {
   children: React.ReactNode
   type: InputType
   minLength: number
+  maxLength?: number
   error: FieldError | undefined
   errorMessage: ErrorMessageType
+  placeholder: string
 }

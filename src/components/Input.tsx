@@ -6,8 +6,10 @@ const Input = ({
   type,
   register,
   minLength,
+  maxLength,
   errorMessage,
   error,
+  placeholder,
 }: InputProps) => {
   return (
     <div className="flex flex-col items-start gap-2 w-full">
@@ -25,7 +27,8 @@ const Input = ({
       <input
         id={name}
         type={type}
-        className="bg-dark-regular rounded-full text-sm text-[#ffffff80] px-4 py-2 outline-none w-full"
+        className="bg-dark-regular rounded-full text-sm text-[#ffffff80] px-4 py-2 outline-none w-full placeholder:text-yellow-light"
+        placeholder={placeholder}
         autoComplete="off"
         {...register(name, {
           required: {
@@ -35,6 +38,10 @@ const Input = ({
           minLength: {
             value: minLength,
             message: errorMessage.minLength,
+          },
+          maxLength: {
+            value: maxLength as number,
+            message: errorMessage.maxLength as string,
           },
         })}
       />
