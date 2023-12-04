@@ -28,7 +28,8 @@ const Calendar = ({
       className="flex flex-col items-center gap-4"
     >
       <div className="flex items-center justify-between w-full">
-        {currentDate.getMonth() < data[0]?.month ? (
+        {currentDate.getMonth() < data[0]?.month ||
+        currentDate.getFullYear() < data[0]?.year ? (
           <ArrowLeftIcon
             className="w-6 text-yellow-regular cursor-pointer"
             onClick={handlePrevMonth}
@@ -39,7 +40,8 @@ const Calendar = ({
         <h3 className="text-yellow-regular font-bold text-base">
           {Month[data[0]?.month]}
         </h3>
-        {currentDate.getMonth() + 1 > data[0]?.month ? ( // +1 for show two next months
+        {currentDate.getFullYear() === data[0]?.year &&
+        currentDate.getMonth() + 1 > data[0]?.month ? ( // +1 for show two next months
           <ArrowRightIcon
             className="w-6 text-yellow-regular cursor-pointer"
             onClick={handleNextMonth}
@@ -73,6 +75,7 @@ const Calendar = ({
             date.month < currentDate.getMonth()
 
           const isNextMonth = date.month > currentDate.getMonth()
+          const isNextYear = date.year > currentDate.getFullYear()
 
           return (
             <span
@@ -82,7 +85,7 @@ const Calendar = ({
               ${
                 date.isComplete
                   ? "text-white-semi-light"
-                  : isNextMonth
+                  : isNextMonth || isNextYear
                   ? "text-white-regular cursor-pointer"
                   : isPast
                   ? "text-white-semi-light"
@@ -100,7 +103,7 @@ const Calendar = ({
               onClick={() => {
                 if (!date.isComplete)
                   if (!isWeekend) {
-                    if (!isPast || isNextMonth) {
+                    if (!isPast || isNextMonth || isNextYear) {
                       handleSelectedDay(date)
                     }
                   }
