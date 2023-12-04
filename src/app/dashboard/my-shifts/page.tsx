@@ -69,13 +69,11 @@ const MyShifts = () => {
               No se encontraron turnos en el historial
             </span>
           ) : (
-            shifts?.map((shift: Summary, index: number) => {
-              const delay = index === 0 ? 0 : index * 0.05
+            shifts?.map((shift: Summary) => {
               return (
                 <Shift
                   key={shift?._id}
                   data={shift}
-                  // delay={delay}
                   active={active}
                   handleActive={() => handleActive(shift?._id)}
                 />

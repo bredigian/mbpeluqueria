@@ -21,12 +21,15 @@ const DateScreen = () => {
   const handleNextMonth = () => {
     setData(
       calendar[0].month !== 11 ? calendar[0].month + 1 : 0,
-      calendar[0].year
+      calendar[0].month !== 11 ? calendar[0].year : calendar[0].year + 1
     )
   }
 
   const handlePrevMonth = () => {
-    setData(calendar[0].month - 1, calendar[0].year)
+    setData(
+      calendar[0].month !== 0 ? calendar[0].month - 1 : 11,
+      calendar[0].month !== 0 ? calendar[0].year : calendar[0].year - 1
+    )
   }
 
   useEffect(() => {
