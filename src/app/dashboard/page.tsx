@@ -65,9 +65,14 @@ const Dashboard = () => {
       </section>
       <Menu />
       {isNotices && (
-        <section className="bg-yellow-600 flex flex-col items-start w-full gap-2 p-4 rounded-2xl overflow-hidden">
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="bg-yellow-600 flex flex-col items-start w-full gap-2 p-4 rounded-2xl overflow-hidden"
+        >
           <div className="flex items-center gap-2 w-full">
-            <Title style="text-black">Avisos</Title>
+            <h1 className="text-black font-medium text-lg">Avisos</h1>
             <PiWarningCircle className="w-6 h-6 text-black" />
           </div>
           <ul className="flex flex-col items-start gap-2 max-h-12 overflow-auto">
@@ -79,7 +84,7 @@ const Dashboard = () => {
               )
             })}
           </ul>
-        </section>
+        </motion.section>
       )}
     </motion.main>
   )
