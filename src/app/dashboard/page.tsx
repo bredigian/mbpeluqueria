@@ -1,10 +1,10 @@
 "use client"
 
-import { PiSealWarningDuotone, PiWarningCircle } from "react-icons/pi"
 import { useEffect, useState } from "react"
 
 import Image from "next/image"
 import Menu from "@/components/Menu"
+import { PiWarningCircle } from "react-icons/pi"
 import { RiArrowRightSFill } from "react-icons/ri"
 import ScreenLoader from "@/components/ScreenLoader"
 import Subtitle from "@/components/Subtitle"
@@ -75,7 +75,7 @@ const Dashboard = () => {
             <h1 className="text-black font-medium text-lg">Avisos</h1>
             <PiWarningCircle className="w-6 h-6 text-black" />
           </div>
-          <ul className="flex flex-col items-start gap-2 max-h-12 overflow-auto">
+          <ul className="flex flex-col items-start gap-2">
             {notices?.map((notice) => {
               return (
                 <li key={notice._id} className="text-black text-sm">
