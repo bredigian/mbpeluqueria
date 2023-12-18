@@ -65,6 +65,7 @@ const Calendar = ({
       <div className="grid grid-cols-7 place-items-center gap-6 max-w-xl">
         {data.map((date) => {
           const isWeekend = date.dayWeek === 0
+          const isChristmas = date.day === 24 && date.month === 11 // Ya que en noche buena se trabajará
 
           const isToday =
             date.day === currentDate.getDate() &&
@@ -80,7 +81,11 @@ const Calendar = ({
           return (
             <span
               className={`${
-                !isWeekend ? "text-white-regular" : "text-white-semi-light"
+                !isWeekend
+                  ? "text-white-regular"
+                  : isChristmas
+                  ? "text-white-regular"
+                  : "text-white-semi-light"
               } 
               ${
                 date.isComplete
@@ -102,7 +107,7 @@ const Calendar = ({
               }`}
               onClick={() => {
                 if (!date.isComplete)
-                  if (!isWeekend) {
+                  if (!isWeekend || isChristmas) {
                     if (!isPast || isNextMonth || isNextYear) {
                       handleSelectedDay(date)
                     }
