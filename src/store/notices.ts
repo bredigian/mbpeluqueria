@@ -6,10 +6,11 @@ export const useNotices = create((set: any) => ({
   notices: null as Notice[] | null,
   isNotices: false,
 
-  getNotices: async () => {
+  getNotices: async (_id: string) => {
     const response = await fetch(`${API_URL}/notices`, {
-      method: "GET",
+      method: "POST",
       cache: "no-store",
+      body: JSON.stringify(_id),
     })
     const { notices, message, isNotices } = await response.json()
     if (!response.ok) throw new Error(message)
