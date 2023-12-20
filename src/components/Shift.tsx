@@ -7,7 +7,6 @@ import { Summary } from "@/types/summary.types"
 import Title from "./Title"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
-import { useRouter } from "next-nprogress-bar"
 import { useShifts } from "@/store/shifts"
 import { useState } from "react"
 
@@ -95,7 +94,7 @@ const Shift = ({
         />
       </div>
       <div className="flex items-end justify-between w-full">
-        <Subtitle variant="text-xs">
+        <Subtitle variant="text-xs" maxWidth="max-w-[146px]">
           Al cancelar el turno, serás redirigido a WhatsApp para comunicarlo.
         </Subtitle>
         <button
