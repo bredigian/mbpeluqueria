@@ -1,10 +1,13 @@
+import { CONTACT_NUMBER } from "@/constants/contact"
 import { Day } from "@/types/enums.types"
 import { FaChevronDown } from "react-icons/fa"
 import Modal from "./Modal"
+import Subtitle from "./Subtitle"
 import { Summary } from "@/types/summary.types"
 import Title from "./Title"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
+import { useRouter } from "next-nprogress-bar"
 import { useShifts } from "@/store/shifts"
 import { useState } from "react"
 
@@ -32,6 +35,8 @@ const Shift = ({
 
   const { cancelShift } = useShifts()
 
+  const { push } = useRouter()
+
   const [showModal, setShowModal] = useState(false)
 
   const handleModal = async () => {
@@ -43,6 +48,9 @@ const Shift = ({
       await cancelShift(data?._id)
       handleModal()
       toast.success("Turno cancelado con éxito")
+      push(
+        `https://wa.me/${CONTACT_NUMBER}?text=*CANCELACIÓN%20DE%20TURNO*%20✖️💈%0A*Nombre:*%20${data?.user?.name}%0A*Nro.%20de%20teléfono:*%20${data.user.phone}%0A*Día:*%20${data.day.dateString}%0A*Horario:*%20${data.hour.hour}`
+      )
     } catch (error: any) {
       toast.error(error.message)
     }
@@ -58,7 +66,7 @@ const Shift = ({
           ? "bg-dark-regular"
           : "bg-dark-light"
       } flex flex-col items-center gap-4 w-full py-4 px-6 rounded-3xl overflow-hidden duration-200 ${
-        active !== data?._id ? "h-[55px]" : "h-28"
+        active !== data?._id ? "h-[55px]" : "h-36"
       }`}
     >
       <div className="flex items-center justify-between w-full">
@@ -90,14 +98,20 @@ const Shift = ({
           } duration-200`}
         />
       </div>
-      <button
-        onClick={
-          !isPast || isNextMonth || isNextYear ? handleModal : () => null
-        }
-        className="bg-yellow-regular text-dark-bold py-2 px-4 rounded-full text-sm font-medium"
-      >
-        Cancelar
-      </button>
+      <div className="flex items-end justify-between w-full">
+        <Subtitle variant="text-xs">
+          Al cancelar el turno, serás redirigido a WhatsApp para comunicarlo.
+        </Subtitle>
+        <button
+          onClick={
+            !isPast || isNextMonth || isNextYear ? handleModal : () => null
+          }
+          className="bg-yellow-regular text-dark-bold py-2 px-4 rounded-full text-sm font-medium"
+        >
+          Cancelar
+        </button>
+      </div>
+
       {showModal && (
         <Modal>
           <div className="bg-dark-bold flex flex-col items-center gap-4 p-8 w-[300px] rounded-[55px]">

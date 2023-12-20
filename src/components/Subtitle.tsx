@@ -1,5 +1,15 @@
-const Subtitle = ({ children }: { children: React.ReactNode }) => {
-  return <h2 className="text-white-semi-light text-sm">{children}</h2>
+const Subtitle = ({
+  children,
+  variant,
+}: {
+  children: React.ReactNode
+  variant?: "text-xs" | "text-sm" | "text-base"
+}) => {
+  return (
+    <h2 className={`text-white-semi-light ${variant ?? "text-sm"}`}>
+      {children}
+    </h2>
+  )
 }
 
 export default Subtitle
