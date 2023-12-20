@@ -35,8 +35,6 @@ const Shift = ({
 
   const { cancelShift } = useShifts()
 
-  const { push } = useRouter()
-
   const [showModal, setShowModal] = useState(false)
 
   const handleModal = async () => {
@@ -48,9 +46,7 @@ const Shift = ({
       await cancelShift(data?._id)
       handleModal()
       toast.success("Turno cancelado con éxito")
-      push(
-        `https://wa.me/${CONTACT_NUMBER}?text=*CANCELACIÓN%20DE%20TURNO*%20✖️💈%0A*Nombre:*%20${data?.user?.name}%0A*Nro.%20de%20teléfono:*%20${data.user.phone}%0A*Día:*%20${data.day.dateString}%0A*Horario:*%20${data.hour.hour}`
-      )
+      window.location.href = `https://wa.me/${CONTACT_NUMBER}?text=*CANCELACIÓN%20DE%20TURNO*%20✖️💈%0A*Nombre:*%20${data?.user?.name}%0A*Nro.%20de%20teléfono:*%20${data.user.phone}%0A*Día:*%20${data.day.dateString}%0A*Horario:*%20${data.hour.hour}`
     } catch (error: any) {
       toast.error(error.message)
     }
