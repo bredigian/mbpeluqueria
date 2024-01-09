@@ -29,7 +29,9 @@ const Shift = ({
     (data.day.day <= currentDate.getDate() &&
       data.hour.hour < `${currentDate.getHours()}:${currentDate.getMinutes()}}`)
 
-  const isNextMonth = data?.day?.month > currentDate.getMonth()
+  const isNextMonth =
+    data?.day?.month > currentDate.getMonth() &&
+    data?.day?.year === currentDate.getFullYear()
   const isNextYear = data?.day?.year > currentDate.getFullYear()
 
   const { cancelShift } = useShifts()
