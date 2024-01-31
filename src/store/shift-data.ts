@@ -110,6 +110,7 @@ export const useShiftData = create((set: any, get: any) => ({
           time: shift.hour.hour,
           user: shift.user.name,
           id: shift._id,
+          type: "reserve",
         } // Estos datos son enviados como notificación al Administrador
       }
     } catch (error) {
