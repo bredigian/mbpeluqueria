@@ -101,9 +101,16 @@ export const useShiftData = create((set: any, get: any) => ({
         },
       })
       if (response.status === 201) {
-        const { _id } = await response.json()
-        localStorage.setItem("shift-assigned", _id)
+        const shift = await response.json()
+        localStorage.setItem("shift-assigned", shift._id)
         set({ assigned: true })
+
+        return {
+          day: shift.day.dateString,
+          time: shift.hour.hour,
+          user: shift.user.name,
+          id: shift._id,
+        } // Estos datos son enviados como notificación al Administrador
       }
     } catch (error) {
       throw new Error(

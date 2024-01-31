@@ -6,6 +6,7 @@ import ButtonBack from "@/components/ButtonBack"
 import Summary from "@/components/Summary"
 import Title from "@/components/Title"
 import { User } from "@/types/user.types"
+import { connectToWebSocket } from "@/utils/io"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
 import { useRouter } from "next-nprogress-bar"
@@ -19,9 +20,15 @@ const Confirmation = () => {
   const [isOk, setIsOk] = useState(false)
 
   const onConfirm = async () => {
+    const socket = connectToWebSocket(user?.name as string)
+
     setSending(true)
     try {
-      await confirm()
+      const result = await confirm()
+      socket.emit("new-shift", result, () => {
+        socket.disconnect()
+      })
+
       setSending(false)
       setIsOk(true)
     } catch (error: any) {
