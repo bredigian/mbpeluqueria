@@ -5,6 +5,7 @@ import Modal from "./Modal"
 import Subtitle from "./Subtitle"
 import { Summary } from "@/types/summary.types"
 import Title from "./Title"
+import { connectToWebSocket } from "@/utils/io"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
 import { useShifts } from "@/store/shifts"
@@ -43,8 +44,22 @@ const Shift = ({
   }
 
   const handleCancel = async () => {
+    const socket = connectToWebSocket(data?.user?.name as string)
     try {
       await cancelShift(data?._id)
+      socket.emit(
+        "cancel-shift",
+        {
+          id: data?._id,
+          day: data?.day.dateString,
+          user: data?.user.name,
+          time: data?.hour.hour,
+          type: "cancel",
+        },
+        () => {
+          socket.disconnect()
+        }
+      )
       handleModal()
       toast.success("Turno cancelado con éxito")
       window.location.href = `https://wa.me/${CONTACT_NUMBER}?text=*CANCELACIÓN%20DE%20TURNO*%20✖️💈%0A*Nombre:*%20${data?.user?.name}%0A*Nro.%20de%20teléfono:*%20${data.user.phone}%0A*Día:*%20${data.day.dateString}%0A*Horario:*%20${data.hour.hour}`
