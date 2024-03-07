@@ -15,7 +15,7 @@ const Button = ({
       onClick={onClick}
       className={`${textColor ?? "text-yellow-regular"} ${
         backgroundColor ?? "bg-dark-regular"
-      } text-lg font-bold py-6 px-8 rounded-3xl w-fit self-center`}
+      } text-sm font-bold py-4 px-8 rounded-full w-fit self-center`}
     >
       {children}
     </button>

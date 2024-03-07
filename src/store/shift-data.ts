@@ -45,6 +45,11 @@ export const useShiftData = create((set: any, get: any) => ({
     }
   },
 
+  clearUser: async () => {
+    localStorage.removeItem("user")
+    set({ user: null })
+  },
+
   setDay: (day: Date) => {
     set({ day })
   },
