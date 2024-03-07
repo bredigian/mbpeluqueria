@@ -21,7 +21,7 @@ const Notices = () => {
 
   useEffect(() => {
     fetchData()
-  }, [user])
+  }, [])
 
   if (isNotices)
     return (
