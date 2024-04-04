@@ -1,5 +1,6 @@
 import "./globals.css"
 
+import { Analytics } from "@vercel/analytics/react"
 import { Inter } from "next/font/google"
 import type { Metadata } from "next"
 import ProviderProgressBar from "@/components/ProviderProgressBar"
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} max-w-sm mx-auto`}>
+        <Analytics />
         <ProviderProgressBar>{children}</ProviderProgressBar>
         <Toaster />
       </body>
