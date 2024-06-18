@@ -1,24 +1,24 @@
-import { BsCalendarCheck, BsCalendarDate } from "react-icons/bs"
+import { BsCalendarCheck, BsCalendarDate } from 'react-icons/bs';
 
-import MenuItem from "./MenuItem"
+import MenuItem from './MenuItem';
 
 const Menu = () => {
   return (
-    <ul className="flex flex-col gap-4 items-center w-full">
+    <ul className="flex w-full flex-col items-center gap-4">
       <MenuItem href="/dashboard/date">
-        <BsCalendarDate className="w-8 h-8 text-yellow-regular" />
+        <BsCalendarDate className="text-yellow-regular h-8 w-8" />
         <span className="text-yellow-regular text-lg font-medium">
           Reservar
         </span>
       </MenuItem>
       <MenuItem href="/dashboard/my-shifts">
-        <BsCalendarCheck className="w-8 h-8 text-yellow-regular" />
+        <BsCalendarCheck className="text-yellow-regular h-8 w-8" />
         <span className="text-yellow-regular text-lg font-medium">
           Mis turnos
         </span>
       </MenuItem>
     </ul>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;

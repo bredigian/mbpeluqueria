@@ -1,4 +1,4 @@
-import { InputProps } from "@/types/input.types"
+import { InputProps } from '@/types/input.types';
 
 const Input = ({
   children,
@@ -12,22 +12,22 @@ const Input = ({
   placeholder,
 }: InputProps) => {
   return (
-    <div className="flex flex-col items-start gap-2 w-full">
-      <div className="flex items-center justify-between w-full">
+    <div className="flex w-full flex-col items-start gap-2">
+      <div className="flex w-full items-center justify-between">
         <label
-          className="text-yellow-regular text-xs font-bold ml-2"
+          className="text-yellow-regular ml-2 text-xs font-bold"
           htmlFor={name}
         >
           {children}
         </label>
         {error && (
-          <span className="text-[10px] text-yellow-light">{error.message}</span>
+          <span className="text-yellow-light text-[10px]">{error.message}</span>
         )}
       </div>
       <input
         id={name}
         type={type}
-        className="bg-dark-regular rounded-full text-sm text-[#ffffff80] px-4 py-2 outline-none w-full placeholder:text-yellow-light"
+        className="bg-dark-regular placeholder:text-yellow-light w-full rounded-full px-4 py-2 text-sm text-[#ffffff80] outline-none"
         placeholder={placeholder}
         autoComplete="off"
         {...register(name, {
@@ -46,7 +46,7 @@ const Input = ({
         })}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;

@@ -1,4 +1,4 @@
 export interface FormValues {
-  name: string
-  phone: string
+  name: string;
+  phone: string;
 }

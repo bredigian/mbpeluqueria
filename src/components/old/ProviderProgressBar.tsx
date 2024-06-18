@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar"
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 const ProviderProgressBar = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,6 +13,6 @@ const ProviderProgressBar = ({ children }: { children: React.ReactNode }) => {
         shallowRouting={true}
       />
     </>
-  )
-}
-export default ProviderProgressBar
+  );
+};
+export default ProviderProgressBar;

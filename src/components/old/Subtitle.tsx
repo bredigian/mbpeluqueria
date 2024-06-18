@@ -3,15 +3,15 @@ const Subtitle = ({
   variant,
   maxWidth,
 }: {
-  children: React.ReactNode
-  variant?: "text-xs" | "text-sm" | "text-base"
-  maxWidth?: string
+  children: React.ReactNode;
+  variant?: 'text-xs' | 'text-sm' | 'text-base';
+  maxWidth?: string;
 }) => {
   return (
-    <h2 className={`text-white-semi-light ${variant ?? "text-sm"} ${maxWidth}`}>
+    <h2 className={`text-white-semi-light ${variant ?? 'text-sm'} ${maxWidth}`}>
       {children}
     </h2>
-  )
-}
+  );
+};
 
-export default Subtitle
+export default Subtitle;

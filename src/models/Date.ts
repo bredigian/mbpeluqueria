@@ -1,5 +1,5 @@
-import { Date } from "@/types/date.types"
-import { Schema } from "mongoose"
+import { Date } from '@/types/date.types';
+import { Schema } from 'mongoose';
 
 export const DateSchema: Schema<Date> = new Schema({
   day: {
@@ -27,4 +27,4 @@ export const DateSchema: Schema<Date> = new Schema({
     required: true,
     trim: true,
   },
-})
+});

@@ -1,50 +1,50 @@
-import { Day, Month } from "@/types/enums.types"
+import { Day, Month } from '@/types/enums.types';
 
-import { type Date } from "@/types/date.types"
-import { useState } from "react"
-import { API_URL } from "@/constants/api"
+import { type Date } from '@/types/date.types';
+import { useState } from 'react';
+import { API_URL } from '@/constants/api';
 
 export interface DateExtended extends Date {
-  isComplete: boolean
+  isComplete: boolean;
 }
 
 export const useGetDays = () => {
-  const [calendar, setCalendar] = useState<DateExtended[]>([])
-  const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [calendar, setCalendar] = useState<DateExtended[]>([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getDaysInMonth = (month: number, year: number) => {
-    const date = new Date(year, month, 1)
-    const days = []
+    const date = new Date(year, month, 1);
+    const days = [];
 
     while (date.getMonth() === month) {
-      days.push(new Date(date))
-      date.setDate(date.getDate() + 1)
+      days.push(new Date(date));
+      date.setDate(date.getDate() + 1);
     }
 
-    const firstDayOfMonth = days[0].getDay()
+    const firstDayOfMonth = days[0].getDay();
 
     for (let i = 0; i < firstDayOfMonth; i++) {
-      days.unshift(null)
+      days.unshift(null);
     }
 
-    return days
-  }
+    return days;
+  };
 
   const setData = async (month: number, year: number) => {
-    setLoading(true)
-    const days = getDaysInMonth(month, year)
+    setLoading(true);
+    const days = getDaysInMonth(month, year);
 
     try {
       const response = await fetch(
         `${API_URL}/hours?month=${month}&year=${year}`,
         {
-          method: "GET",
-        }
-      )
+          method: 'GET',
+        },
+      );
       if (response.ok) {
         const { daysWithShiftsAssigned, daysWithoutHoursEnabled } =
-          await response.json()
+          await response.json();
 
         const parsedDays = () => {
           return days.map((day) => {
@@ -54,9 +54,9 @@ export const useGetDays = () => {
                 month: month,
                 year: year,
                 dayWeek: null as unknown as number,
-                dateString: "",
+                dateString: '',
                 isComplete: null as unknown as boolean,
-              }
+              };
             }
             const dayFinded = daysWithShiftsAssigned.find(
               (dayWithShift: any) => {
@@ -64,15 +64,15 @@ export const useGetDays = () => {
                   dayWithShift.day === day.getDate() &&
                   dayWithShift.month === day.getMonth() &&
                   dayWithShift.year === day.getFullYear()
-                )
-              }
-            )
+                );
+              },
+            );
 
             const dayFindedWithoutHours = daysWithoutHoursEnabled.find(
               (dayWithoutHours: any) => {
-                return dayWithoutHours.weekday === day.getDay()
-              }
-            )
+                return dayWithoutHours.weekday === day.getDay();
+              },
+            );
 
             return {
               day: day.getDate(),
@@ -85,24 +85,24 @@ export const useGetDays = () => {
               isComplete: dayFinded
                 ? dayFinded.isComplete
                 : dayFindedWithoutHours
-                ? dayFindedWithoutHours.isComplete
-                : false,
-            }
-          })
-        }
-        setCalendar(parsedDays())
+                  ? dayFindedWithoutHours.isComplete
+                  : false,
+            };
+          });
+        };
+        setCalendar(parsedDays());
       }
     } catch (error) {
-      setError(true)
-      throw new Error("Ocurrío un error al obtener los datos del calendario")
+      setError(true);
+      throw new Error('Ocurrío un error al obtener los datos del calendario');
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   return {
     calendar,
     error,
     loading,
     setData,
-  }
-}
+  };
+};

@@ -1,6 +1,6 @@
-import { Schema, model, models } from "mongoose"
+import { Schema, model, models } from 'mongoose';
 
-import { WorkHour } from "@/types/hour.types"
+import { WorkHour } from '@/types/hour.types';
 
 export const WorkHourSchema = new Schema<WorkHour>({
   value: {
@@ -11,7 +11,7 @@ export const WorkHourSchema = new Schema<WorkHour>({
     type: Number,
     select: false,
   },
-})
+});
 
 export default models.WorkHour ||
-  model<WorkHour>("WorkHour", WorkHourSchema, "work-hours")
+  model<WorkHour>('WorkHour', WorkHourSchema, 'work-hours');

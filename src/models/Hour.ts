@@ -1,5 +1,5 @@
-import { Hour } from "@/types/hour.types"
-import { Schema } from "mongoose"
+import { Hour } from '@/types/hour.types';
+import { Schema } from 'mongoose';
 
 export const HourSchema: Schema<Hour> = new Schema({
   hour: {
@@ -11,4 +11,4 @@ export const HourSchema: Schema<Hour> = new Schema({
     type: Boolean,
     required: true,
   },
-})
+});
