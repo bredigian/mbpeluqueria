@@ -1,31 +1,15 @@
 import "./globals.css"
 
-import { Analytics } from "@vercel/analytics/react"
 import { Inter } from "next/font/google"
 import type { Metadata } from "next"
-import ProviderProgressBar from "@/components/ProviderProgressBar"
 import { Toaster } from "sonner"
+import { cn } from "@/lib/utils"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 export const metadata: Metadata = {
   title: "MB Peluquería",
   description: "Reservá tu turno para cortarte el pelo acá mismo en instantes.",
-  keywords:
-    "peluquería, peluquero, pelo, cortar, cortes, cortes de pelo, masculino, niños, barba, barberia, barbero",
-  authors: [
-    {
-      name: "Gianluca Bredice Developer",
-      url: "https://devbredicegian.site",
-    },
-  ],
-  robots: "index",
-  applicationName: "MB Peluquería",
-  manifest: "/manifest.json",
-  icons: {
-    apple: "/icon512_rounded.png",
-    icon: "/icon512_maskable.png",
-  },
 }
 
 export default function RootLayout({
@@ -34,10 +18,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} max-w-sm mx-auto`}>
-        <Analytics />
-        <ProviderProgressBar>{children}</ProviderProgressBar>
+    <html lang="es">
+      <body
+        className={cn(
+          "flex min-h-screen flex-col bg-background font-sans text-primary antialiased lg:flex-row",
+          inter.variable
+        )}
+      >
+        {children}
         <Toaster />
       </body>
     </html>
