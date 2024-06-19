@@ -1,6 +1,7 @@
 import { IAuthorization } from './auth.types';
 import { IShift } from './shifts.types';
 import { IUser } from './users.types';
+import { IWeekday } from './weekdays.types';
 
 export interface IErrorResponse {
   message: string;
@@ -14,4 +15,6 @@ export type TResponse =
   | IShift
   | IShift[]
   | IAuthorization
+  | IWeekday
+  | IWeekday[]
   | IErrorResponse;

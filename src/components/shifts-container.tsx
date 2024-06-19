@@ -1,8 +1,8 @@
-import { Button } from './ui/button';
-import CalendarAddIcon from './icons/calendar-add-icon';
 import { IShift } from '@/types/shifts.types';
+import ReserveShiftDialogContainer from './reserve-shift-dialog-container';
 import ShiftItem from './shift-item';
 import { Subtitle } from './ui/subtitle';
+import { Suspense } from 'react';
 import { TResponse } from '@/types/responses.types';
 import { cookies } from 'next/headers';
 import { getAllByUserId } from '@/services/shifts.service';
@@ -22,13 +22,9 @@ export default async function ShiftsContainer() {
             <Subtitle className='overflow-hidden text-ellipsis text-nowrap'>
               Próximos turnos
             </Subtitle>
-            <Button className='flex items-center gap-2'>
-              <CalendarAddIcon
-                size={20}
-                color='hsl(var(--primary-foreground))'
-              />
-              Agendar
-            </Button>
+            <Suspense fallback={<div>Loading...</div>}>
+              <ReserveShiftDialogContainer />
+            </Suspense>
           </aside>
           <ul className='flex flex-col gap-6'>
             {(shifts as IShift[]).length > 0 ? (
