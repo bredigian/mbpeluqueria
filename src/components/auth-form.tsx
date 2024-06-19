@@ -5,10 +5,10 @@ import Cookies from 'js-cookie';
 import { IUser } from '@/types/users.types';
 import { Input } from './ui/input';
 import { Label } from '@/components/ui/label';
-import { signin } from '@/services/auth.service';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { userStore } from '@/store/user.store';
 
 export const SigninForm = () => {
   const {
@@ -18,6 +18,7 @@ export const SigninForm = () => {
   } = useForm<IUser>();
 
   const { push } = useRouter();
+  const { signin } = userStore();
 
   const onSubmit = async (values: IUser) => {
     try {

@@ -6,13 +6,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { cn } from '@/lib/utils';
-import { verifyToken } from '@/services/auth.service';
+import { userStore } from '@/store/user.store';
 
 type Props = {
   children: ReactNode;
   className?: string;
 };
 export default function Screen({ children, className }: Props) {
+  const { verifySession } = userStore();
+
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
@@ -22,7 +24,7 @@ export default function Screen({ children, className }: Props) {
     if (!token) {
       if (pathname !== '/') push('/');
     } else {
-      const authorized = await verifyToken(token);
+      const authorized = await verifySession(token);
       if (!authorized) {
         if (pathname !== '/') push('/');
       } else push('/dashboard');
