@@ -36,10 +36,10 @@ const Form = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full flex-col items-start gap-4"
+      className='flex w-full flex-col items-start gap-4'
     >
       <Input
-        name="name"
+        name='name'
         type={InputType.Text}
         register={register}
         minLength={8}
@@ -48,12 +48,12 @@ const Form = () => {
           minLength: 'Debe tener al menos 8 caracteres',
           required: 'El nombre es requerido',
         }}
-        placeholder="Ej: Martin Bordon"
+        placeholder='Ej: Martin Bordon'
       >
         Nombre y Apellido
       </Input>
       <Input
-        name="phone"
+        name='phone'
         type={InputType.Phone}
         register={register}
         minLength={10}
@@ -64,21 +64,21 @@ const Form = () => {
           maxLength: 'Debe tener como máximo  10 caracteres',
           required: 'El teléfono es requerido',
         }}
-        placeholder="Ej: 2281123456"
+        placeholder='Ej: 2281123456'
       >
         Teléfono
       </Input>
-      <p className="text-yellow-light ml-2 text-start text-[10px]">
+      <p className='text-yellow-light ml-2 text-start text-[10px]'>
         Nota: por favor, complete y verifique sus datos adecuadamente ya que
         esto es de uso único y una vez enviado, no podrá revertirlo.
       </p>
       {!sending ? (
-        <ButtonNext style="self-end mt-12" type="submit">
+        <ButtonNext style='self-end mt-12' type='submit'>
           Continuar
         </ButtonNext>
       ) : (
-        <div className="mt-8 grid h-6 place-items-center self-end">
-          <Pulsar size={52} color="#D2BF9D" />
+        <div className='mt-8 grid h-6 place-items-center self-end'>
+          <Pulsar size={52} color='#D2BF9D' />
         </div>
       )}
     </form>

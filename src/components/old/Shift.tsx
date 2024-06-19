@@ -82,7 +82,7 @@ const Shift = ({
         active !== data?._id ? 'h-[55px]' : 'h-36'
       }`}
     >
-      <div className="flex w-full items-center justify-between">
+      <div className='flex w-full items-center justify-between'>
         <span
           className={`${
             !isPast || isNextMonth || isNextYear
@@ -111,15 +111,15 @@ const Shift = ({
           } duration-200`}
         />
       </div>
-      <div className="flex w-full items-end justify-between">
-        <Subtitle variant="text-xs" maxWidth="max-w-[146px]">
+      <div className='flex w-full items-end justify-between'>
+        <Subtitle variant='text-xs' maxWidth='max-w-[146px]'>
           Al cancelar el turno, serás redirigido a WhatsApp para comunicarlo.
         </Subtitle>
         <button
           onClick={
             !isPast || isNextMonth || isNextYear ? handleModal : () => null
           }
-          className="bg-yellow-regular text-dark-bold rounded-full px-4 py-2 text-sm font-medium"
+          className='bg-yellow-regular text-dark-bold rounded-full px-4 py-2 text-sm font-medium'
         >
           Cancelar
         </button>
@@ -127,19 +127,19 @@ const Shift = ({
 
       {showModal && (
         <Modal>
-          <div className="bg-dark-bold flex w-[300px] flex-col items-center gap-4 rounded-[55px] p-8">
-            <Title style="text-yellow-regular">¿Estás seguro?</Title>
+          <div className='bg-dark-bold flex w-[300px] flex-col items-center gap-4 rounded-[55px] p-8'>
+            <Title style='text-yellow-regular'>¿Estás seguro?</Title>
             <button
               onClick={handleCancel}
-              type="button"
-              className="text-dark-bold bg-yellow-regular mt-2 w-[140px] rounded-full py-2"
+              type='button'
+              className='text-dark-bold bg-yellow-regular mt-2 w-[140px] rounded-full py-2'
             >
               Confirmar
             </button>
             <button
               onClick={handleModal}
-              type="button"
-              className="text-yellow-regular border-yellow-regular w-[140px] rounded-full border-2 py-2"
+              type='button'
+              className='text-yellow-regular border-yellow-regular w-[140px] rounded-full border-2 py-2'
             >
               Cancelar
             </button>

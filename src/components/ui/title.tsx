@@ -1,7 +1,13 @@
-export function Title() {
+import { ReactNode } from 'react';
+
+type Props = {
+  children: ReactNode;
+};
+
+export function Title({ children }: Props) {
   return (
-    <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-      Taxing Laughter: The Joke Tax Chronicles
+    <h1 className='scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl'>
+      {children}
     </h1>
   );
 }

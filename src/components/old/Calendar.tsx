@@ -25,36 +25,36 @@ const Calendar = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-col items-center gap-4"
+      className='flex flex-col items-center gap-4'
     >
-      <div className="flex w-full items-center justify-between">
+      <div className='flex w-full items-center justify-between'>
         {currentDate.getMonth() < data[0]?.month ||
         currentDate.getFullYear() < data[0]?.year ? (
           <ArrowLeftIcon
-            className="text-yellow-regular w-6 cursor-pointer"
+            className='text-yellow-regular w-6 cursor-pointer'
             onClick={handlePrevMonth}
           />
         ) : (
-          <span className="w-6"></span>
+          <span className='w-6'></span>
         )}
-        <h3 className="text-yellow-regular text-base font-bold">
+        <h3 className='text-yellow-regular text-base font-bold'>
           {Month[data[0]?.month]}
         </h3>
         {currentDate.getFullYear() === data[0]?.year &&
         currentDate.getMonth() + 1 > data[0]?.month ? ( // +1 for show two next months
           <ArrowRightIcon
-            className="text-yellow-regular w-6 cursor-pointer"
+            className='text-yellow-regular w-6 cursor-pointer'
             onClick={handleNextMonth}
           />
         ) : (
-          <span className="w-6"></span>
+          <span className='w-6'></span>
         )}
       </div>
-      <div className="grid w-full grid-cols-7 place-items-center gap-6">
+      <div className='grid w-full grid-cols-7 place-items-center gap-6'>
         {[0, 1, 2, 3, 4, 5, 6].map((index: number) => {
           return (
             <span
-              className="text-white-extra-light text-sm"
+              className='text-white-extra-light text-sm'
               key={`dia-${index}`}
             >
               {Day[index]}
@@ -62,7 +62,7 @@ const Calendar = ({
           );
         })}
       </div>
-      <div className="grid max-w-xl grid-cols-7 place-items-center gap-6">
+      <div className='grid max-w-xl grid-cols-7 place-items-center gap-6'>
         {data.map((date) => {
           const isWeekend = date.dayWeek === 0;
           const isChristmas = date.day === 24 && date.month === 11; // Ya que en noche buena se trabajará

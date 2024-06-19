@@ -29,16 +29,16 @@ const Notices = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
-        className="flex w-full flex-col items-start gap-2 overflow-hidden rounded-2xl bg-yellow-600 p-4"
+        className='flex w-full flex-col items-start gap-2 overflow-hidden rounded-2xl bg-yellow-600 p-4'
       >
-        <div className="flex w-full items-center gap-2">
-          <h1 className="text-lg font-medium text-black">Avisos</h1>
-          <PiWarningCircle className="h-6 w-6 text-black" />
+        <div className='flex w-full items-center gap-2'>
+          <h1 className='text-lg font-medium text-black'>Avisos</h1>
+          <PiWarningCircle className='h-6 w-6 text-black' />
         </div>
-        <ul className="flex flex-col items-start gap-2">
+        <ul className='flex flex-col items-start gap-2'>
           {notices?.map((notice) => {
             return (
-              <li key={notice._id} className="text-sm text-black">
+              <li key={notice._id} className='text-sm text-black'>
                 {notice.title}
               </li>
             );
