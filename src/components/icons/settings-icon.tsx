@@ -11,7 +11,7 @@ export default function SettingsIcon({ size, color }: Props) {
       width={size}
       height={size}
       viewBox='0 0 24 24'
-      stroke-width='2'
+      strokeWidth='2'
       stroke={color}
       fill='none'
       strokeLinecap='round'
