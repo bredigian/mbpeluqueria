@@ -1,7 +1,7 @@
 import { Card, CardContent } from './ui/card';
-import { RedirectType, redirect } from 'next/navigation';
 
-import { IErrorResponse } from '@/types/responses.types';
+import { Button } from './ui/button';
+import CalendarAddIcon from './icons/calendar-add-icon';
 import { IShift } from '@/types/shifts.types';
 import { Subtitle } from './ui/subtitle';
 import { TResponse } from '@/types/responses.types';
@@ -19,7 +19,18 @@ export default async function ShiftsContainer() {
         <span>{shifts.message}</span>
       ) : (
         <>
-          <Subtitle>Próximos turnos</Subtitle>
+          <aside className='flex items-center justify-between gap-4'>
+            <Subtitle className='overflow-hidden text-ellipsis text-nowrap'>
+              Próximos turnos
+            </Subtitle>
+            <Button className='flex items-center gap-2'>
+              <CalendarAddIcon
+                size={20}
+                color='hsl(var(--primary-foreground))'
+              />
+              Agendar
+            </Button>
+          </aside>
           <ul className='flex flex-col gap-6'>
             {(shifts as IShift[]).length > 0 ? (
               (shifts as IShift[]).map((shift) => {
