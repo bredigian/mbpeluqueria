@@ -1,3 +1,5 @@
+'use client';
+
 import {
   AlertDialog,
   AlertDialogContent,
@@ -11,6 +13,7 @@ import { Button } from './ui/button';
 import CalendarAddIcon from './icons/calendar-add-icon';
 import { FormReserveShift } from './dashboard-form';
 import { IWeekday } from '@/types/weekdays.types';
+import { useDialog } from '@/hooks/use-dialog';
 
 type Props = {
   availableDays: IWeekday[];
@@ -21,10 +24,12 @@ export const ReserveShiftDialog = ({
   availableDays,
   unavailableDays,
 }: Props) => {
+  const { show, handleDialog } = useDialog();
+
   return (
-    <AlertDialog>
+    <AlertDialog open={show}>
       <AlertDialogTrigger asChild>
-        <Button className='flex items-center gap-2'>
+        <Button className='flex items-center gap-2' onClick={handleDialog}>
           <CalendarAddIcon size={20} color='hsl(var(--primary-foreground))' />
           Agendar
         </Button>
@@ -39,6 +44,7 @@ export const ReserveShiftDialog = ({
         <FormReserveShift
           availableDays={availableDays}
           unavailableDays={unavailableDays}
+          handleDialog={handleDialog}
         />
       </AlertDialogContent>
     </AlertDialog>

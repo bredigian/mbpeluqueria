@@ -9,6 +9,9 @@ export const getAllByUserId = async (token: string) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      next: {
+        tags: ['shifts'],
+      },
     });
 
     const data: TResponse = await response.json();
@@ -17,5 +20,24 @@ export const getAllByUserId = async (token: string) => {
     return data as IShift[];
   } catch (error) {
     return error;
+  }
+};
+
+export const createShift = async (payload: IShift) => {
+  try {
+    const response = await fetch(`${API_URL}/shifts`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const result: TResponse = await response.json();
+    if ('statusCode' in result) throw new Error(result.message);
+
+    return result as IShift;
+  } catch (error) {
+    throw error;
   }
 };

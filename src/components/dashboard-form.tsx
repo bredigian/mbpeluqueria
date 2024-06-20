@@ -15,19 +15,28 @@ import { Calendar } from './ui/calendar';
 import { IShift } from '@/types/shifts.types';
 import { IWeekday } from '@/types/weekdays.types';
 import { Label } from './ui/label';
+import { createShift } from '@/services/shifts.service';
+import { revalidateDataByTag } from '@/lib/actions';
+import { toast } from 'sonner';
 import { useState } from 'react';
 import { userStore } from '@/store/user.store';
 
 type Props = {
   availableDays: IWeekday[];
   unavailableDays: IWeekday[];
+
+  handleDialog: () => void;
 };
 
-export const FormReserveShift = ({ availableDays, unavailableDays }: Props) => {
+export const FormReserveShift = ({
+  availableDays,
+  unavailableDays,
+  handleDialog,
+}: Props) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
     watch,
     getValues,
   } = useForm<IShift>({
@@ -63,7 +72,15 @@ export const FormReserveShift = ({ availableDays, unavailableDays }: Props) => {
       user_id: id as string,
     };
 
-    console.log(payload);
+    try {
+      await createShift(payload);
+      toast.success('Turno asignado exitosamente.');
+      revalidateDataByTag('shifts');
+
+      handleDialog();
+    } catch (error) {
+      if (error instanceof Error) toast.error(error.message);
+    }
   };
 
   return (
