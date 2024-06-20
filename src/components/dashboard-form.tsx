@@ -125,6 +125,9 @@ export const FormReserveShift = ({
                   }}
                   disabled={[
                     {
+                      before: new Date(),
+                    },
+                    {
                       dayOfWeek: unavailableDays.map(
                         (weekday) => weekday.number,
                       ),
