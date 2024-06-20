@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogFooter,
+} from './ui/alert-dialog';
 import { Controller, useForm } from 'react-hook-form';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import {
@@ -155,7 +160,12 @@ export const FormReserveShift = ({
           <SelectTrigger>
             <SelectValue placeholder='Seleccione un horario' />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent
+            ref={(ref) =>
+              // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
+              ref?.addEventListener('touchend', (e) => e.preventDefault())
+            }
+          >
             {availableDays
               .find(
                 (weekday) =>
@@ -176,9 +186,12 @@ export const FormReserveShift = ({
           <span className='text-sm text-red-500'>El horario es requerido.</span>
         )}
       </div>
-      <Button type='submit' variant='default' className='mt-12'>
-        {!isSubmitting ? 'Agendar' : 'Agendando'}
-      </Button>
+      <AlertDialogFooter>
+        <AlertDialogCancel onClick={handleDialog}>Cancelar</AlertDialogCancel>
+        <AlertDialogAction type='submit'>
+          {!isSubmitting ? 'Agendar' : 'Agendando'}
+        </AlertDialogAction>
+      </AlertDialogFooter>
     </form>
   );
 };
