@@ -15,3 +15,18 @@ export const getAll = async () => {
     return error;
   }
 };
+
+// Obtiene los "weekdays" con sus respectivos "workhours" pero le suma los turnos agendados que tiene cada día.
+export const getAllWithUnavailableWorkhours = async () => {
+  try {
+    const response = await fetch(`${API_URL}/weekdays/unavailable-workhours`, {
+      method: 'GET',
+    });
+    const data: TResponse = await response.json();
+    if ('statusCode' in data) return new Error(data.message);
+
+    return data as IWeekday[];
+  } catch (error) {
+    return error;
+  }
+};

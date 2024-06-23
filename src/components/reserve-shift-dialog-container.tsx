@@ -1,10 +1,10 @@
 import { IWeekday } from '@/types/weekdays.types';
 import { ReserveShiftDialog } from './dashboard-dialog';
 import { TResponse } from '@/types/responses.types';
-import { getAll } from '@/services/weekdays.service';
+import { getAllWithUnavailableWorkhours } from '@/services/weekdays.service';
 
 export default async function ReserveShiftDialogContainer() {
-  const weekdays = (await getAll()) as TResponse;
+  const weekdays = (await getAllWithUnavailableWorkhours()) as TResponse;
 
   if (weekdays instanceof Error) return <span>{weekdays.message}</span>;
 
@@ -12,9 +12,13 @@ export default async function ReserveShiftDialogContainer() {
     (weekday) => weekday.WorkhoursByWeekday.length > 0,
   );
 
-  const unavailableDays = (weekdays as IWeekday[]).filter(
-    (weekday) => weekday.WorkhoursByWeekday.length === 0,
-  );
+  const unavailableDays = (weekdays as IWeekday[]).filter((weekday) => {
+    if (weekday.WorkhoursByWeekday.length === 0) return true;
+    if (weekday.WorkhoursByWeekday.length === weekday.assignedWorkhours?.length)
+      return true;
+
+    return false;
+  });
 
   return (
     <>

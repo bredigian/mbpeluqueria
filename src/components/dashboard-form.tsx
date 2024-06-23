@@ -48,6 +48,8 @@ export const FormReserveShift = ({
     defaultValues: { timestamp: undefined },
   });
 
+  const [assignedShifts, setAssignedShifts] = useState<IShift[]>([]);
+
   const { id } = userStore();
 
   const [dayError, setDayError] = useState(false);
@@ -124,9 +126,14 @@ export const FormReserveShift = ({
                   mode='single'
                   selected={field.value}
                   onSelect={field.onChange}
-                  onDayClick={() => {
+                  onDayClick={(value) => {
                     setDayError(false);
-                    setSelectedTime(undefined);
+
+                    const assignedShifts = availableDays.find(
+                      (weekday) => weekday.number === value.getDay(),
+                    )?.assignedWorkhours as IShift[];
+
+                    setAssignedShifts(assignedShifts);
                   }}
                   disabled={[
                     {
@@ -173,9 +180,27 @@ export const FormReserveShift = ({
               )
               ?.WorkhoursByWeekday.map((workhourByWeekday) => {
                 const time = `${workhourByWeekday.workhour.hours}:${workhourByWeekday.workhour.minutes.toString().padStart(2, '0')}`;
+                const date = new Date(getValues('timestamp'));
+                date.setHours(
+                  workhourByWeekday.workhour.hours,
+                  workhourByWeekday.workhour.minutes,
+                  0,
+                  0,
+                );
+
+                const isAssigned = assignedShifts.find(
+                  (shift) =>
+                    new Date(shift.timestamp).getTime() === date.getTime(),
+                )
+                  ? true
+                  : false;
 
                 return (
-                  <SelectItem key={workhourByWeekday.workhour.id} value={time}>
+                  <SelectItem
+                    key={workhourByWeekday.workhour.id}
+                    value={time}
+                    disabled={isAssigned}
+                  >
                     {time}
                   </SelectItem>
                 );
