@@ -1,6 +1,7 @@
 import HistoryIcon from './icons/history-icon';
 import Image from 'next/image';
 import Link from 'next/link';
+import { LogoutDialog } from './navbar-dialog';
 import LogoutIcon from './icons/logout-icon';
 import logo from '@/assets/logo.jpg';
 
@@ -22,13 +23,7 @@ export default function Navbar() {
         quality={100}
         className='h-auto w-20 -translate-y-8 self-center rounded-full'
       />
-      <Link
-        href={'/dashboard/reserve'}
-        className='flex w-32 flex-col items-center gap-2'
-      >
-        <LogoutIcon size={24} color='#171717' />
-        <small className='font-semibold'>Cerrar sesión</small>
-      </Link>
+      <LogoutDialog />
     </nav>
   );
 }

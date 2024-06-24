@@ -1,4 +1,5 @@
 import { API_URL } from '@/constants/api';
+import Cookies from 'js-cookie';
 import { IAuthorization } from '@/types/auth.types';
 import { IUser } from '@/types/users.types';
 import { TResponse } from '@/types/responses.types';
@@ -56,5 +57,12 @@ export const userStore = create<IUserStore>((set) => ({
     }
   },
 
-  logout: async () => {},
+  logout: async () => {
+    try {
+      Cookies.remove('token');
+      set({ id: null, username: null, name: null });
+    } catch (error) {
+      throw error;
+    }
+  },
 }));

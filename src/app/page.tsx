@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Screen from '@/components/screen';
 import { SigninForm } from '@/components/auth-form';
+import { Subtitle } from '@/components/ui/subtitle';
 import logo from '@/assets/logo.jpg';
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
         quality={100}
         className='h-auto w-44 rounded-full'
       />
+      <Subtitle>Autenticación</Subtitle>
       <SigninForm />
     </Screen>
   );

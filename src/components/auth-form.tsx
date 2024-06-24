@@ -69,7 +69,7 @@ export const SigninForm = () => {
           <small className='text-red-500'>{errors.password.message}</small>
         )}
       </div>
-      <Button type='submit' disabled={isSubmitting}>
+      <Button type='submit' disabled={isSubmitting} className='mt-6'>
         {!isSubmitting ? 'Iniciar sesión' : 'Iniciando sesión'}
       </Button>
     </form>
