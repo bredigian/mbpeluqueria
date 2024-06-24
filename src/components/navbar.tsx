@@ -2,7 +2,6 @@ import HistoryIcon from './icons/history-icon';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LogoutDialog } from './navbar-dialog';
-import LogoutIcon from './icons/logout-icon';
 import logo from '@/assets/logo.jpg';
 
 export default function Navbar() {
@@ -15,14 +14,16 @@ export default function Navbar() {
         <HistoryIcon size={24} color='#171717' />
         <small className='font-semibold'>Historial</small>
       </Link>
-      <Image
-        src={logo}
-        alt='Logo de MB Peluquería'
-        width={1000}
-        height={1000}
-        quality={100}
-        className='h-auto w-20 -translate-y-8 self-center rounded-full'
-      />
+      <Link href={'/dashboard'}>
+        <Image
+          src={logo}
+          alt='Logo de MB Peluquería'
+          width={1000}
+          height={1000}
+          quality={100}
+          className='h-auto w-20 -translate-y-8 self-center rounded-full'
+        />
+      </Link>
       <LogoutDialog />
     </nav>
   );
