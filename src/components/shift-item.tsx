@@ -12,10 +12,14 @@ import {
 import { Button } from './ui/button';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { IShift } from '@/types/shifts.types';
+import { cn } from '@/lib/utils';
 
 type Props = {
   data: IShift;
 };
+
+// 2h en ms
+const CANCELLATION_LIMIT = 7200000;
 
 export default function ShiftItem({ data }: Props) {
   const date = new Date(data.timestamp);
@@ -28,11 +32,22 @@ export default function ShiftItem({ data }: Props) {
     })
     .replaceAll(',', '.');
 
+  const today = new Date();
+
+  const isPast = today.getTime() > date.getTime() ? true : false;
+
+  const canCancel = date.getTime() - today.getTime() > CANCELLATION_LIMIT;
+
   return (
     <li>
       <Card>
-        <CardContent className='flex w-full items-start justify-between'>
-          <div className='flex flex-col gap-2'>
+        <CardContent
+          className={cn(
+            'flex w-full items-start justify-between',
+            isPast ? 'opacity-35' : 'opacity-100',
+          )}
+        >
+          <div className={cn('flex flex-col gap-2', isPast && 'line-through')}>
             <small className='text-base opacity-75'>
               {dateToString.charAt(0).toUpperCase() + dateToString.slice(1)}
             </small>
@@ -42,20 +57,22 @@ export default function ShiftItem({ data }: Props) {
                 .substring(0, 5)}
             </span>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size='icon' variant='outline'>
-                <DotsHorizontalIcon />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Opciones</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>Cancelar</DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {!isPast && canCancel && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size='icon' variant='outline'>
+                  <DotsHorizontalIcon />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Opciones</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>Cancelar</DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </CardContent>
       </Card>
     </li>

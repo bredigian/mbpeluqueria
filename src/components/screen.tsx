@@ -27,7 +27,7 @@ export default function Screen({ children, className }: Props) {
       const authorized = await verifySession(token);
       if (!authorized) {
         if (pathname !== '/') push('/');
-      } else push('/dashboard');
+      } else if (pathname === '/') push('/dashboard');
     }
     setTimeout(() => {
       setLoading(false);

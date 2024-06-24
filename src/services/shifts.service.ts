@@ -4,6 +4,27 @@ import { TResponse } from '@/types/responses.types';
 
 export const getAllByUserId = async (token: string) => {
   try {
+    const response = await fetch(`${API_URL}/shifts/user`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      next: {
+        tags: ['shifts'],
+      },
+    });
+
+    const data: TResponse = await response.json();
+    if ('statusCode' in data) return new Error(data.message);
+
+    return data as IShift[];
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getNextByUserId = async (token: string) => {
+  try {
     const response = await fetch(`${API_URL}/shifts/next/user`, {
       method: 'GET',
       headers: {

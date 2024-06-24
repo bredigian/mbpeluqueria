@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <nav className='sticky bottom-0 flex w-full items-center justify-evenly bg-primary-foreground/75 p-1 backdrop-blur-sm'>
       <Link
-        href={'/dashboard/reserve'}
+        href={'/dashboard/history'}
         className='flex w-32 flex-col items-center gap-2'
       >
         <HistoryIcon size={24} color='#171717' />

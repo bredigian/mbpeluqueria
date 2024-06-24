@@ -5,12 +5,12 @@ import { Subtitle } from './ui/subtitle';
 import { Suspense } from 'react';
 import { TResponse } from '@/types/responses.types';
 import { cookies } from 'next/headers';
-import { getAllByUserId } from '@/services/shifts.service';
+import { getNextByUserId } from '@/services/shifts.service';
 
 export default async function ShiftsContainer() {
   const token = cookies().get('token');
 
-  const shifts = (await getAllByUserId(token?.value as string)) as TResponse;
+  const shifts = (await getNextByUserId(token?.value as string)) as TResponse;
 
   return (
     <section className='flex flex-col gap-6'>
