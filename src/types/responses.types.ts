@@ -2,6 +2,7 @@ import { IAuthorization } from './auth.types';
 import { IShift } from './shifts.types';
 import { IUser } from './users.types';
 import { IWeekday } from './weekdays.types';
+import { IWorkhour } from './workhours.types';
 
 export interface IErrorResponse {
   message: string;
@@ -17,4 +18,6 @@ export type TResponse =
   | IAuthorization
   | IWeekday
   | IWeekday[]
+  | IWorkhour
+  | IWorkhour[]
   | IErrorResponse;

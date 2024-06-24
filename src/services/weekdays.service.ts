@@ -6,6 +6,9 @@ export const getAll = async () => {
   try {
     const response = await fetch(`${API_URL}/weekdays`, {
       method: 'GET',
+      next: {
+        tags: ['weekdays'],
+      },
     });
     const data: TResponse = await response.json();
     if ('statusCode' in data) return new Error(data.message);
@@ -21,6 +24,9 @@ export const getAllWithUnavailableWorkhours = async () => {
   try {
     const response = await fetch(`${API_URL}/weekdays/unavailable-workhours`, {
       method: 'GET',
+      next: {
+        tags: ['weekdays'],
+      },
     });
     const data: TResponse = await response.json();
     if ('statusCode' in data) return new Error(data.message);
