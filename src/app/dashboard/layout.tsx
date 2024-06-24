@@ -1,8 +1,8 @@
 import '@/app/globals.css';
 
+import { IAuthorization, TRole } from '@/types/auth.types';
 import { RedirectType, redirect } from 'next/navigation';
 
-import { IAuthorization } from '@/types/auth.types';
 import type { Metadata } from 'next';
 import Navbar from '@/components/navbar';
 import { ReactNode } from 'react';
@@ -35,7 +35,7 @@ export default async function Layout({
   return (
     <>
       {ROLE === 'USER' ? user : admin}
-      <Navbar />
+      <Navbar role={ROLE as TRole} />
     </>
   );
 }
