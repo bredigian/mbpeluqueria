@@ -16,12 +16,13 @@ import { cn } from '@/lib/utils';
 
 type Props = {
   data: IShift;
+  isForAdmin?: boolean;
 };
 
 // 2h en ms
 const CANCELLATION_LIMIT = 7200000;
 
-export default function ShiftItem({ data }: Props) {
+export default function ShiftItem({ data, isForAdmin }: Props) {
   const date = new Date(data.timestamp);
   const dateToString = date
     .toLocaleDateString('es-AR', {
@@ -49,7 +50,9 @@ export default function ShiftItem({ data }: Props) {
         >
           <div className={cn('flex flex-col gap-2', isPast && 'line-through')}>
             <small className='text-base opacity-75'>
-              {dateToString.charAt(0).toUpperCase() + dateToString.slice(1)}
+              {!isForAdmin
+                ? dateToString.charAt(0).toUpperCase() + dateToString.slice(1)
+                : data.user?.name}
             </small>
             <span className='text-3xl font-medium'>
               {date

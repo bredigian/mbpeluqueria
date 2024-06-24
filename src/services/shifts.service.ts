@@ -44,6 +44,30 @@ export const getNextByUserId = async (token: string) => {
   }
 };
 
+export const getOfToday = async (token: string) => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const response = await fetch(`${API_URL}/shifts?date=${today}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      next: {
+        tags: ['shifts'],
+      },
+    });
+
+    const data: TResponse = await response.json();
+    if ('statusCode' in data) return new Error(data.message);
+
+    console.log(data);
+    return data as IShift[];
+  } catch (error) {
+    return error;
+  }
+};
+
 export const createShift = async (payload: IShift) => {
   try {
     const response = await fetch(`${API_URL}/shifts`, {
