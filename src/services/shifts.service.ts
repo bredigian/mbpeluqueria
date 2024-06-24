@@ -61,7 +61,6 @@ export const getOfToday = async (token: string) => {
     const data: TResponse = await response.json();
     if ('statusCode' in data) return new Error(data.message);
 
-    console.log(data);
     return data as IShift[];
   } catch (error) {
     return error;
