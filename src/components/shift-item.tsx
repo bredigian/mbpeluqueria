@@ -19,6 +19,14 @@ type Props = {
 
 export default function ShiftItem({ data }: Props) {
   const date = new Date(data.timestamp);
+  const dateToString = date
+    .toLocaleDateString('es-AR', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    })
+    .replaceAll(',', '.');
 
   return (
     <li>
@@ -26,7 +34,7 @@ export default function ShiftItem({ data }: Props) {
         <CardContent className='flex w-full items-start justify-between'>
           <div className='flex flex-col gap-2'>
             <small className='text-base opacity-75'>
-              {date.toLocaleDateString('es-AR')}
+              {dateToString.charAt(0).toUpperCase() + dateToString.slice(1)}
             </small>
             <span className='text-3xl font-medium'>
               {date
