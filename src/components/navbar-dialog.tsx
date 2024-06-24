@@ -18,12 +18,13 @@ import { userStore } from '@/store/user.store';
 
 export const LogoutDialog = () => {
   const { logout } = userStore();
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
 
   const handleLogout = () => {
     try {
       logout();
       push('/');
+      refresh();
       toast.success('Sesión cerrada exitosamente.');
     } catch (error) {
       if (error instanceof Error) toast.error(error.message);
