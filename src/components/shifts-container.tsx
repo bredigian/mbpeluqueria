@@ -26,7 +26,7 @@ export default async function ShiftsContainer() {
               <ReserveShiftDialogContainer />
             </Suspense>
           </aside>
-          <ul className='flex flex-col gap-6'>
+          <ul className='flex flex-col gap-6 last:mb-4'>
             {(shifts as IShift[]).length > 0 ? (
               (shifts as IShift[]).map((shift) => (
                 <ShiftItem key={shift.id} data={shift} />
