@@ -14,8 +14,6 @@ export default async function ReserveShiftDialogContainer() {
 
   const unavailableDays = (weekdays as IWeekday[]).filter((weekday) => {
     if (weekday.WorkhoursByWeekday.length === 0) return true;
-    if (weekday.WorkhoursByWeekday.length === weekday.assignedWorkhours?.length)
-      return true;
 
     return false;
   });

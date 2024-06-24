@@ -44,9 +44,7 @@ export const FormReserveShift = ({
     formState: { isSubmitting },
     watch,
     getValues,
-  } = useForm<IShift>({
-    defaultValues: { timestamp: undefined },
-  });
+  } = useForm<IShift>();
 
   const [assignedShifts, setAssignedShifts] = useState<IShift[]>([]);
 
@@ -90,6 +88,42 @@ export const FormReserveShift = ({
     }
   };
 
+  const weekdaysWithAssignedWorkhours = availableDays.map((weekday) => {
+    const dates = weekday.assignedWorkhours?.map((shift) => {
+      const date = new Date(shift.timestamp);
+
+      return {
+        date: date.toDateString(),
+        weekday: date.getDay(),
+      };
+    });
+    const datesOccurence = dates?.reduce((acc, curr) => {
+      const key = `${curr.date}-${curr.weekday}`;
+      if (!acc[key]) {
+        acc[key] = { date: curr.date, count: 0 };
+      }
+      acc[key].count += 1;
+
+      return acc;
+    }, {} as any);
+
+    return {
+      weekdayNumber: weekday.number,
+      assignedWorkhours: Object.values(datesOccurence),
+    };
+  });
+
+  const disabledDates = weekdaysWithAssignedWorkhours.flatMap((item) =>
+    item.assignedWorkhours
+      .filter(
+        (shift) =>
+          (shift as { date: string; count: number })?.count ===
+          availableDays.find((weekday) => weekday.number === item.weekdayNumber)
+            ?.WorkhoursByWeekday?.length,
+      )
+      ?.map((z) => new Date((z as { date: string; count: number }).date)),
+  );
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -126,6 +160,8 @@ export const FormReserveShift = ({
                   mode='single'
                   selected={field.value}
                   onSelect={field.onChange}
+                  initialFocus={false}
+                  fromMonth={new Date()}
                   onDayClick={(value) => {
                     setDayError(false);
 
@@ -136,9 +172,8 @@ export const FormReserveShift = ({
                     setAssignedShifts(assignedShifts);
                   }}
                   disabled={[
-                    {
-                      before: new Date(),
-                    },
+                    ...disabledDates,
+                    { before: new Date() },
                     {
                       dayOfWeek: unavailableDays.map(
                         (weekday) => weekday.number,
