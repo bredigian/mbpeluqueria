@@ -6,7 +6,7 @@ import logo from '@/assets/logo.jpg';
 
 export default function Navbar() {
   return (
-    <nav className='absolute bottom-0 flex w-full items-center justify-evenly bg-primary-foreground/75 p-1 backdrop-blur-sm'>
+    <nav className='sticky bottom-0 flex w-full items-center justify-evenly bg-primary-foreground/75 p-1 backdrop-blur-sm'>
       <Link
         href={'/dashboard/reserve'}
         className='flex w-32 flex-col items-center gap-2'
