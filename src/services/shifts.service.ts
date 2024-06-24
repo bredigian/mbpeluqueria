@@ -4,7 +4,7 @@ import { TResponse } from '@/types/responses.types';
 
 export const getAllByUserId = async (token: string) => {
   try {
-    const response = await fetch(`${API_URL}/shifts/user`, {
+    const response = await fetch(`${API_URL}/shifts/next/user`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
