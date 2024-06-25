@@ -1,15 +1,32 @@
+import { ShiftItem, ShiftItemSkeleton } from './shift-item';
 import { getNextByUserId, getOfDate } from '@/services/shifts.service';
 
 import { Button } from './ui/button';
 import { IShift } from '@/types/shifts.types';
 import Link from 'next/link';
 import ReserveShiftDialogContainer from './reserve-shift-dialog-container';
-import ShiftItem from './shift-item';
+import { Skeleton } from './ui/skeleton';
 import { Subtitle } from './ui/subtitle';
 import { Suspense } from 'react';
 import { TResponse } from '@/types/responses.types';
 import { cn } from '@/lib/utils';
 import { cookies } from 'next/headers';
+
+export function ShiftsContainerSkeleton() {
+  return (
+    <section className='flex flex-col gap-6'>
+      <aside className='flex items-start justify-between gap-4'>
+        <Skeleton className='h-6 w-44' />
+        <Skeleton className='h-8 w-20' />
+      </aside>
+      <ul className='flex flex-col gap-6 last:mb-4'>
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+      </ul>
+    </section>
+  );
+}
 
 export async function ShiftsContainer() {
   const token = cookies().get('token');

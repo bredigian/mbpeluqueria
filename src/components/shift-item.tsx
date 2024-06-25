@@ -12,6 +12,7 @@ import {
 import { Button } from './ui/button';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { IShift } from '@/types/shifts.types';
+import { Skeleton } from './ui/skeleton';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -19,10 +20,25 @@ type Props = {
   isForAdmin?: boolean;
 };
 
+export function ShiftItemSkeleton() {
+  return (
+    <li>
+      <Card>
+        <CardContent className='flex w-full items-start justify-between'>
+          <div className='flex flex-col gap-2'>
+            <Skeleton className='h-4 w-44' />
+            <Skeleton className='h-8 w-28' />
+          </div>
+        </CardContent>
+      </Card>
+    </li>
+  );
+}
+
 // 2h en ms
 const CANCELLATION_LIMIT = 7200000;
 
-export default function ShiftItem({ data, isForAdmin }: Props) {
+export function ShiftItem({ data, isForAdmin }: Props) {
   const date = new Date(data.timestamp);
   const dateToString = date
     .toLocaleDateString('es-AR', {

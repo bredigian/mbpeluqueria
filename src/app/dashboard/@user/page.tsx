@@ -1,7 +1,11 @@
+import {
+  ShiftsContainer,
+  ShiftsContainerSkeleton,
+} from '@/components/shifts-container';
+
 import { Paragraph } from '@/components/ui/paragraph';
 import Screen from '@/components/screen';
 import SettingsIcon from '@/components/icons/settings-icon';
-import { ShiftsContainer } from '@/components/shifts-container';
 import { Suspense } from 'react';
 import { Title } from '@/components/ui/title';
 
@@ -16,7 +20,7 @@ export default function Home() {
         Acá podrás visualizar tus próximos turnos asignados, así como también
         agendar uno nuevo.
       </Paragraph>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<ShiftsContainerSkeleton />}>
         <ShiftsContainer />
       </Suspense>
     </Screen>
