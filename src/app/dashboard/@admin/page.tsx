@@ -1,4 +1,8 @@
-import { AdminShiftsContainer } from '@/components/shifts-container';
+import {
+  AdminShiftsContainer,
+  AdminShiftsContainerSkeleton,
+} from '@/components/shifts-container';
+
 import DashboardAdminParagraph from '@/components/dashboard-admin-paragraph';
 import NoticesContainer from '@/components/notices-container';
 import Screen from '@/components/screen';
@@ -15,7 +19,7 @@ export default function DashboardAdminPage() {
         <Settings />
       </header>
       <DashboardAdminParagraph />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<AdminShiftsContainerSkeleton />}>
         <section className='flex flex-col gap-6'>
           <Subtitle>Turnos de hoy</Subtitle>
           <AdminShiftsContainer query={new Date() as Date} />
