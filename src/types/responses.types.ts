@@ -1,4 +1,5 @@
 import { IAuthorization } from './auth.types';
+import { INotice } from './notices.types';
 import { IShift } from './shifts.types';
 import { IUser } from './users.types';
 import { IWeekday } from './weekdays.types';
@@ -20,4 +21,6 @@ export type TResponse =
   | IWeekday[]
   | IWorkhour
   | IWorkhour[]
+  | INotice
+  | INotice[]
   | IErrorResponse;
