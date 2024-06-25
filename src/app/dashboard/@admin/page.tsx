@@ -19,7 +19,7 @@ export default function DashboardAdminPage() {
     <Screen className='flex flex-col gap-6'>
       <header className='flex w-full items-center justify-between'>
         <Title>Inicio</Title>
-        <Settings />
+        <Settings isForAdmin />
       </header>
       <DashboardAdminParagraph />
       <Suspense fallback={<AdminShiftsContainerSkeleton />}>

@@ -21,9 +21,10 @@ export default function RootLayout({
     <html lang='es'>
       <body
         className={cn(
-          'flex min-h-screen flex-col bg-background font-sans text-primary antialiased lg:flex-row',
+          'dark flex min-h-screen flex-col bg-primary-foreground font-sans text-primary antialiased lg:flex-row',
           inter.variable,
         )}
+        id='body'
       >
         {children}
         <Toaster position='top-center' />

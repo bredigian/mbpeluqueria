@@ -12,8 +12,13 @@ import {
 import { Button } from './ui/button';
 import { LogoutDialog } from './navbar-dialog';
 import SettingsIcon from './icons/settings-icon';
+import ThemeSwitch from './theme-switch';
 
-export default function Settings() {
+type Props = {
+  isForAdmin?: boolean;
+};
+
+export default function Settings({ isForAdmin }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,8 +30,16 @@ export default function Settings() {
         <DropdownMenuLabel>Opciones</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <LogoutDialog isAdmin />
+          <ThemeSwitch />
         </DropdownMenuGroup>
+        {isForAdmin && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <LogoutDialog isAdmin />
+            </DropdownMenuGroup>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

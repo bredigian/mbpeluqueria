@@ -46,7 +46,7 @@ export const LogoutDialog = ({ isAdmin }: Props) => {
             onClick={handleDialog}
             className='flex w-32 flex-col items-center gap-2'
           >
-            <LogoutIcon size={24} color='#171717' />
+            <LogoutIcon size={24} color='hsl(var(--primary))' />
             <small className='font-semibold'>Cerrar sesión</small>
           </div>
         ) : (
