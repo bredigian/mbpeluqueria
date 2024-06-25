@@ -11,7 +11,7 @@ export default function NoticesIcon({ size, color }: Props) {
       width={size}
       height={size}
       viewBox='0 0 24 24'
-      strokeWidth='1.5'
+      strokeWidth='2'
       stroke={color}
       fill='none'
       strokeLinecap='round'
