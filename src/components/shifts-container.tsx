@@ -55,8 +55,6 @@ export async function AdminShiftsContainer({ query, isShiftsPath }: Props) {
 
   const date = new Date(query);
 
-  console.log(date);
-
   const shifts = (await getOfDate(token?.value as string, date)) as TResponse;
 
   if (query)
