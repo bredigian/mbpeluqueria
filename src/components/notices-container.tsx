@@ -1,5 +1,7 @@
+import { NoticeItem, NoticeItemSkeleton } from './notice-item';
+
 import { INotice } from '@/types/notices.types';
-import NoticeItem from './notice-item';
+import { Skeleton } from './ui/skeleton';
 import { TResponse } from '@/types/responses.types';
 import { getAll } from '@/services/notices.service';
 
@@ -7,7 +9,20 @@ type Props = {
   canHandleNotices: boolean;
 };
 
-export default async function NoticesContainer({ canHandleNotices }: Props) {
+export function NoticesContainerSkeleton() {
+  return (
+    <section className='mb-6 flex flex-col gap-6'>
+      <Skeleton className='h-6 w-44' />
+      <ul className='flex flex-col gap-6'>
+        <NoticeItemSkeleton />
+        <NoticeItemSkeleton />
+        <NoticeItemSkeleton />
+      </ul>
+    </section>
+  );
+}
+
+export async function NoticesContainer({ canHandleNotices }: Props) {
   const notices = (await getAll()) as TResponse;
 
   return (

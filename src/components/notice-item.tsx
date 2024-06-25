@@ -14,13 +14,29 @@ import { Button } from './ui/button';
 import { DeleteNoticeDialog } from './notices-dialog';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { INotice } from '@/types/notices.types';
+import { Skeleton } from './ui/skeleton';
+
+export function NoticeItemSkeleton() {
+  return (
+    <li>
+      <Card>
+        <CardContent className='flex flex-col gap-2'>
+          <Skeleton className='h-3 w-64' />
+          <Skeleton className='h-3 w-48' />
+          <Skeleton className='h-3 w-52' />
+          <Skeleton className='h-3 w-36' />
+        </CardContent>
+      </Card>
+    </li>
+  );
+}
 
 type Props = {
   data: INotice;
   canHandle?: boolean;
 };
 
-export default function NoticeItem({ data, canHandle }: Props) {
+export function NoticeItem({ data, canHandle }: Props) {
   const date = new Date(data.timestamp as Date);
 
   return (

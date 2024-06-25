@@ -2,9 +2,12 @@ import {
   AdminShiftsContainer,
   AdminShiftsContainerSkeleton,
 } from '@/components/shifts-container';
+import {
+  NoticesContainer,
+  NoticesContainerSkeleton,
+} from '@/components/notices-container';
 
 import DashboardAdminParagraph from '@/components/dashboard-admin-paragraph';
-import NoticesContainer from '@/components/notices-container';
 import Screen from '@/components/screen';
 import Settings from '@/components/settings';
 import { Subtitle } from '@/components/ui/subtitle';
@@ -25,7 +28,7 @@ export default function DashboardAdminPage() {
           <AdminShiftsContainer query={new Date() as Date} />
         </section>
       </Suspense>
-      <Suspense>
+      <Suspense fallback={<NoticesContainerSkeleton />}>
         <section className='mb-6 flex flex-col gap-6'>
           <Subtitle>Avisos</Subtitle>
           <NoticesContainer canHandleNotices={false} />
