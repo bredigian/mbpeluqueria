@@ -38,7 +38,7 @@ export default function NoticeItem({ data, canHandle }: Props) {
                     <DotsHorizontalIcon />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
+                <DropdownMenuContent className='mr-4'>
                   <DropdownMenuLabel>Opciones</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>

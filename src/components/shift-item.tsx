@@ -67,7 +67,7 @@ export default function ShiftItem({ data, isForAdmin }: Props) {
                   <DotsHorizontalIcon />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className='mr-4'>
                 <DropdownMenuLabel>Opciones</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>

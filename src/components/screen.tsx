@@ -52,7 +52,7 @@ export default function Screen({ children, className }: Props) {
     <main
       className={cn('w-full p-6', className)}
       style={{
-        minHeight: `calc(100vh - ${navHeight}px)`,
+        minHeight: pathname === '/' ? '100vh' : `calc(100vh - ${navHeight}px)`,
       }}
     >
       {children}
