@@ -1,4 +1,4 @@
-import { getNextByUserId, getOfToday } from '@/services/shifts.service';
+import { getNextByUserId, getOfDate } from '@/services/shifts.service';
 
 import { Button } from './ui/button';
 import { IShift } from '@/types/shifts.types';
@@ -8,6 +8,7 @@ import ShiftItem from './shift-item';
 import { Subtitle } from './ui/subtitle';
 import { Suspense } from 'react';
 import { TResponse } from '@/types/responses.types';
+import { cn } from '@/lib/utils';
 import { cookies } from 'next/headers';
 
 export async function ShiftsContainer() {
@@ -44,23 +45,32 @@ export async function ShiftsContainer() {
   );
 }
 
-export async function AdminShiftsContainer() {
+type Props = {
+  query: string | Date;
+  isShiftsPath?: boolean;
+};
+
+export async function AdminShiftsContainer({ query, isShiftsPath }: Props) {
   const token = cookies().get('token');
 
-  const shifts = (await getOfToday(token?.value as string)) as TResponse;
+  const date = new Date(query);
 
-  return (
-    <section className='flex flex-col gap-6'>
-      {shifts instanceof Error ? (
-        <span>{shifts.message}</span>
-      ) : (
-        <>
-          <aside className='flex items-center justify-between gap-4'>
-            <Subtitle className='overflow-hidden text-ellipsis text-nowrap'>
-              Turnos del día de hoy
-            </Subtitle>
-          </aside>
-          <ul className='flex max-h-[356px] flex-col gap-6 overflow-auto last:mb-4'>
+  console.log(date);
+
+  const shifts = (await getOfDate(token?.value as string, date)) as TResponse;
+
+  if (query)
+    return (
+      <section className='flex flex-col gap-6'>
+        {shifts instanceof Error ? (
+          <span>{shifts.message}</span>
+        ) : (
+          <ul
+            className={cn(
+              'flex flex-col gap-6 last:mb-4',
+              !isShiftsPath && 'max-h-[356px] overflow-auto',
+            )}
+          >
             {(shifts as IShift[]).length > 0 ? (
               (shifts as IShift[]).map((shift) => (
                 <ShiftItem key={shift.id} data={shift} isForAdmin />
@@ -69,13 +79,14 @@ export async function AdminShiftsContainer() {
               <span>No tenés turnos agendados.</span>
             )}
           </ul>
-        </>
-      )}
-      <Link href={'/dashboard/shifts'}>
-        <Button className='w-full' variant='secondary'>
-          Ver todos los turnos
-        </Button>
-      </Link>
-    </section>
-  );
+        )}
+        {!isShiftsPath && (
+          <Link href={'/dashboard/shifts'}>
+            <Button className='w-full' variant='secondary'>
+              Ver todos los turnos
+            </Button>
+          </Link>
+        )}
+      </section>
+    );
 }

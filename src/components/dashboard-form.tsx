@@ -217,8 +217,8 @@ export const FormReserveShift = ({
                 const time = `${workhourByWeekday.workhour.hours}:${workhourByWeekday.workhour.minutes.toString().padStart(2, '0')}`;
                 const date = new Date(getValues('timestamp'));
                 date.setHours(
-                  workhourByWeekday.workhour.hours,
-                  workhourByWeekday.workhour.minutes,
+                  workhourByWeekday.workhour.hours as number,
+                  workhourByWeekday.workhour.minutes as number,
                   0,
                   0,
                 );

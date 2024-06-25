@@ -44,11 +44,10 @@ export const getNextByUserId = async (token: string) => {
   }
 };
 
-export const getOfToday = async (token: string) => {
+export const getOfDate = async (token: string, date: Date) => {
   try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const response = await fetch(`${API_URL}/shifts?date=${today}`, {
+    date.setHours(0, 0, 0, 0);
+    const response = await fetch(`${API_URL}/shifts?date=${date}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,

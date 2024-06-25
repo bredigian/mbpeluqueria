@@ -12,7 +12,10 @@ export default function DashboardAdminPage() {
       <Title>Inicio</Title>
       <DashboardAdminParagraph />
       <Suspense fallback={<div>Loading...</div>}>
-        <AdminShiftsContainer />
+        <section className='flex flex-col gap-6'>
+          <Subtitle>Turnos de hoy</Subtitle>
+          <AdminShiftsContainer query={new Date() as Date} />
+        </section>
       </Suspense>
       <Suspense>
         <section className='mb-6 flex flex-col gap-6'>
