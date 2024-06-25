@@ -45,6 +45,7 @@ export default function DatePickerBar() {
       >
         <Calendar
           mode='single'
+          selected={selectedDate}
           onSelect={(value) => handleFilter(value?.toISOString() as string)}
           onDayClick={handleDialog}
         />
