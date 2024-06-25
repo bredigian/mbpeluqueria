@@ -1,6 +1,7 @@
+import { WorkhourItem, WorkhourItemSkeleton } from './workhour-item';
+
 import { IWeekday } from '@/types/weekdays.types';
 import { IWorkhour } from '@/types/workhours.types';
-import WorkhourItem from './workhour-item';
 import { getAll } from '@/services/weekdays.service';
 import { getAll as getAllWorkhours } from '@/services/workhours.service';
 
@@ -8,7 +9,19 @@ type Props = {
   query: string;
 };
 
-export default async function WorkhoursContainer({ query }: Props) {
+export function WorkhoursContainerSkeleton() {
+  return (
+    <section className='flex flex-col gap-6 last:mb-6'>
+      <WorkhourItemSkeleton />
+      <WorkhourItemSkeleton />
+      <WorkhourItemSkeleton />
+      <WorkhourItemSkeleton />
+      <WorkhourItemSkeleton />
+    </section>
+  );
+}
+
+export async function WorkhoursContainer({ query }: Props) {
   if (!query) return <></>;
 
   const weekdays = await getAll();

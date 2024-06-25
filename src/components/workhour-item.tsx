@@ -4,6 +4,7 @@ import { Card, CardContent } from './ui/card';
 import { IWorkhour, IWorkhourByWeekdayToCreate } from '@/types/workhours.types';
 
 import { IWeekday } from '@/types/weekdays.types';
+import { Skeleton } from './ui/skeleton';
 import { Switch } from './ui/switch';
 import { handleWorkhour } from '@/services/workhours.service';
 import { revalidateDataByTag } from '@/lib/actions';
@@ -14,7 +15,17 @@ type Props = {
   selectedWeekday: IWeekday;
 };
 
-export default function WorkhourItem({ workhour, selectedWeekday }: Props) {
+export function WorkhourItemSkeleton() {
+  return (
+    <Card>
+      <CardContent className='flex w-full items-center justify-between'>
+        <Skeleton className='h-6 w-24' />
+      </CardContent>
+    </Card>
+  );
+}
+
+export function WorkhourItem({ workhour, selectedWeekday }: Props) {
   const workhourToString = `${workhour.hours.toString()}:${workhour.minutes.toString().padStart(2, '0')}`;
 
   const isEnabled = selectedWeekday?.WorkhoursByWeekday?.find(

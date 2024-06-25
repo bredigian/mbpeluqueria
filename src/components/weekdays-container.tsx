@@ -1,21 +1,31 @@
 import { AddWorkhourDialog } from './hours-dialog';
 import DayPickerBar from './day-picker-bar';
 import { IWeekday } from '@/types/weekdays.types';
+import { Skeleton } from './ui/skeleton';
 import { getAll } from '@/services/weekdays.service';
 
-export default async function WeekdaysContainer() {
+export function WeekdaysContainerSkeleton() {
+  return (
+    <section className='flex w-full items-center justify-between'>
+      <Skeleton className='h-8 w-44' />
+      <Skeleton className='h-8 w-8' />
+    </section>
+  );
+}
+
+export async function WeekdaysContainer() {
   const weekdays = await getAll();
 
   return (
-    <aside className='flex flex-col gap-6'>
+    <section className='flex w-full items-center justify-between'>
       {weekdays instanceof Error ? (
         <span>{weekdays.message}</span>
       ) : (
-        <aside className='flex w-full items-center justify-between'>
+        <>
           <DayPickerBar weekdays={weekdays as IWeekday[]} />
           <AddWorkhourDialog />
-        </aside>
+        </>
       )}
-    </aside>
+    </section>
   );
 }
