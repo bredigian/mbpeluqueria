@@ -41,7 +41,7 @@ export default function NoticesPage() {
         <AddNoticeDialog />
       </aside>
       <Suspense fallback={<div>Loading...</div>}>
-        <NoticesContainer />
+        <NoticesContainer canHandleNotices />
       </Suspense>
     </Screen>
   );

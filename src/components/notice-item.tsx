@@ -5,7 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -18,33 +17,36 @@ import { INotice } from '@/types/notices.types';
 
 type Props = {
   data: INotice;
+  canHandle?: boolean;
 };
 
-export default function NoticeItem({ data }: Props) {
+export default function NoticeItem({ data, canHandle }: Props) {
   const date = new Date(data.timestamp as Date);
 
   return (
     <li>
       <Card>
-        <CardContent className='flex flex-col'>
+        <CardContent className='flex flex-col gap-2'>
           <div className='flex w-full justify-between'>
             <span className='text-sm font-medium opacity-75'>
               {date.toLocaleString('es-AR')}
             </span>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size='icon' variant='outline'>
-                  <DotsHorizontalIcon />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>Opciones</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DeleteNoticeDialog id={data.id as string} />
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {canHandle && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size='icon' variant='outline'>
+                    <DotsHorizontalIcon />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Opciones</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DeleteNoticeDialog id={data.id as string} />
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
           <p>{data.description}</p>
         </CardContent>
