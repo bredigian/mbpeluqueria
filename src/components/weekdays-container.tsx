@@ -1,3 +1,4 @@
+import { AddWorkhourDialog } from './hours-dialog';
 import DayPickerBar from './day-picker-bar';
 import { IWeekday } from '@/types/weekdays.types';
 import { getAll } from '@/services/weekdays.service';
@@ -10,7 +11,10 @@ export default async function WeekdaysContainer() {
       {weekdays instanceof Error ? (
         <span>{weekdays.message}</span>
       ) : (
-        <DayPickerBar weekdays={weekdays as IWeekday[]} />
+        <aside className='flex w-full items-center justify-between'>
+          <DayPickerBar weekdays={weekdays as IWeekday[]} />
+          <AddWorkhourDialog />
+        </aside>
       )}
     </aside>
   );

@@ -1,7 +1,7 @@
 export interface IWorkhour {
-  id: string;
-  hours: number;
-  minutes: number;
+  id?: string;
+  hours: number | string;
+  minutes: number | string;
 }
 
 export interface IWorkhourByWeekday {

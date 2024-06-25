@@ -27,7 +27,7 @@ export default function WorkhourItem({ workhour, selectedWeekday }: Props) {
     try {
       const payload: IWorkhourByWeekdayToCreate = {
         weekday_id: selectedWeekday.id as string,
-        workhour_id: workhour.id,
+        workhour_id: workhour.id as string,
       };
       toast.promise(handleWorkhour(payload), {
         loading: 'Modificando...',

@@ -20,6 +20,27 @@ export const getAll = async () => {
   }
 };
 
+export const create = async (payload: IWorkhour) => {
+  try {
+    const response = await fetch(`${API_URL}/workhours`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      next: {
+        tags: ['workhours'],
+      },
+    });
+    const result: TResponse = await response.json();
+    if ('statusCode' in result) throw new Error(result.message);
+
+    return result as IWorkhour;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const handleWorkhour = async (payload: IWorkhourByWeekdayToCreate) => {
   try {
     const response = await fetch(`${API_URL}/workhours-by-weekday`, {
