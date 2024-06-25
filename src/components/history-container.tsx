@@ -1,9 +1,39 @@
+import { ShiftItem, ShiftItemSkeleton } from './shift-item';
+
 import { IShift } from '@/types/shifts.types';
-import ShiftItem from './shift-item';
 import { cookies } from 'next/headers';
 import { getAllByUserId } from '@/services/shifts.service';
 
-export default async function HistoryContainer() {
+export function HistoryContainerSkeleton() {
+  return (
+    <section className='flex flex-col gap-6'>
+      <ul className='flex flex-col gap-6 last:mb-4'>
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+        <ShiftItemSkeleton />
+      </ul>
+    </section>
+  );
+}
+
+export async function HistoryContainer() {
   const token = cookies().get('token');
 
   const shifts = await getAllByUserId(token?.value as string);

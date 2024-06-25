@@ -5,8 +5,11 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import {
+  HistoryContainer,
+  HistoryContainerSkeleton,
+} from '@/components/history-container';
 
-import HistoryContainer from '@/components/history-container';
 import Link from 'next/link';
 import { Paragraph } from '@/components/ui/paragraph';
 import Screen from '@/components/screen';
@@ -35,7 +38,7 @@ export default function HistoryPage() {
       <Paragraph>
         En esta sección visualizarás el historial de tus turnos agendados.
       </Paragraph>
-      <Suspense>
+      <Suspense fallback={<HistoryContainerSkeleton />}>
         <HistoryContainer />
       </Suspense>
     </Screen>
