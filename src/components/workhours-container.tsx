@@ -24,7 +24,7 @@ export default async function WorkhoursContainer({ query }: Props) {
     : weekdays;
 
   return (
-    <section className='flex flex-col gap-6'>
+    <section className='flex flex-col gap-6 last:mb-6'>
       {(workhours as IWorkhour[]).map((workhour) => {
         return (
           <WorkhourItem

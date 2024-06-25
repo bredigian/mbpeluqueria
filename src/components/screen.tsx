@@ -47,7 +47,15 @@ export default function Screen({ children, className }: Props) {
       </main>
     );
 
+  const navHeight = document.getElementById('navbar')?.offsetHeight;
   return (
-    <main className={cn('min-h-dvh w-full p-6', className)}>{children}</main>
+    <main
+      className={cn('w-full p-6', className)}
+      style={{
+        minHeight: `calc(100vh - ${navHeight}px)`,
+      }}
+    >
+      {children}
+    </main>
   );
 }

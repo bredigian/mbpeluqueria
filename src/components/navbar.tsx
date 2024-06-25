@@ -15,7 +15,10 @@ export default function Navbar({ role }: Props) {
   const isAdmin = role === 'ADMIN';
 
   return (
-    <nav className='sticky bottom-0 flex w-full items-center justify-evenly bg-primary-foreground/75 p-1 backdrop-blur-sm'>
+    <nav
+      id='navbar'
+      className='sticky bottom-0 flex w-full items-center justify-evenly bg-primary-foreground/75 p-1 backdrop-blur-sm'
+    >
       {!isAdmin ? (
         <Link
           href={'/dashboard/history'}
