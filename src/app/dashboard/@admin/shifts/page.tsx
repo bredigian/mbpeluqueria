@@ -1,4 +1,8 @@
 import {
+  AdminShiftsContainer,
+  AdminShiftsContainerSkeleton,
+} from '@/components/shifts-container';
+import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -6,7 +10,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-import { AdminShiftsContainer } from '@/components/shifts-container';
 import DatePickerBar from '@/components/date-picker-bar';
 import Link from 'next/link';
 import { Paragraph } from '@/components/ui/paragraph';
@@ -49,7 +52,7 @@ export default function ShiftsPage({ searchParams }: Props) {
       </aside>
       <Suspense
         key={(query as Date).toString()}
-        fallback={<div>Loading...</div>}
+        fallback={<AdminShiftsContainerSkeleton />}
       >
         <AdminShiftsContainer query={query} isShiftsPath />
       </Suspense>

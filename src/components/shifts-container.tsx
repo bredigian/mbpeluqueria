@@ -70,7 +70,6 @@ type Props = {
 export function AdminShiftsContainerSkeleton() {
   return (
     <section className='flex flex-col gap-6'>
-      <Skeleton className='h-6 w-44' />
       <ul className='flex flex-col gap-6 last:mb-4'>
         <ShiftItemSkeleton />
         <ShiftItemSkeleton />

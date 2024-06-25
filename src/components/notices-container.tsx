@@ -1,7 +1,6 @@
 import { NoticeItem, NoticeItemSkeleton } from './notice-item';
 
 import { INotice } from '@/types/notices.types';
-import { Skeleton } from './ui/skeleton';
 import { TResponse } from '@/types/responses.types';
 import { getAll } from '@/services/notices.service';
 
