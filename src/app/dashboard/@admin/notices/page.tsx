@@ -5,10 +5,13 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import {
+  NoticesContainer,
+  NoticesContainerSkeleton,
+} from '@/components/notices-container';
 
 import { AddNoticeDialog } from '@/components/notices-dialog';
 import Link from 'next/link';
-import NoticesContainer from '@/components/notices-container';
 import { Paragraph } from '@/components/ui/paragraph';
 import Screen from '@/components/screen';
 import { Suspense } from 'react';
@@ -40,7 +43,7 @@ export default function NoticesPage() {
       <aside>
         <AddNoticeDialog />
       </aside>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<NoticesContainerSkeleton />}>
         <NoticesContainer canHandleNotices />
       </Suspense>
     </Screen>

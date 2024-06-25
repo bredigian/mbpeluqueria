@@ -12,7 +12,6 @@ type Props = {
 export function NoticesContainerSkeleton() {
   return (
     <section className='mb-6 flex flex-col gap-6'>
-      <Skeleton className='h-6 w-44' />
       <ul className='flex flex-col gap-6'>
         <NoticeItemSkeleton />
         <NoticeItemSkeleton />
