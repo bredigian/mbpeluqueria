@@ -1,11 +1,11 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { ERole, IUser } from '@/types/users.types';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
 import { Button } from './ui/button';
 import Cookies from 'js-cookie';
-import { IUser } from '@/types/users.types';
 import { Input } from './ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
@@ -112,7 +112,6 @@ export const SigninForm = () => {
     </Card>
   );
 };
-
 export const SignupForm = () => {
   const {
     register,
@@ -130,7 +129,12 @@ export const SignupForm = () => {
 
   const onSubmit = async (values: IUser) => {
     try {
-      const { access_token, exp } = await signup(values);
+      const payload: IUser = {
+        ...values,
+        role: ERole.USER,
+      };
+
+      const { access_token, exp } = await signup(payload);
       if (!access_token)
         throw new Error('Ocurrió un error al crear el usuario.');
 
