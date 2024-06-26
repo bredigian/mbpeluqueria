@@ -6,6 +6,7 @@ export const useTheme = () => {
   const [theme, setTheme] = useState<TTheme>(() => {
     const isEnabledByLocalStorage: TTheme | string | null =
       localStorage.getItem('theme');
+
     if (isEnabledByLocalStorage) return isEnabledByLocalStorage as TTheme;
     else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
       return 'dark';

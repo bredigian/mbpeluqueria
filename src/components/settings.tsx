@@ -13,12 +13,15 @@ import { Button } from './ui/button';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { LogoutDialog } from './navbar-dialog';
 import ThemeSwitch from './theme-switch';
+import { useTheme } from '@/hooks/use-theme';
 
 type Props = {
   isForAdmin?: boolean;
 };
 
 export default function Settings({ isForAdmin }: Props) {
+  const { theme, handleChangeTheme } = useTheme();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,7 +33,7 @@ export default function Settings({ isForAdmin }: Props) {
         <DropdownMenuLabel>Opciones</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <ThemeSwitch />
+          <ThemeSwitch theme={theme} handleChangeTheme={handleChangeTheme} />
         </DropdownMenuGroup>
         {isForAdmin && (
           <>

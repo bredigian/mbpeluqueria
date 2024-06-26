@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/hooks/use-theme';
 import { userStore } from '@/store/user.store';
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 };
 export default function Screen({ children, className }: Props) {
   const { verifySession } = userStore();
+  useTheme();
 
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
