@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { IoEyeOff, IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
+import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
 import { Button } from './ui/button';
 import Cookies from 'js-cookie';
@@ -65,6 +65,7 @@ export const SigninForm = () => {
                   message: 'El atributo es requerido.',
                 },
               })}
+              id='phone_number'
             />
             {errors.phone_number && (
               <small className='text-red-500'>
@@ -83,6 +84,7 @@ export const SigninForm = () => {
                   },
                 })}
                 type={passwordType}
+                id='password'
               />
               <Button
                 type='button'
@@ -152,7 +154,7 @@ export const SignupForm = () => {
           className='flex w-full flex-col gap-6'
         >
           <div className='flex flex-col gap-4'>
-            <Label htmlFor='username'>Nombre completo</Label>
+            <Label htmlFor='name'>Nombre completo</Label>
             <Input
               {...register('name', {
                 required: {
@@ -160,27 +162,33 @@ export const SignupForm = () => {
                   message: 'El atributo es requerido.',
                 },
               })}
+              id='name'
             />
             {errors.name && (
               <small className='text-red-500'>{errors.name.message}</small>
             )}
           </div>
           <div className='flex flex-col gap-4'>
-            <Label htmlFor='username'>Email</Label>
+            <Label htmlFor='email'>Email</Label>
             <Input
               {...register('email', {
                 required: {
                   value: true,
                   message: 'El atributo es requerido.',
                 },
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: 'El email no es válido.',
+                },
               })}
+              id='email'
             />
             {errors.email && (
               <small className='text-red-500'>{errors.email.message}</small>
             )}
           </div>
           <div className='flex flex-col gap-4'>
-            <Label htmlFor='username'>Núm. de Teléfono</Label>
+            <Label htmlFor='phone_number'>Núm. de Teléfono</Label>
             <Input
               {...register('phone_number', {
                 required: {
@@ -188,6 +196,7 @@ export const SignupForm = () => {
                   message: 'El atributo es requerido.',
                 },
               })}
+              id='phone_number'
             />
             {errors.phone_number && (
               <small className='text-red-500'>
@@ -206,6 +215,7 @@ export const SignupForm = () => {
                   },
                 })}
                 type={passwordType}
+                id='password'
               />
               <Button
                 type='button'
