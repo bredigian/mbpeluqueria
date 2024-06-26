@@ -10,8 +10,8 @@ import {
 } from './ui/dropdown-menu';
 
 import { Button } from './ui/button';
+import { IoSettingsOutline } from 'react-icons/io5';
 import { LogoutDialog } from './navbar-dialog';
-import SettingsIcon from './icons/settings-icon';
 import ThemeSwitch from './theme-switch';
 
 type Props = {
@@ -23,7 +23,7 @@ export default function Settings({ isForAdmin }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size='icon' variant='ghost'>
-          <SettingsIcon size={28} color='hsl(var(--primary))' />
+          <IoSettingsOutline size={24} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='mr-4'>

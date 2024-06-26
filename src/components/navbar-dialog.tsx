@@ -12,7 +12,7 @@ import {
 } from './ui/alert-dialog';
 
 import { Button } from './ui/button';
-import LogoutIcon from './icons/logout-icon';
+import { IoLogOutOutline } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { useDialog } from '@/hooks/use-dialog';
 import { useRouter } from 'next/navigation';
@@ -46,7 +46,7 @@ export const LogoutDialog = ({ isAdmin }: Props) => {
             onClick={handleDialog}
             className='flex w-32 flex-col items-center gap-2'
           >
-            <LogoutIcon size={24} color='hsl(var(--primary))' />
+            <IoLogOutOutline size={24} />
             <small className='font-semibold'>Cerrar sesión</small>
           </div>
         ) : (

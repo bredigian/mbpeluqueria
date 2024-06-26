@@ -1,11 +1,20 @@
-import HistoryIcon from './icons/history-icon';
-import HoursIcon from './icons/hours-icon';
+'use client';
+
+import {
+  IoCalendarNumber,
+  IoCalendarNumberOutline,
+  IoMegaphone,
+  IoMegaphoneOutline,
+  IoTime,
+  IoTimeOutline,
+} from 'react-icons/io5';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { LogoutDialog } from './navbar-dialog';
-import NoticesIcon from './icons/notices-icon';
 import { TRole } from '@/types/auth.types';
 import logo from '@/assets/logo.jpg';
+import { usePathname } from 'next/navigation';
 
 type Props = {
   role: TRole;
@@ -13,6 +22,7 @@ type Props = {
 
 export default function Navbar({ role }: Props) {
   const isAdmin = role === 'ADMIN';
+  const pathname = usePathname();
 
   return (
     <nav
@@ -24,7 +34,11 @@ export default function Navbar({ role }: Props) {
           href={'/dashboard/history'}
           className='flex w-32 flex-col items-center gap-2'
         >
-          <HistoryIcon size={24} color='hsl(var(--primary))' />
+          {pathname === '/dashboard/history' ? (
+            <IoCalendarNumber size={24} />
+          ) : (
+            <IoCalendarNumberOutline size={24} />
+          )}
           <small className='font-semibold'>Historial</small>
         </Link>
       ) : (
@@ -32,7 +46,11 @@ export default function Navbar({ role }: Props) {
           href={'/dashboard/hours'}
           className='flex w-32 flex-col items-center gap-2'
         >
-          <HoursIcon size={24} color='hsl(var(--primary))' />
+          {pathname === '/dashboard/hours' ? (
+            <IoTime size={24} />
+          ) : (
+            <IoTimeOutline size={24} />
+          )}
           <small className='font-semibold'>Horarios</small>
         </Link>
       )}
@@ -53,7 +71,11 @@ export default function Navbar({ role }: Props) {
           href={'/dashboard/notices'}
           className='flex w-32 flex-col items-center gap-2'
         >
-          <NoticesIcon size={24} color='hsl(var(--primary))' />
+          {pathname === '/dashboard/notices' ? (
+            <IoMegaphone size={24} />
+          ) : (
+            <IoMegaphoneOutline size={24} />
+          )}
           <small className='font-semibold'>Avisos</small>
         </Link>
       )}
