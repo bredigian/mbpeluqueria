@@ -1,5 +1,7 @@
 'use client';
 
+import { IoEyeOff, IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
+
 import { Button } from './ui/button';
 import Cookies from 'js-cookie';
 import { IUser } from '@/types/users.types';
@@ -8,7 +10,10 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { userStore } from '@/store/user.store';
+
+type TPassword = 'text' | 'password';
 
 export const SigninForm = () => {
   const {
@@ -16,6 +21,11 @@ export const SigninForm = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<IUser>();
+
+  const [passwordType, setPasswordType] = useState<TPassword>('password');
+
+  const handlePasswordVisibility = () =>
+    setPasswordType((prev) => (prev === 'password' ? 'text' : 'password'));
 
   const { push } = useRouter();
   const { signin } = userStore();
@@ -56,15 +66,30 @@ export const SigninForm = () => {
       </div>
       <div className='flex flex-col gap-4'>
         <Label htmlFor='password'>Contraseña</Label>
-        <Input
-          {...register('password', {
-            required: {
-              value: true,
-              message: 'El atributo es requerido.',
-            },
-          })}
-          type='password'
-        />
+        <div className='relative w-full'>
+          <Input
+            {...register('password', {
+              required: {
+                value: true,
+                message: 'El atributo es requerido.',
+              },
+            })}
+            type={passwordType}
+          />
+          <Button
+            type='button'
+            variant='ghost'
+            size='icon'
+            onClick={handlePasswordVisibility}
+            className='absolute right-0 top-0'
+          >
+            {passwordType === 'password' ? (
+              <IoEyeOffOutline size={20} />
+            ) : (
+              <IoEyeOutline size={20} />
+            )}
+          </Button>
+        </div>
         {errors.password && (
           <small className='text-red-500'>{errors.password.message}</small>
         )}
