@@ -23,6 +23,7 @@ import { Label } from './ui/label';
 import { createShift } from '@/services/shifts.service';
 import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
+import { useDialog } from '@/hooks/use-dialog';
 import { useState } from 'react';
 import { userStore } from '@/store/user.store';
 
@@ -124,6 +125,8 @@ export const FormReserveShift = ({
       ?.map((z) => new Date((z as { date: string; count: number }).date)),
   );
 
+  const popover = useDialog();
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -131,11 +134,12 @@ export const FormReserveShift = ({
     >
       <div className='flex flex-col gap-4'>
         <Label>Fecha</Label>
-        <Popover>
+        <Popover open={popover.show}>
           <PopoverTrigger asChild>
             <Button
               variant={'outline'}
               className='w-full justify-start font-normal'
+              onClick={popover.handleDialog}
             >
               {watch('timestamp')?.toLocaleDateString('es-AR') ??
                 'Seleccione una fecha'}
@@ -145,6 +149,8 @@ export const FormReserveShift = ({
             className='mt-2 w-auto p-0'
             align='center'
             side='bottom'
+            onEscapeKeyDown={popover.handleDialog}
+            onFocusOutside={popover.handleDialog}
           >
             <Controller
               control={control}
@@ -170,6 +176,8 @@ export const FormReserveShift = ({
                     )?.assignedWorkhours as IShift[];
 
                     setAssignedShifts(assignedShifts);
+
+                    popover.handleDialog();
                   }}
                   disabled={[
                     ...disabledDates,
