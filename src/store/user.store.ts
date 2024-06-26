@@ -7,8 +7,9 @@ import { create } from 'zustand';
 
 interface IUserStore {
   id: string | null;
-  username: string | null;
+  phone_number: string | null;
   name: string | null;
+  signup: (payoload: IUser) => Promise<IAuthorization>;
   signin: (payload: IUser) => Promise<IAuthorization>;
   verifySession: (token: string) => Promise<IAuthorization>;
   logout: () => void;
@@ -16,8 +17,27 @@ interface IUserStore {
 
 export const userStore = create<IUserStore>((set) => ({
   id: null,
-  username: null,
+  phone_number: null,
   name: null,
+
+  signup: async (payload: IUser) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/signup`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const result: TResponse = await response.json();
+      if ('statusCode' in result) throw new Error(result.message);
+
+      const { id, name, phone_number } = result as IAuthorization;
+      set({ id, name, phone_number });
+
+      return result as IAuthorization;
+    } catch (error) {
+      throw error;
+    }
+  },
 
   signin: async (payload: IUser) => {
     try {
@@ -29,8 +49,8 @@ export const userStore = create<IUserStore>((set) => ({
       const result: TResponse = await response.json();
       if ('statusCode' in result) throw new Error(result.message);
 
-      const { id, name, username } = result as IAuthorization;
-      set({ id, name, username });
+      const { id, name, phone_number } = result as IAuthorization;
+      set({ id, name, phone_number });
 
       return result as IAuthorization;
     } catch (error) {
@@ -48,8 +68,8 @@ export const userStore = create<IUserStore>((set) => ({
       const result: TResponse = await response.json();
       if ('statusCode' in result) throw new Error(result.message);
 
-      const { id, name, username } = result as IAuthorization;
-      set({ id, name, username });
+      const { id, name, phone_number } = result as IAuthorization;
+      set({ id, name, phone_number });
 
       return result as IAuthorization;
     } catch (error) {
@@ -60,7 +80,7 @@ export const userStore = create<IUserStore>((set) => ({
   logout: async () => {
     try {
       Cookies.remove('token');
-      set({ id: null, username: null, name: null });
+      set({ id: null, phone_number: null, name: null });
     } catch (error) {
       throw error;
     }

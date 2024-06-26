@@ -3,7 +3,7 @@ export interface IAuthorization {
   exp?: number;
 
   id?: string;
-  username?: string;
+  phone_number?: string;
   name?: string;
   role?: TRole;
 }

@@ -1,7 +1,6 @@
+import AuthTabs from '@/components/auth-tabs';
 import Image from 'next/image';
 import Screen from '@/components/screen';
-import { SigninForm } from '@/components/auth-form';
-import { Subtitle } from '@/components/ui/subtitle';
 import logo from '@/assets/logo.jpg';
 
 export default function Home() {
@@ -13,10 +12,9 @@ export default function Home() {
         width={1000}
         height={1000}
         quality={100}
-        className='h-auto w-44 rounded-full'
+        className='h-auto w-32 rounded-full'
       />
-      <Subtitle>Autenticación</Subtitle>
-      <SigninForm />
+      <AuthTabs />
     </Screen>
   );
 }
