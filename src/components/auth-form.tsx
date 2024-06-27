@@ -61,6 +61,7 @@ export const SigninForm = () => {
       </CardHeader>
       <CardContent>
         <form
+          id='signin-form'
           onSubmit={handleSubmit(onSubmit)}
           className='flex w-full flex-col gap-6'
         >
@@ -166,6 +167,7 @@ export const SignupForm = () => {
       </CardHeader>
       <CardContent>
         <form
+          id='signup-form'
           onSubmit={handleSubmit(onSubmit)}
           className='flex w-full flex-col gap-6'
         >
@@ -274,7 +276,7 @@ export const RecoveryPasswordForm = ({ handleDialog }: Props) => {
   const onSubmit = async (values: IPasswordRecovery) => {
     try {
       await recoverPassword(values);
-      toast.success('Email de recuperación enviado exitosamente.');
+      toast.success('Email enviado exitosamente.');
 
       handleDialog();
     } catch (error) {
@@ -283,7 +285,14 @@ export const RecoveryPasswordForm = ({ handleDialog }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+    <form
+      id='recovery-password-form'
+      onSubmit={(event) => {
+        event.stopPropagation();
+        handleSubmit(onSubmit)(event);
+      }}
+      className='flex flex-col gap-4'
+    >
       <div className='flex flex-col gap-4'>
         <Label htmlFor='email'>Email</Label>
         <Input
@@ -347,7 +356,11 @@ export const PasswordResetForm = ({ token }: { token: string }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+    <form
+      id='password-reset-form'
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex flex-col gap-4'
+    >
       <div className='flex flex-col gap-4'>
         <Label htmlFor='password'>Nueva contraseña</Label>
         <div className='relative w-full'>
