@@ -34,14 +34,16 @@ export function NoticeItemSkeleton() {
 type Props = {
   data: INotice;
   canHandle?: boolean;
+  className?: string;
+  isForUser?: boolean;
 };
 
-export function NoticeItem({ data, canHandle }: Props) {
+export function NoticeItem({ data, canHandle, className, isForUser }: Props) {
   const date = new Date(data.timestamp as Date);
 
   return (
-    <li>
-      <Card>
+    <li className={className}>
+      <Card className={isForUser ? 'bg-orange-200 text-black' : ''}>
         <CardContent className='flex flex-col gap-2'>
           <div className='flex w-full justify-between'>
             <span className='text-sm font-medium opacity-75'>

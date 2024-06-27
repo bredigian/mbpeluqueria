@@ -2,6 +2,7 @@ import { NoticeItem, NoticeItemSkeleton } from './notice-item';
 import { RedirectType, redirect } from 'next/navigation';
 
 import { INotice } from '@/types/notices.types';
+import { NoticesCarousel } from './notices-carousel';
 import { TResponse } from '@/types/responses.types';
 import { cookies } from 'next/headers';
 import { getAll } from '@/services/notices.service';
@@ -46,6 +47,23 @@ export async function NoticesContainer({ canHandleNotices }: Props) {
             <span>No se encontraron avisos.</span>
           )}
         </ul>
+      )}
+    </section>
+  );
+}
+
+export async function NoticesContainerForUser() {
+  const token = cookies().get('token');
+  if (!token) redirect('/', RedirectType.push);
+
+  const notices = (await getAll(token?.value as string)) as TResponse;
+
+  return (
+    <section className={(notices as INotice[]).length < 1 ? 'hidden' : ''}>
+      {notices instanceof Error ? (
+        <span>{notices.message}</span>
+      ) : (
+        <NoticesCarousel notices={notices as INotice[]} />
       )}
     </section>
   );
