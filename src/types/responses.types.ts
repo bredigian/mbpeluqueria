@@ -11,6 +11,10 @@ export interface IErrorResponse {
   statusCode: number;
 }
 
+export type TOnlyResponseMessage = {
+  message: string;
+};
+
 export type TResponse =
   | IUser
   | IUser[]
@@ -23,4 +27,5 @@ export type TResponse =
   | IWorkhour[]
   | INotice
   | INotice[]
+  | TOnlyResponseMessage
   | IErrorResponse;

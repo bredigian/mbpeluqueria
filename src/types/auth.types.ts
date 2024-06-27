@@ -9,3 +9,7 @@ export interface IAuthorization {
 }
 
 export type TRole = 'USER' | 'ADMIN';
+
+export interface IPasswordRecovery {
+  email: string;
+}
