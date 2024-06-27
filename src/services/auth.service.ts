@@ -4,14 +4,18 @@ import { TOnlyResponseMessage, TResponse } from '@/types/responses.types';
 import { API_URL } from '@/constants/api';
 import { IUser } from '@/types/users.types';
 
-export const verifyToken = async (token: string) => {
+export const verifyToken = async (token: string, isPassRecover?: boolean) => {
   try {
-    const response = await fetch(`${API_URL}/auth/verify`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      `${API_URL}/auth/${!isPassRecover ? 'verify' : 'verify?isPassRecover=true'}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: 'no-cache',
       },
-    });
+    );
     const result: TResponse = await response.json();
     if ('statusCode' in result) return new Error(result.message);
 
@@ -29,6 +33,7 @@ export const recoverPassword = async (payload: IPasswordRecovery) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      cache: 'no-store',
     });
     const result: TResponse = await response.json();
     if ('statusCode' in result) throw new Error(result.message);
@@ -48,6 +53,7 @@ export const resetPassword = async (password: string, token: string) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
+      cache: 'no-store',
     });
     const result: TResponse = await response.json();
     if ('statusCode' in result) throw new Error(result.message);

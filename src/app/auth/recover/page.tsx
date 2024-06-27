@@ -20,7 +20,7 @@ export default async function RecoverPage({ searchParams }: Props) {
 
   if (!token) redirect('/', RedirectType.push);
 
-  const valid = (await verifyToken(token)) as TResponse;
+  const valid = (await verifyToken(token, true)) as TResponse;
 
   if (valid instanceof Error)
     return (
