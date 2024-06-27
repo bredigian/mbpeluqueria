@@ -224,7 +224,17 @@ export const FormReserveShift = ({
                 (weekday) =>
                   weekday.number === new Date(getValues('timestamp')).getDay(),
               )
-              ?.WorkhoursByWeekday.map((workhourByWeekday) => {
+              ?.WorkhoursByWeekday.sort((a, b) => {
+                if (a.workhour.hours === b.workhour.hours)
+                  return (
+                    (a.workhour.minutes as number) -
+                    (b.workhour.minutes as number)
+                  );
+                return (
+                  (a.workhour.hours as number) - (b.workhour.hours as number)
+                );
+              })
+              .map((workhourByWeekday) => {
                 const time = `${workhourByWeekday.workhour.hours}:${workhourByWeekday.workhour.minutes.toString().padStart(2, '0')}`;
                 const date = new Date(getValues('timestamp'));
                 date.setHours(
