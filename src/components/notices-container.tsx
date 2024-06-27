@@ -1,7 +1,9 @@
 import { NoticeItem, NoticeItemSkeleton } from './notice-item';
+import { RedirectType, redirect } from 'next/navigation';
 
 import { INotice } from '@/types/notices.types';
 import { TResponse } from '@/types/responses.types';
+import { cookies } from 'next/headers';
 import { getAll } from '@/services/notices.service';
 
 type Props = {
@@ -21,7 +23,10 @@ export function NoticesContainerSkeleton() {
 }
 
 export async function NoticesContainer({ canHandleNotices }: Props) {
-  const notices = (await getAll()) as TResponse;
+  const token = cookies().get('token');
+  if (!token) redirect('/', RedirectType.push);
+
+  const notices = (await getAll(token?.value as string)) as TResponse;
 
   return (
     <section>

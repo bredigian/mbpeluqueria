@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from './ui/select';
 
+import Cookies from 'js-cookie';
 import { IWorkhour } from '@/types/workhours.types';
 import { Label } from './ui/label';
 import { create } from '@/services/workhours.service';
@@ -39,7 +40,8 @@ export const AddWorkhourForm = ({ handleDialog }: Props) => {
         minutes: Number(values.minutes),
       };
 
-      await create(payload);
+      const token = Cookies.get('token');
+      await create(token as string, payload);
       revalidateDataByTag('workhours');
       revalidateDataByTag('weekdays');
 

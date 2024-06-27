@@ -33,7 +33,7 @@ export const recoverPassword = async (payload: IPasswordRecovery) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-store',
+      cache: 'no-cache',
     });
     const result: TResponse = await response.json();
     if ('statusCode' in result) throw new Error(result.message);
@@ -53,7 +53,7 @@ export const resetPassword = async (password: string, token: string) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      cache: 'no-store',
+      cache: 'no-cache',
     });
     const result: TResponse = await response.json();
     if ('statusCode' in result) throw new Error(result.message);

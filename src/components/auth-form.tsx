@@ -254,7 +254,7 @@ export const SignupForm = () => {
             )}
           </div>
           <Button type='submit' disabled={isSubmitting} className='mt-6'>
-            {!isSubmitting ? 'Iniciar sesión' : 'Iniciando sesión'}
+            {!isSubmitting ? 'Registrarse' : 'Registrando'}
           </Button>
         </form>
       </CardContent>

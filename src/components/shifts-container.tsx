@@ -1,3 +1,4 @@
+import { RedirectType, redirect } from 'next/navigation';
 import { ShiftItem, ShiftItemSkeleton } from './shift-item';
 import { getNextByUserId, getOfDate } from '@/services/shifts.service';
 
@@ -81,6 +82,7 @@ export function AdminShiftsContainerSkeleton() {
 
 export async function AdminShiftsContainer({ query, isShiftsPath }: Props) {
   const token = cookies().get('token');
+  if (!token) redirect('/', RedirectType.push);
 
   const date = new Date(query);
 

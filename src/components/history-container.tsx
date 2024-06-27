@@ -1,3 +1,4 @@
+import { RedirectType, redirect } from 'next/navigation';
 import { ShiftItem, ShiftItemSkeleton } from './shift-item';
 
 import { IShift } from '@/types/shifts.types';
@@ -35,6 +36,7 @@ export function HistoryContainerSkeleton() {
 
 export async function HistoryContainer() {
   const token = cookies().get('token');
+  if (!token) redirect('/', RedirectType.push);
 
   const shifts = await getAllByUserId(token?.value as string);
 

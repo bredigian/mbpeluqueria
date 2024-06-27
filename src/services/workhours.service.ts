@@ -3,12 +3,15 @@ import { IWorkhour, IWorkhourByWeekdayToCreate } from '@/types/workhours.types';
 import { API_URL } from '@/constants/api';
 import { TResponse } from '@/types/responses.types';
 
-export const getAll = async () => {
+export const getAll = async (token: string) => {
   try {
     const response = await fetch(`${API_URL}/workhours`, {
       method: 'GET',
       next: {
         tags: ['workhours'],
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     });
     const result: TResponse = await response.json();
@@ -20,13 +23,14 @@ export const getAll = async () => {
   }
 };
 
-export const create = async (payload: IWorkhour) => {
+export const create = async (token: string, payload: IWorkhour) => {
   try {
     const response = await fetch(`${API_URL}/workhours`, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       next: {
         tags: ['workhours'],
@@ -41,13 +45,17 @@ export const create = async (payload: IWorkhour) => {
   }
 };
 
-export const handleWorkhour = async (payload: IWorkhourByWeekdayToCreate) => {
+export const handleWorkhour = async (
+  token: string,
+  payload: IWorkhourByWeekdayToCreate,
+) => {
   try {
     const response = await fetch(`${API_URL}/workhours-by-weekday`, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     });
     const result: TResponse = await response.json();

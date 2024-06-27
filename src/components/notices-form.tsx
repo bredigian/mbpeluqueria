@@ -6,6 +6,7 @@ import {
   AlertDialogFooter,
 } from './ui/alert-dialog';
 
+import Cookies from 'js-cookie';
 import { INotice } from '@/types/notices.types';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
@@ -25,7 +26,8 @@ export const AddNoticeForm = ({ handleDialog }: Props) => {
 
   const onSubmit = async (values: INotice) => {
     try {
-      await create(values);
+      const token = Cookies.get('token');
+      await create(token as string, values);
 
       revalidateDataByTag('notices');
       toast.success('Aviso agregado exitosamente.');

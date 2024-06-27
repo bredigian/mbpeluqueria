@@ -66,13 +66,14 @@ export const getOfDate = async (token: string, date: Date) => {
   }
 };
 
-export const createShift = async (payload: IShift) => {
+export const createShift = async (token: string, payload: IShift) => {
   try {
     const response = await fetch(`${API_URL}/shifts`, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     });
 

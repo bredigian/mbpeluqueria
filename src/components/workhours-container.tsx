@@ -1,7 +1,9 @@
+import { RedirectType, redirect } from 'next/navigation';
 import { WorkhourItem, WorkhourItemSkeleton } from './workhour-item';
 
 import { IWeekday } from '@/types/weekdays.types';
 import { IWorkhour } from '@/types/workhours.types';
+import { cookies } from 'next/headers';
 import { getAll } from '@/services/weekdays.service';
 import { getAll as getAllWorkhours } from '@/services/workhours.service';
 
@@ -24,8 +26,11 @@ export function WorkhoursContainerSkeleton() {
 export async function WorkhoursContainer({ query }: Props) {
   if (!query) return <></>;
 
-  const weekdays = await getAll();
-  const workhours = await getAllWorkhours();
+  const token = cookies().get('token');
+  if (!token) redirect('/', RedirectType.push);
+
+  const weekdays = await getAll(token?.value as string);
+  const workhours = await getAllWorkhours(token?.value as string);
 
   if (weekdays instanceof Error) return <span>{weekdays.message}</span>;
   if (workhours instanceof Error) return <span>{workhours.message}</span>;

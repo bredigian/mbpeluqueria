@@ -17,6 +17,7 @@ import {
 
 import { Button } from './ui/button';
 import { Calendar } from './ui/calendar';
+import Cookies from 'js-cookie';
 import { IShift } from '@/types/shifts.types';
 import { IWeekday } from '@/types/weekdays.types';
 import { Label } from './ui/label';
@@ -79,7 +80,9 @@ export const FormReserveShift = ({
     };
 
     try {
-      await createShift(payload);
+      const token = Cookies.get('token');
+      await createShift(token as string, payload);
+
       toast.success('Turno asignado exitosamente.');
       revalidateDataByTag('shifts');
 

@@ -3,6 +3,7 @@
 import { Card, CardContent } from './ui/card';
 import { IWorkhour, IWorkhourByWeekdayToCreate } from '@/types/workhours.types';
 
+import Cookies from 'js-cookie';
 import { IWeekday } from '@/types/weekdays.types';
 import { Skeleton } from './ui/skeleton';
 import { Switch } from './ui/switch';
@@ -40,7 +41,8 @@ export function WorkhourItem({ workhour, selectedWeekday }: Props) {
         weekday_id: selectedWeekday.id as string,
         workhour_id: workhour.id as string,
       };
-      toast.promise(handleWorkhour(payload), {
+      const token = Cookies.get('token');
+      toast.promise(handleWorkhour(token as string, payload), {
         loading: 'Modificando...',
         success: (data) => {
           return 'id' in data
