@@ -2,11 +2,9 @@ import './globals.css';
 
 import type { Metadata, Viewport } from 'next';
 
-import { Inter } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
 import { Toaster } from 'sonner';
 import { cn } from '@/lib/utils';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 const APP_NAME = 'MB Peluquería';
 const APP_DEFAULT_TITLE = 'MB Peluquería: Sistema de Turnos';
@@ -47,8 +45,8 @@ export default function RootLayout({
     <html lang='es'>
       <body
         className={cn(
-          'dark flex min-h-screen flex-col bg-primary-foreground font-sans text-primary antialiased lg:flex-row',
-          inter.variable,
+          'dark flex min-h-screen flex-col bg-primary-foreground text-primary antialiased lg:flex-row',
+          GeistSans.className,
         )}
         id='body'
       >
