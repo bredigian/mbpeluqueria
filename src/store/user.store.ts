@@ -13,7 +13,7 @@ interface IUserStore {
   role: TRole | null;
   signup: (payoload: IUser) => Promise<IAuthorization>;
   signin: (payload: IUser) => Promise<IAuthorization>;
-  verifySession: (token: string) => Promise<IAuthorization>;
+  verifySession: (token: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -61,23 +61,19 @@ export const userStore = create<IUserStore>((set) => ({
     }
   },
   verifySession: async (token: string) => {
-    try {
-      const response = await fetch(`${API_URL}/auth/verify`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result: TResponse = await response.json();
-      if ('statusCode' in result) throw new Error(result.message);
+    const response = await fetch(`${API_URL}/auth/verify`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result: TResponse = await response.json();
+    if ('statusCode' in result) return false;
 
-      const { id, name, phone_number, role } = result as IAuthorization;
-      set({ id, name, phone_number, role });
+    const { id, name, phone_number, role } = result as IAuthorization;
+    set({ id, name, phone_number, role });
 
-      return result as IAuthorization;
-    } catch (error) {
-      throw error;
-    }
+    return true;
   },
 
   logout: async () => {

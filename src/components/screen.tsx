@@ -6,12 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import { API_URL } from '@/constants/api';
 import Cookies from 'js-cookie';
-import { INotification } from '@/types/notifications.types';
 import { IShift } from '@/types/shifts.types';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { io } from 'socket.io-client';
 import { revalidateDataByTag } from '@/lib/actions';
-import { useTheme } from '@/hooks/use-theme';
 import { userStore } from '@/store/user.store';
 
 type Props = {
@@ -26,20 +24,23 @@ export default function Screen({ children, className }: Props) {
   const { push } = useRouter();
 
   const verify = async () => {
+    const isHome = pathname === '/';
+    setLoading(true);
+
     const token = Cookies.get('token');
     if (!token) {
-      if (pathname !== '/') push('/');
+      if (!isHome) push('/');
     } else {
       const authorized = await verifySession(token);
       if (!authorized) {
-        if (pathname !== '/') push('/');
-      } else if (pathname === '/') push('/dashboard');
+        Cookies.remove('token');
+        if (!isHome) push('/');
+      } else if (isHome) push('/dashboard');
     }
+
     setTimeout(() => {
       setLoading(false);
     }, 600);
-
-    return;
   };
 
   useEffect(() => {
