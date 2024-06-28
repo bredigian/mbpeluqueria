@@ -13,7 +13,9 @@ type Props = {
 
 export function NotificationItem({ notification }: Props) {
   const notificationTimestamp = new Date(notification.timestamp as Date);
-  const shiftTimestamp = new Date(notification.shift.timestamp);
+  const shiftTimestamp = new Date(
+    notification.shift?.timestamp ?? notification.shiftTimestamp,
+  );
 
   const markAsRead = async () => {
     try {

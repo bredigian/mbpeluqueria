@@ -3,13 +3,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 
 import { Button } from './ui/button';
+import { CancelShiftDialog } from './shift-dialog';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { IShift } from '@/types/shifts.types';
 import { Skeleton } from './ui/skeleton';
@@ -87,7 +87,10 @@ export function ShiftItem({ data, isForAdmin }: Props) {
                 <DropdownMenuLabel>Opciones</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>Cancelar</DropdownMenuItem>
+                  <CancelShiftDialog
+                    id={data.id as string}
+                    user_name={data.user?.name as string}
+                  />
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>

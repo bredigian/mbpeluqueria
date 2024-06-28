@@ -6,6 +6,7 @@ export interface INotification {
   timestamp?: Date;
   shift_id: string;
   shift: IShift;
+  shiftTimestamp: Date;
   description: string;
   userId: string;
   User?: IUser;

@@ -85,3 +85,21 @@ export const createShift = async (token: string, payload: IShift) => {
     throw error;
   }
 };
+
+export const cancel = async (token: string, id: string) => {
+  try {
+    const response = await fetch(`${API_URL}/shifts?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result: TResponse = await response.json();
+    if ('statusCode' in result) throw new Error(result.message);
+
+    return result as IShift;
+  } catch (error) {
+    throw error;
+  }
+};
