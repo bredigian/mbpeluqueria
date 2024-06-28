@@ -4,8 +4,12 @@ import { ReactNode, useEffect, useState } from 'react';
 import { cn, verifyThemeByLocalStorage } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 
+import { API_URL } from '@/constants/api';
 import Cookies from 'js-cookie';
+import { INotification } from '@/types/notifications.types';
+import { IShift } from '@/types/shifts.types';
 import { ReloadIcon } from '@radix-ui/react-icons';
+import { io } from 'socket.io-client';
 import { useTheme } from '@/hooks/use-theme';
 import { userStore } from '@/store/user.store';
 
@@ -14,7 +18,7 @@ type Props = {
   className?: string;
 };
 export default function Screen({ children, className }: Props) {
-  const { verifySession } = userStore();
+  const { name, role, verifySession } = userStore();
 
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
@@ -41,6 +45,39 @@ export default function Screen({ children, className }: Props) {
     verifyThemeByLocalStorage();
     verify();
   }, []);
+
+  useEffect(() => {
+    if (role === 'ADMIN') {
+      const socket = io(API_URL as string, {
+        query: {
+          user: name,
+        },
+      });
+
+      if ('Notification' in window) Notification.requestPermission();
+      socket.on('reserve-shift', async (data: IShift) => {
+        if (Notification.permission === 'granted')
+          new Notification('¡Te han reservado un turno! ✅💈', {
+            body: `${data?.user?.name} ha reservado un turno para la fecha ${new Date(data.timestamp).toLocaleString('es-AR')}.`,
+            icon: '/favicon.ico',
+            badge: '/favicon.ico',
+          });
+      });
+
+      socket.on('cancel-shift', async (data: IShift) => {
+        if (Notification.permission === 'granted')
+          new Notification('¡Turno cancelado! ❌💈', {
+            body: `${data?.user?.name} ha cancelado el turno de la fecha ${new Date(data.timestamp).toLocaleString('es-AR')}.`,
+            icon: '/favicon.ico',
+            badge: '/favicon.ico',
+          });
+      });
+
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [role]);
 
   if (loading)
     return (

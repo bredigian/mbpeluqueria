@@ -8,6 +8,7 @@ import {
 } from '@/components/notices-container';
 
 import DashboardAdminParagraph from '@/components/dashboard-admin-paragraph';
+import NotificationsContainer from '@/components/notifications-container';
 import Screen from '@/components/screen';
 import Settings from '@/components/settings';
 import { Subtitle } from '@/components/ui/subtitle';
@@ -17,8 +18,9 @@ import { Title } from '@/components/ui/title';
 export default function DashboardAdminPage() {
   return (
     <Screen className='flex flex-col gap-6'>
-      <header className='flex w-full items-center justify-between'>
-        <Title>Inicio</Title>
+      <header className='flex w-full items-center justify-between gap-4'>
+        <Title className='grow'>Inicio</Title>
+        <NotificationsContainer />
         <Settings isForAdmin />
       </header>
       <DashboardAdminParagraph />

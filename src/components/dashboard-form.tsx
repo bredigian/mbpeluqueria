@@ -21,6 +21,7 @@ import Cookies from 'js-cookie';
 import { IShift } from '@/types/shifts.types';
 import { IWeekday } from '@/types/weekdays.types';
 import { Label } from './ui/label';
+import { connectWebsocket } from '@/lib/io';
 import { createShift } from '@/services/shifts.service';
 import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
@@ -50,7 +51,7 @@ export const FormReserveShift = ({
 
   const [assignedShifts, setAssignedShifts] = useState<IShift[]>([]);
 
-  const { id } = userStore();
+  const { name, id } = userStore();
 
   const [dayError, setDayError] = useState(false);
   const [hourError, setHourError] = useState(false);
@@ -81,7 +82,11 @@ export const FormReserveShift = ({
 
     try {
       const token = Cookies.get('token');
-      await createShift(token as string, payload);
+      const reserved = await createShift(token as string, payload);
+
+      const socket = connectWebsocket(name as string);
+      socket.emit('reserve-shift', reserved, () => socket.disconnect());
+      revalidateDataByTag('notifications');
 
       toast.success('Turno asignado exitosamente.');
       revalidateDataByTag('shifts');

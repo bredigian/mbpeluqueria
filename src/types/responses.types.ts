@@ -1,5 +1,6 @@
 import { IAuthorization } from './auth.types';
 import { INotice } from './notices.types';
+import { INotification } from './notifications.types';
 import { IShift } from './shifts.types';
 import { IUser } from './users.types';
 import { IWeekday } from './weekdays.types';
@@ -27,5 +28,7 @@ export type TResponse =
   | IWorkhour[]
   | INotice
   | INotice[]
+  | INotification
+  | INotification[]
   | TOnlyResponseMessage
   | IErrorResponse;

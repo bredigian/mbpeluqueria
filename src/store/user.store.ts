@@ -1,6 +1,7 @@
+import { IAuthorization, TRole } from '@/types/auth.types';
+
 import { API_URL } from '@/constants/api';
 import Cookies from 'js-cookie';
-import { IAuthorization } from '@/types/auth.types';
 import { IUser } from '@/types/users.types';
 import { TResponse } from '@/types/responses.types';
 import { create } from 'zustand';
@@ -9,6 +10,7 @@ interface IUserStore {
   id: string | null;
   phone_number: string | null;
   name: string | null;
+  role: TRole | null;
   signup: (payoload: IUser) => Promise<IAuthorization>;
   signin: (payload: IUser) => Promise<IAuthorization>;
   verifySession: (token: string) => Promise<IAuthorization>;
@@ -19,6 +21,7 @@ export const userStore = create<IUserStore>((set) => ({
   id: null,
   phone_number: null,
   name: null,
+  role: null,
 
   signup: async (payload: IUser) => {
     try {
@@ -30,8 +33,8 @@ export const userStore = create<IUserStore>((set) => ({
       const result: TResponse = await response.json();
       if ('statusCode' in result) throw new Error(result.message);
 
-      const { id, name, phone_number } = result as IAuthorization;
-      set({ id, name, phone_number });
+      const { id, name, phone_number, role } = result as IAuthorization;
+      set({ id, name, phone_number, role });
 
       return result as IAuthorization;
     } catch (error) {
@@ -49,8 +52,8 @@ export const userStore = create<IUserStore>((set) => ({
       const result: TResponse = await response.json();
       if ('statusCode' in result) throw new Error(result.message);
 
-      const { id, name, phone_number } = result as IAuthorization;
-      set({ id, name, phone_number });
+      const { id, name, phone_number, role } = result as IAuthorization;
+      set({ id, name, phone_number, role });
 
       return result as IAuthorization;
     } catch (error) {
@@ -68,8 +71,8 @@ export const userStore = create<IUserStore>((set) => ({
       const result: TResponse = await response.json();
       if ('statusCode' in result) throw new Error(result.message);
 
-      const { id, name, phone_number } = result as IAuthorization;
-      set({ id, name, phone_number });
+      const { id, name, phone_number, role } = result as IAuthorization;
+      set({ id, name, phone_number, role });
 
       return result as IAuthorization;
     } catch (error) {
