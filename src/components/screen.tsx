@@ -10,6 +10,7 @@ import { INotification } from '@/types/notifications.types';
 import { IShift } from '@/types/shifts.types';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { io } from 'socket.io-client';
+import { revalidateDataByTag } from '@/lib/actions';
 import { useTheme } from '@/hooks/use-theme';
 import { userStore } from '@/store/user.store';
 
@@ -62,6 +63,7 @@ export default function Screen({ children, className }: Props) {
             icon: '/favicon.ico',
             badge: '/favicon.ico',
           });
+        revalidateDataByTag('notifications');
       });
 
       socket.on('cancel-shift', async (data: IShift) => {
@@ -71,6 +73,7 @@ export default function Screen({ children, className }: Props) {
             icon: '/favicon.ico',
             badge: '/favicon.ico',
           });
+        revalidateDataByTag('notifications');
       });
 
       return () => {
