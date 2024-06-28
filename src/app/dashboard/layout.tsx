@@ -9,9 +9,14 @@ import { ReactNode } from 'react';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/services/auth.service';
 
+const APP_DEFAULT_TITLE = 'Inicio';
+const APP_TITLE_TEMPLATE = '%s | MB Peluquería';
+
 export const metadata: Metadata = {
-  title: 'MB Peluquería',
-  description: 'Reservá tu turno para cortarte el pelo acá mismo en instantes.',
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
 };
 
 async function checkRole() {
