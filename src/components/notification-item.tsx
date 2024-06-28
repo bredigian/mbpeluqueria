@@ -22,10 +22,11 @@ export function NotificationItem({ notification }: Props) {
       const token = Cookies.get('token');
       toast.promise(update(token as string, notification?.id as string), {
         loading: 'Modificando...',
-        success: 'Notificación marcada como leída.',
+        success: () => {
+          revalidateDataByTag('notifications');
+          return 'Notificación marcada como leída.';
+        },
       });
-
-      revalidateDataByTag('notifications');
     } catch (error) {
       if (error instanceof Error) toast.error(error.message);
     }

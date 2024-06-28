@@ -37,10 +37,11 @@ export const NotificationsDropdown = ({ notifications }: Props) => {
       const token = Cookies.get('token');
       toast.promise(deleteAll(token as string), {
         loading: 'Limpiando...',
-        success: 'Todas las notificaciones han sido eliminadas.',
+        success: () => {
+          revalidateDataByTag('notifications');
+          return 'Todas las notificaciones han sido eliminadas.';
+        },
       });
-
-      revalidateDataByTag('notifications');
     } catch (error) {
       if (error instanceof Error) toast.error(error.message);
     }

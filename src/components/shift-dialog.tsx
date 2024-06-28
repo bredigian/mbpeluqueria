@@ -31,21 +31,20 @@ export const CancelShiftDialog = ({ id, user_name }: Props) => {
 
   const handleCancel = async () => {
     setSubmitting(true);
-
-    const token = Cookies.get('token');
-    const cancelled = await cancel(token as string, id);
-
-    const socket = connectWebsocket(user_name as string);
-    socket.emit('cancel-shift', cancelled, () => socket.disconnect());
-    revalidateDataByTag('notifications');
-
-    toast.success('Turno cancelado exitosamente.');
-    revalidateDataByTag('shifts');
     try {
+      const token = Cookies.get('token');
+      const cancelled = await cancel(token as string, id);
+
+      const socket = connectWebsocket(user_name as string);
+      socket.emit('cancel-shift', cancelled, () => socket.disconnect());
+      revalidateDataByTag('notifications');
+
+      toast.success('Turno cancelado exitosamente.');
+      revalidateDataByTag('shifts');
     } catch (error) {
-      setSubmitting(false);
       if (error instanceof Error) toast.error(error.message);
     }
+    setSubmitting(false);
   };
 
   return (
