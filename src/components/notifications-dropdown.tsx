@@ -4,15 +4,24 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { IoNotificationsOutline, IoNotificationsSharp } from 'react-icons/io5';
+import {
+  IoNotificationsOutline,
+  IoNotificationsSharp,
+  IoTrashOutline,
+} from 'react-icons/io5';
 
 import { Button } from './ui/button';
+import Cookies from 'js-cookie';
 import { INotification } from '@/types/notifications.types';
 import { NotificationItem } from './notification-item';
+import { deleteAll } from '@/services/notifications.service';
+import { revalidateDataByTag } from '@/lib/actions';
+import { toast } from 'sonner';
 
 type Props = {
   notifications: INotification[];
@@ -22,6 +31,20 @@ export const NotificationsDropdown = ({ notifications }: Props) => {
   const quantity = notifications.filter(
     (notification) => !notification.readed,
   ).length;
+
+  const clean = async () => {
+    try {
+      const token = Cookies.get('token');
+      toast.promise(deleteAll(token as string), {
+        loading: 'Limpiando...',
+        success: 'Todas las notificaciones han sido eliminadas.',
+      });
+
+      revalidateDataByTag('notifications');
+    } catch (error) {
+      if (error instanceof Error) toast.error(error.message);
+    }
+  };
 
   return (
     <DropdownMenu key='notifications-dropdown'>
@@ -40,15 +63,24 @@ export const NotificationsDropdown = ({ notifications }: Props) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='mr-4 max-h-[560px] w-72 overflow-auto'>
-        <DropdownMenuLabel>Notificaciones</DropdownMenuLabel>
+        <DropdownMenuLabel className='flex w-full items-center justify-between'>
+          Notificaciones{' '}
+          <Button variant='ghost' size='icon' onClick={clean}>
+            <IoTrashOutline size={24} />
+          </Button>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {notifications.map((notification) => (
-            <NotificationItem
-              key={notification.id}
-              notification={notification}
-            />
-          ))}
+          {notifications.length > 0 ? (
+            notifications.map((notification) => (
+              <NotificationItem
+                key={notification.id}
+                notification={notification}
+              />
+            ))
+          ) : (
+            <DropdownMenuItem>No hay notificaciones.</DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

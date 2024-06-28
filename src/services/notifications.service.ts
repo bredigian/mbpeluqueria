@@ -40,3 +40,21 @@ export const update = async (token: string, id: string) => {
     throw error;
   }
 };
+
+export const deleteAll = async (token: string) => {
+  try {
+    const response = await fetch(`${API_URL}/notifications`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data: TResponse = await response.json();
+    if ('statusCode' in data) throw new Error(data.message);
+
+    return data as INotification[];
+  } catch (error) {
+    throw error;
+  }
+};
