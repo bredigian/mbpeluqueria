@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardContent } from './ui/card';
 import {
   DropdownMenu,
@@ -42,6 +44,7 @@ export function ShiftItem({ data, isForAdmin }: Props) {
   const date = new Date(data.timestamp);
   const dateToString = date
     .toLocaleDateString('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires',
       weekday: 'short',
       day: 'numeric',
       month: 'numeric',
@@ -72,7 +75,10 @@ export function ShiftItem({ data, isForAdmin }: Props) {
             </small>
             <span className='text-3xl font-medium'>
               {date
-                .toLocaleTimeString('es-AR', { hour12: false })
+                .toLocaleTimeString('es-AR', {
+                  timeZone: 'America/Argentina/Buenos_Aires',
+                  hour12: false,
+                })
                 .substring(0, 5)}
             </span>
           </div>
