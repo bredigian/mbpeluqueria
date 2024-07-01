@@ -1,45 +1,58 @@
-import "./globals.css"
+import './globals.css';
 
-import { Analytics } from "@vercel/analytics/react"
-import { Inter } from "next/font/google"
-import type { Metadata } from "next"
-import ProviderProgressBar from "@/components/ProviderProgressBar"
-import { Toaster } from "sonner"
+import type { Metadata, Viewport } from 'next';
 
-const inter = Inter({ subsets: ["latin"] })
+import { GeistSans } from 'geist/font/sans';
+import { Toaster } from 'sonner';
+import { cn } from '@/lib/utils';
+
+const APP_NAME = 'MB Peluquería';
+const APP_DEFAULT_TITLE = 'MB Peluquería: Sistema de Turnos';
+const APP_TITLE_TEMPLATE = '%s | MB Peluquería';
+const APP_DESCRIPTION = 'Sistema de turnos para salón de peluquería.';
 
 export const metadata: Metadata = {
-  title: "MB Peluquería",
-  description: "Reservá tu turno para cortarte el pelo acá mismo en instantes.",
-  keywords:
-    "peluquería, peluquero, pelo, cortar, cortes, cortes de pelo, masculino, niños, barba, barberia, barbero",
-  authors: [
-    {
-      name: "Gianluca Bredice Developer",
-      url: "https://devbredicegian.site",
-    },
-  ],
-  robots: "index",
-  applicationName: "MB Peluquería",
-  manifest: "/manifest.json",
-  icons: {
-    apple: "/icon512_rounded.png",
-    icon: "/icon512_maskable.png",
+  applicationName: APP_NAME,
+  description: APP_DESCRIPTION,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
   },
-}
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: APP_DEFAULT_TITLE,
+  },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+  ],
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} max-w-sm mx-auto`}>
-        <Analytics />
-        <ProviderProgressBar>{children}</ProviderProgressBar>
-        <Toaster />
+    <html lang='es'>
+      <body
+        className={cn(
+          'dark flex min-h-screen flex-col bg-primary-foreground text-primary antialiased lg:flex-row',
+          GeistSans.className,
+        )}
+        id='body'
+      >
+        {children}
+        <Toaster position='top-center' />
       </body>
     </html>
-  )
+  );
 }

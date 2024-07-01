@@ -36,3 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# service workers files
+/public/*.js
+/public/*.js.map
