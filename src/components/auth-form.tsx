@@ -41,7 +41,11 @@ export const SigninForm = () => {
 
   const onSubmit = async (values: IUser) => {
     try {
-      const { access_token, exp } = await signin(values);
+      const payload: IUser = {
+        ...values,
+        phone_number: values.phone_number.trim(),
+      };
+      const { access_token, exp } = await signin(payload);
       if (!access_token)
         throw new Error('Ocurrió un error al iniciar la sesión.');
 
@@ -147,6 +151,7 @@ export const SignupForm = () => {
     try {
       const payload: IUser = {
         ...values,
+        phone_number: values.phone_number.trim(),
         role: ERole.USER,
       };
 
