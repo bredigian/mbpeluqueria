@@ -1,9 +1,9 @@
-import { API_URL } from '@/constants/api';
+import { WEBSOCKET_API_URL } from '@/constants/api';
 import io from 'socket.io-client';
 
 export const connectWebsocket = (name: string) =>
-  io(API_URL as string, {
+  io(WEBSOCKET_API_URL as string, {
     query: {
-      name,
+      user: name,
     },
   });

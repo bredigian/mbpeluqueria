@@ -4,11 +4,10 @@ import { ReactNode, useEffect, useState } from 'react';
 import { cn, verifyThemeByLocalStorage } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { API_URL } from '@/constants/api';
 import Cookies from 'js-cookie';
 import { IShift } from '@/types/shifts.types';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { io } from 'socket.io-client';
+import { connectWebsocket } from '@/lib/io';
 import { revalidateDataByTag } from '@/lib/actions';
 import { userStore } from '@/store/user.store';
 
@@ -50,13 +49,9 @@ export default function Screen({ children, className }: Props) {
 
   useEffect(() => {
     if (role === 'ADMIN') {
-      const socket = io(API_URL as string, {
-        query: {
-          user: name,
-        },
-      });
-
+      const socket = connectWebsocket(name as string);
       if ('Notification' in window) Notification.requestPermission();
+
       socket.on('reserve-shift', async (data: IShift) => {
         if (Notification.permission === 'granted')
           new Notification('¡Te han reservado un turno! ✅💈', {
