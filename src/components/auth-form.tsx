@@ -7,12 +7,12 @@ import {
 } from './ui/alert-dialog';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { ERole, IUser } from '@/types/users.types';
+import { ForgotPasswordDialog, HelpDialog } from './auth-dialog';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { recoverPassword, resetPassword } from '@/services/auth.service';
 
 import { Button } from './ui/button';
 import Cookies from 'js-cookie';
-import { ForgotPasswordDialog } from './auth-dialog';
 import { IPasswordRecovery } from '@/types/auth.types';
 import { Input } from './ui/input';
 import { Label } from '@/components/ui/label';
@@ -117,7 +117,10 @@ export const SigninForm = () => {
             <Button type='submit' disabled={isSubmitting} className='mt-6'>
               {!isSubmitting ? 'Iniciar sesión' : 'Iniciando sesión'}
             </Button>
-            <ForgotPasswordDialog />
+            <div className='flex w-full items-center gap-2'>
+              <HelpDialog />
+              <ForgotPasswordDialog />
+            </div>
           </div>
         </form>
       </CardContent>
