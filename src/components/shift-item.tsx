@@ -60,6 +60,11 @@ export function ShiftItem({ data, isForAdmin }: Props) {
 
   const canCancel = date.getTime() - today.getTime() > CANCELLATION_LIMIT;
 
+  const userPhoneNumberParsed =
+    data?.user?.phone_number.charAt(0) === '0'
+      ? data?.user.phone_number.slice(1)
+      : data?.user?.phone_number;
+
   return (
     <li>
       <Card>
@@ -97,7 +102,7 @@ export function ShiftItem({ data, isForAdmin }: Props) {
                 <DropdownMenuGroup>
                   {isForAdmin && (
                     <Link
-                      href={`https://api.whatsapp.com/send?phone=${data.user?.phone_number}&text=¡Hola%20👋!%0ATe%20recuerdo%20que%20tenés%20un%20turno%20el%20día%20*${dateToString.charAt(0).toUpperCase() + dateToString.slice(1)}*%20a%20las%20*${date
+                      href={`https://api.whatsapp.com/send?phone=${userPhoneNumberParsed}&text=¡Hola%20👋!%0ATe%20recuerdo%20que%20tenés%20un%20turno%20el%20día%20*${dateToString.charAt(0).toUpperCase() + dateToString.slice(1)}*%20a%20las%20*${date
                         .toLocaleTimeString('es-AR', {
                           timeZone: 'America/Argentina/Buenos_Aires',
                           hour12: false,
