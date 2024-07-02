@@ -74,9 +74,8 @@ export const HelpDialog = () => {
           <li className='flex gap-2'>
             <ChevronRightIcon className='mt-2 min-h-4 min-w-4' />
             <p>
-              Al crear el usuario nuevo, se solicitará un email, el cual es
-              obligatorio y será necesario que sea válido para solicitar un
-              cambio de contraseña en un futuro.
+              Al crear el usuario nuevo se solicitará un email, el cual será
+              indispensable en caso de necesitar una recuperación de contraseña.
             </p>
           </li>
           <li className='flex gap-2'>
