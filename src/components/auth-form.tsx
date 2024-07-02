@@ -189,6 +189,7 @@ export const SignupForm = () => {
                 },
               })}
               id='name'
+              placeholder='Martin Bordon'
             />
             {errors.name && (
               <small className='text-red-500'>{errors.name.message}</small>
@@ -208,6 +209,7 @@ export const SignupForm = () => {
                 },
               })}
               id='email'
+              placeholder='martinbordon@email.com'
             />
             {errors.email && (
               <small className='text-red-500'>{errors.email.message}</small>
@@ -223,6 +225,7 @@ export const SignupForm = () => {
                 },
               })}
               id='phone_number'
+              placeholder='2281123456'
             />
             {errors.phone_number && (
               <small className='text-red-500'>
@@ -238,6 +241,11 @@ export const SignupForm = () => {
                   required: {
                     value: true,
                     message: 'El atributo es requerido.',
+                  },
+                  minLength: {
+                    value: 4,
+                    message:
+                      'La contraseña debe contener al menos 4 caracteres.',
                   },
                 })}
                 type={passwordType}
