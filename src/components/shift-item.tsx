@@ -39,8 +39,8 @@ export function ShiftItemSkeleton() {
   );
 }
 
-// 2h en ms
-const CANCELLATION_LIMIT = 7200000;
+// 1h en ms
+const CANCELLATION_LIMIT = 3600000;
 
 export function ShiftItem({ data, isForAdmin }: Props) {
   const date = new Date(data.timestamp);
