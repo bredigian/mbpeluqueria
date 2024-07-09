@@ -26,7 +26,7 @@ export default function DashboardAdminPage() {
       <DashboardAdminParagraph />
       <Suspense fallback={<AdminShiftsContainerSkeleton />}>
         <section className='flex flex-col gap-6'>
-          <Subtitle>Turnos de hoy</Subtitle>
+          <Subtitle>Turnos de hoy {new Date().toDateString()}</Subtitle>
           <AdminShiftsContainer query={new Date() as Date} />
         </section>
       </Suspense>
