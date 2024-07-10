@@ -11,7 +11,7 @@ interface INotificationStore {
   deleteAll: (token: string) => Promise<void>;
 }
 
-export const useNotificationStore = create<INotificationStore>((set) => ({
+export const useNotificationStore = create<INotificationStore>((set, get) => ({
   notifications: null,
 
   getAll: async (token: string) => {
@@ -43,6 +43,7 @@ export const useNotificationStore = create<INotificationStore>((set) => ({
 
       const data: TResponse = await response.json();
       if ('statusCode' in data) throw new Error(data.message);
+      return;
     } catch (error) {
       throw error;
     }
@@ -58,6 +59,8 @@ export const useNotificationStore = create<INotificationStore>((set) => ({
 
       const data: TResponse = await response.json();
       if ('statusCode' in data) throw new Error(data.message);
+
+      await get().getAll(token as string);
     } catch (error) {
       throw error;
     }
