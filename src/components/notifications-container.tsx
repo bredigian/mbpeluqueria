@@ -1,26 +1,38 @@
-import { RedirectType, redirect } from 'next/navigation';
-
+import Cookies from 'js-cookie';
 import { INotification } from '@/types/notifications.types';
 import { NotificationsDropdown } from './notifications-dropdown';
-import { TResponse } from '@/types/responses.types';
-import { cookies } from 'next/headers';
-import { getAll } from '@/services/notifications.service';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { useEffect } from 'react';
+import { useLoading } from '@/hooks/use-loading';
+import { useNotificationStore } from '@/store/notifications.store';
+import { useRouter } from 'next/navigation';
 
-export default async function NotificationsContainer() {
-  const token = cookies().get('token');
-  if (!token) redirect('/', RedirectType.push);
+export default function NotificationsContainer() {
+  const token = Cookies.get('token');
+  const { notifications, getAll } = useNotificationStore();
+  const { status, handleStatus } = useLoading();
+  const { push } = useRouter();
 
-  const notifications = (await getAll(token?.value as string)) as TResponse;
+  const fetchData = async () => {
+    try {
+      await getAll(token as string);
+      handleStatus('ready');
+    } catch (error) {
+      handleStatus('error');
+    }
+  };
+
+  useEffect(() => {
+    if (!token) push('/');
+    fetchData();
+  }, []);
+
+  if (status === 'pending')
+    return <ReloadIcon className='h-4 w-4 animate-spin' />;
+
+  if (status === 'error') return <></>;
 
   return (
-    <section>
-      {notifications instanceof Error ? (
-        <span>{notifications.message}</span>
-      ) : (
-        <NotificationsDropdown
-          notifications={notifications as INotification[]}
-        />
-      )}
-    </section>
+    <NotificationsDropdown notifications={notifications as INotification[]} />
   );
 }

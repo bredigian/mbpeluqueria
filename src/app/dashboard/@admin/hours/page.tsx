@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -5,20 +7,13 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import {
-  WeekdaysContainer,
-  WeekdaysContainerSkeleton,
-} from '@/components/weekdays-container';
-import {
-  WorkhoursContainer,
-  WorkhoursContainerSkeleton,
-} from '@/components/workhours-container';
 
 import Link from 'next/link';
 import { Paragraph } from '@/components/ui/paragraph';
 import Screen from '@/components/screen';
-import { Suspense } from 'react';
 import { Title } from '@/components/ui/title';
+import { WeekdaysContainer } from '@/components/weekdays-container';
+import { WorkhoursContainer } from '@/components/workhours-container';
 
 type Props = {
   searchParams: {
@@ -51,12 +46,8 @@ export default function HoursPage({ searchParams }: Props) {
         Acá podrás visualizar y modificar los horarios habilitados para el
         sistema.
       </Paragraph>
-      <Suspense fallback={<WeekdaysContainerSkeleton />}>
-        <WeekdaysContainer />
-      </Suspense>
-      <Suspense key={query} fallback={<WorkhoursContainerSkeleton />}>
-        <WorkhoursContainer query={query} />
-      </Suspense>
+      <WeekdaysContainer />
+      <WorkhoursContainer query={query} />
     </Screen>
   );
 }
