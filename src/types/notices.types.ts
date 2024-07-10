@@ -1,5 +1,5 @@
 export interface INotice {
   id?: string;
-  timestamp?: Date;
+  timestamp?: Date | string;
   description: string;
 }

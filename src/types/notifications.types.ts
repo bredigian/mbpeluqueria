@@ -3,10 +3,10 @@ import { IUser } from './users.types';
 
 export interface INotification {
   id?: string;
-  timestamp?: Date;
+  timestamp?: Date | string;
   shift_id: string;
   shift: IShift;
-  shiftTimestamp: Date;
+  shiftTimestamp: Date | string;
   description: string;
   userId: string;
   User?: IUser;

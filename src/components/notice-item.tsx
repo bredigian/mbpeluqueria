@@ -11,6 +11,7 @@ import {
 } from './ui/dropdown-menu';
 
 import { Button } from './ui/button';
+import { DateTime } from 'luxon';
 import { DeleteNoticeDialog } from './notices-dialog';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { INotice } from '@/types/notices.types';
@@ -39,7 +40,7 @@ type Props = {
 };
 
 export function NoticeItem({ data, canHandle, className, isForUser }: Props) {
-  const date = new Date(data.timestamp as Date);
+  const date = DateTime.fromISO(data.timestamp as string);
 
   return (
     <li className={className}>
@@ -47,7 +48,7 @@ export function NoticeItem({ data, canHandle, className, isForUser }: Props) {
         <CardContent className='flex flex-col gap-2'>
           <div className='flex w-full justify-between'>
             <span className='text-sm font-medium opacity-75'>
-              {date.toLocaleString('es-AR')}
+              {date.toLocaleString(DateTime.DATETIME_SHORT)}
             </span>
             {canHandle && (
               <DropdownMenu>

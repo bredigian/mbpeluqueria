@@ -13,6 +13,7 @@ import {
 
 import { Button } from './ui/button';
 import { CancelShiftDialog } from './shift-dialog';
+import { DateTime } from 'luxon';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { IShift } from '@/types/shifts.types';
 import Link from 'next/link';
@@ -43,22 +44,13 @@ export function ShiftItemSkeleton() {
 const CANCELLATION_LIMIT = 3600000;
 
 export function ShiftItem({ data, isForAdmin }: Props) {
-  const date = new Date(data.timestamp);
-  const dateToString = date
-    .toLocaleDateString('es-AR', {
-      timeZone: 'America/Argentina/Buenos_Aires',
-      weekday: 'short',
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-    })
-    .replaceAll(',', '.');
+  const date = DateTime.fromISO(data.timestamp as string);
 
-  const today = new Date();
+  const today = DateTime.now();
 
-  const isPast = today.getTime() > date.getTime() ? true : false;
+  const isPast = today.toMillis() > date.toMillis() ? true : false;
 
-  const canCancel = date.getTime() - today.getTime() > CANCELLATION_LIMIT;
+  const canCancel = date.toMillis() - today.toMillis() > CANCELLATION_LIMIT;
 
   const userPhoneNumberParsed =
     data?.user?.phone_number.charAt(0) === '0'
@@ -77,16 +69,13 @@ export function ShiftItem({ data, isForAdmin }: Props) {
           <div className={cn('flex flex-col gap-2', isPast && 'line-through')}>
             <small className='text-base opacity-75'>
               {!isForAdmin
-                ? dateToString.charAt(0).toUpperCase() + dateToString.slice(1)
+                ? date
+                    .setLocale('es-AR')
+                    .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
                 : data.user?.name}
             </small>
             <span className='text-3xl font-medium'>
-              {date
-                .toLocaleTimeString('es-AR', {
-                  timeZone: 'America/Argentina/Buenos_Aires',
-                  hour12: false,
-                })
-                .substring(0, 5)}
+              {date.setLocale('es-AR').toLocaleString(DateTime.TIME_SIMPLE)}
             </span>
           </div>
           {!isForAdmin
@@ -122,15 +111,7 @@ export function ShiftItem({ data, isForAdmin }: Props) {
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                       <Link
-                        href={`https://api.whatsapp.com/send?phone=${userPhoneNumberParsed}&text=¡Hola%20👋!%0ATe%20recuerdo%20que%20tenés%20un%20turno%20el%20día%20*${dateToString.charAt(0).toUpperCase() + dateToString.slice(1)}*%20a%20las%20*${date
-                          .toLocaleTimeString('es-AR', {
-                            timeZone: 'America/Argentina/Buenos_Aires',
-                            hour12: false,
-                          })
-                          .substring(
-                            0,
-                            5,
-                          )}hs*%0ASi%20deseás%20cancelar%20el%20turno,%20podrás%20solicitarlo%20desde%20la%20página%20de%20turnos.%0A¡Muchas%20gracias,%20te%20espero!%20💈`}
+                        href={`https://api.whatsapp.com/send?phone=${userPhoneNumberParsed}&text=¡Hola%20👋!%0ATe%20recuerdo%20que%20tenés%20un%20turno%20el%20día%20*${date.setLocale('es-AR').toLocaleString()}*%20a%20las%20*${date.setLocale('es-AR').toLocaleString(DateTime.TIME_SIMPLE)}hs*%0ASi%20deseás%20cancelar%20el%20turno,%20podrás%20solicitarlo%20desde%20la%20página%20de%20turnos.%0A¡Muchas%20gracias,%20te%20espero!%20💈`}
                       >
                         <DropdownMenuItem className='flex w-full justify-start gap-2 rounded-md px-3 py-2 font-medium duration-200 hover:bg-accent'>
                           Recordar vía WhatsApp
@@ -144,42 +125,6 @@ export function ShiftItem({ data, isForAdmin }: Props) {
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
-          {/* {!isPast && canCancel && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size='icon' variant='outline'>
-                  <DotsHorizontalIcon />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className='mr-4'>
-                <DropdownMenuLabel>Opciones</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  {isForAdmin && (
-                    <Link
-                      href={`https://api.whatsapp.com/send?phone=${userPhoneNumberParsed}&text=¡Hola%20👋!%0ATe%20recuerdo%20que%20tenés%20un%20turno%20el%20día%20*${dateToString.charAt(0).toUpperCase() + dateToString.slice(1)}*%20a%20las%20*${date
-                        .toLocaleTimeString('es-AR', {
-                          timeZone: 'America/Argentina/Buenos_Aires',
-                          hour12: false,
-                        })
-                        .substring(
-                          0,
-                          5,
-                        )}hs*%0ASi%20deseás%20cancelar%20el%20turno,%20podrás%20solicitarlo%20desde%20la%20página%20de%20turnos.%0A¡Muchas%20gracias,%20te%20espero!%20💈`}
-                    >
-                      <DropdownMenuItem className='flex w-full justify-start gap-2 rounded-md px-3 py-2 font-medium duration-200 hover:bg-accent'>
-                        Recordar vía WhatsApp
-                      </DropdownMenuItem>
-                    </Link>
-                  )}
-                  <CancelShiftDialog
-                    id={data.id as string}
-                    user_name={data.user?.name as string}
-                  />
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )} */}
         </CardContent>
       </Card>
     </li>
