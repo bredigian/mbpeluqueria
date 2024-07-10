@@ -69,7 +69,7 @@ export function ShiftsContainer({ query, isShiftsPath, isForAdmin }: Props) {
     <ul
       className={cn(
         'flex flex-col gap-6 last:mb-4',
-        !isShiftsPath && 'max-h-[356px] overflow-auto',
+        isForAdmin && 'max-h-[356px] overflow-auto',
       )}
     >
       {(shifts as IShift[]).length > 0 ? (

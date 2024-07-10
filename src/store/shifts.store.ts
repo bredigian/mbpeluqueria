@@ -10,8 +10,8 @@ interface IShiftStore {
   getAllByUserId: (token: string) => Promise<void>;
   getNextByUserId: (token: string) => Promise<void>;
   getOfDate: (token: string, date: DateTime) => Promise<void>;
-  createShift: (token: string, payload: IShift) => Promise<void>;
-  cancelShift: (token: string, id: string) => Promise<void>;
+  createShift: (token: string, payload: IShift) => Promise<IShift>;
+  cancelShift: (token: string, id: string) => Promise<IShift>;
 }
 
 export const useShiftStore = create<IShiftStore>((set, get) => ({
@@ -84,6 +84,8 @@ export const useShiftStore = create<IShiftStore>((set, get) => ({
 
       const result: TResponse = await response.json();
       if ('statusCode' in result) throw new Error(result.message);
+
+      return result as IShift;
     } catch (error) {
       throw error;
     }
@@ -99,6 +101,8 @@ export const useShiftStore = create<IShiftStore>((set, get) => ({
 
       const result: TResponse = await response.json();
       if ('statusCode' in result) throw new Error(result.message);
+
+      return result as IShift;
     } catch (error) {
       throw error;
     }

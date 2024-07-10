@@ -1,7 +1,7 @@
 'use client';
 
 import { DateTime } from 'luxon';
-// import { NoticesContainerForUser } from '@/components/notices-container';
+import { NoticesContainerForUser } from '@/components/notices-container';
 import { Paragraph } from '@/components/ui/paragraph';
 import ReserveShiftDialogContainer from '@/components/reserve-shift-dialog-container';
 import Screen from '@/components/screen';
@@ -17,9 +17,7 @@ export default function Home() {
 
   return (
     <Screen className='flex flex-col gap-6'>
-      {/* <Suspense>
-        <NoticesContainerForUser />
-      </Suspense> */}
+      <NoticesContainerForUser />
       <header className='flex items-center justify-between'>
         <Title>Inicio</Title>
         <Settings />
@@ -31,9 +29,9 @@ export default function Home() {
       <section className='flex flex-col gap-6'>
         <aside className='flex w-full items-center justify-between gap-4'>
           <Subtitle className='overflow-hidden text-ellipsis text-nowrap'>
-            Tus próximos turnos
+            Próximos turnos
           </Subtitle>
-          {/* <ReserveShiftDialogContainer/> */}
+          <ReserveShiftDialogContainer />
         </aside>
         <ShiftsContainer query={today.toISO() as string} />
       </section>

@@ -49,7 +49,15 @@ export const useWeekdayStore = create<IWeekdayStore>((set, get) => ({
       const data: TResponse = await response.json();
       if ('statusCode' in data) throw new Error(data.message);
 
-      set({ weekdays: data as IWeekday[] });
+      set({
+        weekdays: data as IWeekday[],
+        availableWeekdays: (data as IWeekday[]).filter(
+          (item) => item.WorkhoursByWeekday.length > 0,
+        ),
+        unAvailableWeekdays: (data as IWeekday[]).filter(
+          (item) => item.WorkhoursByWeekday.length === 0,
+        ),
+      });
     } catch (error) {
       throw error;
     }

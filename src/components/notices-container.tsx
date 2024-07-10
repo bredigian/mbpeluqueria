@@ -2,6 +2,7 @@ import { NoticeItem, NoticeItemSkeleton } from './notice-item';
 
 import Cookies from 'js-cookie';
 import { INotice } from '@/types/notices.types';
+import { NoticesCarousel } from './notices-carousel';
 import { useEffect } from 'react';
 import { useLoading } from '@/hooks/use-loading';
 import { useNoticeStore } from '@/store/notices.store';
@@ -66,19 +67,37 @@ export function NoticesContainer({ canHandleNotices }: Props) {
   );
 }
 
-// export async function NoticesContainerForUser() {
-//   const token = cookies().get('token');
-//   if (!token) redirect('/', RedirectType.push);
+export function NoticesContainerForUser() {
+  const token = Cookies.get('token');
+  const { notices, getAll } = useNoticeStore();
+  const { status, handleStatus } = useLoading();
+  const { push } = useRouter();
 
-//   const notices = (await getAll(token?.value as string)) as TResponse;
+  const fetchData = async () => {
+    try {
+      await getAll(token as string);
+      setTimeout(() => {
+        handleStatus('ready');
+      }, 200);
+    } catch (error) {
+      handleStatus('error');
+    }
+  };
 
-//   return (
-//     <section className={(notices as INotice[]).length < 1 ? 'hidden' : ''}>
-//       {notices instanceof Error ? (
-//         <span>{notices.message}</span>
-//       ) : (
-//         <NoticesCarousel notices={notices as INotice[]} />
-//       )}
-//     </section>
-//   );
-// }
+  useEffect(() => {
+    if (!token) push('/');
+    fetchData();
+  }, []);
+
+  if (status === 'pending' || status === 'error') return <></>;
+
+  return (
+    <section className={(notices as INotice[]).length < 1 ? 'hidden' : ''}>
+      {notices instanceof Error ? (
+        <span>{notices.message}</span>
+      ) : (
+        <NoticesCarousel notices={notices as INotice[]} />
+      )}
+    </section>
+  );
+}
