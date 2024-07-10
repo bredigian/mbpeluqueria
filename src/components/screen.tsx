@@ -5,6 +5,7 @@ import { cn, verifyThemeByLocalStorage } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 
 import Cookies from 'js-cookie';
+import { DateTime } from 'luxon';
 import { IShift } from '@/types/shifts.types';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { connectWebsocket } from '@/lib/io';
@@ -55,7 +56,7 @@ export default function Screen({ children, className }: Props) {
       socket.on('reserve-shift', async (data: IShift) => {
         if (Notification.permission === 'granted')
           new Notification('¡Te han reservado un turno! ✅💈', {
-            body: `${data?.user?.name} ha reservado un turno para la fecha ${new Date(data.timestamp).toLocaleString('es-AR')}.`,
+            body: `${data?.user?.name} ha reservado un turno para la fecha ${DateTime.fromISO(data.timestamp as string).toLocaleString(DateTime.DATETIME_SHORT)}.`,
             icon: '/favicon.ico',
             badge: '/favicon.ico',
           });
@@ -65,7 +66,7 @@ export default function Screen({ children, className }: Props) {
       socket.on('cancel-shift', async (data: IShift) => {
         if (Notification.permission === 'granted')
           new Notification('¡Turno cancelado! ❌💈', {
-            body: `${data?.user?.name} ha cancelado el turno de la fecha ${new Date(data.timestamp).toLocaleString('es-AR')}.`,
+            body: `${data?.user?.name} ha cancelado el turno de la fecha ${DateTime.fromISO(data.timestamp as string).toLocaleString(DateTime.DATETIME_SHORT)}.`,
             icon: '/favicon.ico',
             badge: '/favicon.ico',
           });
