@@ -3,6 +3,7 @@ import { ShiftItem, ShiftItemSkeleton } from './shift-item';
 import { getNextByUserId, getOfDate } from '@/services/shifts.service';
 
 import { Button } from './ui/button';
+import { DateTime } from 'luxon';
 import { IShift } from '@/types/shifts.types';
 import Link from 'next/link';
 import ReserveShiftDialogContainer from './reserve-shift-dialog-container';
@@ -64,7 +65,7 @@ export async function ShiftsContainer() {
 }
 
 type Props = {
-  query: string | Date;
+  query: string;
   isShiftsPath?: boolean;
 };
 
@@ -84,7 +85,12 @@ export async function AdminShiftsContainer({ query, isShiftsPath }: Props) {
   const token = cookies().get('token');
   if (!token) redirect('/', RedirectType.push);
 
-  const date = new Date(query);
+  const date = DateTime.fromISO(query).set({
+    hour: 0,
+    minute: 0,
+    second: 0,
+    millisecond: 0,
+  });
 
   const shifts = (await getOfDate(token?.value as string, date)) as TResponse;
 

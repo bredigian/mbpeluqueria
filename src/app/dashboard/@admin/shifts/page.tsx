@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/breadcrumb';
 
 import DatePickerBar from '@/components/date-picker-bar';
+import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { Paragraph } from '@/components/ui/paragraph';
 import Screen from '@/components/screen';
@@ -24,7 +25,12 @@ type Props = {
 };
 
 export default function ShiftsPage({ searchParams }: Props) {
-  const query = searchParams?.date || new Date();
+  const query =
+    searchParams?.date ||
+    DateTime.now()
+      .setZone('America/Argentina/Buenos_Aires')
+      .setLocale('es-AR')
+      .toISO();
 
   return (
     <Screen className='flex flex-col gap-6'>
@@ -51,10 +57,10 @@ export default function ShiftsPage({ searchParams }: Props) {
         <DatePickerBar />
       </aside>
       <Suspense
-        key={(query as Date).toString()}
+        key={query?.toLocaleString()}
         fallback={<AdminShiftsContainerSkeleton />}
       >
-        <AdminShiftsContainer query={query} isShiftsPath />
+        <AdminShiftsContainer query={query as string} isShiftsPath />
       </Suspense>
     </Screen>
   );

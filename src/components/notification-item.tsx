@@ -1,5 +1,6 @@
 import { Checkbox } from './ui/checkbox';
 import Cookies from 'js-cookie';
+import { DateTime } from 'luxon';
 import { INotification } from '@/types/notifications.types';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
@@ -12,10 +13,18 @@ type Props = {
 };
 
 export function NotificationItem({ notification }: Props) {
-  const notificationTimestamp = new Date(notification.timestamp as Date);
-  const shiftTimestamp = new Date(
-    notification.shift?.timestamp ?? notification.shiftTimestamp,
-  );
+  const notificationTimestamp = DateTime.fromISO(
+    notification.timestamp as string,
+  )
+    .setZone('America/Argentina/Buenos_Aires')
+    .setLocale('es-AR');
+
+  const shiftTimestamp = DateTime.fromISO(
+    (notification.shift?.timestamp as string) ??
+      (notification.shiftTimestamp as string),
+  )
+    .setZone('America/Argentina/Buenos_Aires')
+    .setLocale('es-AR');
 
   const markAsRead = async () => {
     try {
@@ -40,10 +49,7 @@ export function NotificationItem({ notification }: Props) {
             notification.readed ? 'line-through opacity-45' : 'opacity-100',
           )}
         >
-          {notificationTimestamp.toLocaleDateString('es-AR')}{' '}
-          {notificationTimestamp.toLocaleTimeString('es-AR', {
-            hour12: false,
-          })}
+          {notificationTimestamp.toLocaleString(DateTime.DATETIME_SHORT)}
         </small>
         <div className='flex items-center gap-2'>
           <Label htmlFor={`read-notification-${notification.id}`}>Leído</Label>
@@ -69,11 +75,7 @@ export function NotificationItem({ notification }: Props) {
         )}
       >
         {notification.User?.name} el día{' '}
-        {shiftTimestamp.toLocaleDateString('es-AR')} a las{' '}
-        {shiftTimestamp.toLocaleTimeString('es-AR', {
-          hour12: false,
-        })}
-        .
+        {shiftTimestamp.toLocaleString(DateTime.DATETIME_SHORT)}.
       </span>
     </div>
   );

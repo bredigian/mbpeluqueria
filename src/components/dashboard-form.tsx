@@ -18,6 +18,7 @@ import {
 import { Button } from './ui/button';
 import { Calendar } from './ui/calendar';
 import Cookies from 'js-cookie';
+import { DateTime } from 'luxon';
 import { IShift } from '@/types/shifts.types';
 import { IWeekday } from '@/types/weekdays.types';
 import { Label } from './ui/label';
@@ -70,13 +71,17 @@ export const FormReserveShift = ({
       return;
     }
 
-    const date = new Date(values.timestamp);
     const [hours, minutes] = selectedTime.split(':');
-    date.setHours(Number(hours));
-    date.setMinutes(minutes == '00' ? 0 : Number(minutes));
+    const date = DateTime.fromJSDate(values.timestamp as Date)
+      .setZone('America/Argentina/Buenos_Aires')
+      .setLocale('es-AR')
+      .set({
+        hour: Number(hours),
+        minute: minutes === '00' ? 0 : Number(minutes),
+      });
 
     const payload: IShift = {
-      timestamp: date,
+      timestamp: date as DateTime,
       user_id: id as string,
     };
 
@@ -99,11 +104,11 @@ export const FormReserveShift = ({
 
   const weekdaysWithAssignedWorkhours = availableDays.map((weekday) => {
     const dates = weekday.assignedWorkhours?.map((shift) => {
-      const date = new Date(shift.timestamp);
+      const date = DateTime.fromISO(shift.timestamp as string);
 
       return {
-        date: date.toDateString(),
-        weekday: date.getDay(),
+        date: date.toISO(),
+        weekday: date.weekday,
       };
     });
     const datesOccurence = dates?.reduce((acc, curr) => {
@@ -149,7 +154,7 @@ export const FormReserveShift = ({
               className='w-full justify-start font-normal'
               onClick={popover.handleDialog}
             >
-              {watch('timestamp')?.toLocaleDateString('es-AR') ??
+              {(watch('timestamp') as Date)?.toLocaleDateString('es-AR') ??
                 'Seleccione una fecha'}
             </Button>
           </PopoverTrigger>
@@ -172,7 +177,7 @@ export const FormReserveShift = ({
               render={({ field }) => (
                 <Calendar
                   mode='single'
-                  selected={field.value}
+                  selected={field.value as Date}
                   onSelect={field.onChange}
                   initialFocus={false}
                   fromMonth={new Date()}
@@ -227,7 +232,8 @@ export const FormReserveShift = ({
             {availableDays
               .find(
                 (weekday) =>
-                  weekday.number === new Date(getValues('timestamp')).getDay(),
+                  weekday.number ===
+                  new Date(getValues('timestamp') as Date).getDay(),
               )
               ?.WorkhoursByWeekday.sort((a, b) => {
                 if (a.workhour.hours === b.workhour.hours)
@@ -241,7 +247,7 @@ export const FormReserveShift = ({
               })
               .map((workhourByWeekday) => {
                 const time = `${workhourByWeekday.workhour.hours}:${workhourByWeekday.workhour.minutes.toString().padStart(2, '0')}`;
-                const date = new Date(getValues('timestamp'));
+                const date = new Date(getValues('timestamp') as Date);
                 date.setHours(
                   workhourByWeekday.workhour.hours as number,
                   workhourByWeekday.workhour.minutes as number,
@@ -251,7 +257,8 @@ export const FormReserveShift = ({
 
                 const isAssigned = assignedShifts.find(
                   (shift) =>
-                    new Date(shift.timestamp).getTime() === date.getTime(),
+                    new Date(shift.timestamp as Date).getTime() ===
+                    date.getTime(),
                 )
                   ? true
                   : false;

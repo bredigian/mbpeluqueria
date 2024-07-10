@@ -1,4 +1,5 @@
 import { API_URL } from '@/constants/api';
+import { DateTime } from 'luxon';
 import { IShift } from '@/types/shifts.types';
 import { TResponse } from '@/types/responses.types';
 
@@ -44,9 +45,8 @@ export const getNextByUserId = async (token: string) => {
   }
 };
 
-export const getOfDate = async (token: string, date: Date) => {
+export const getOfDate = async (token: string, date: DateTime) => {
   try {
-    date.setHours(0, 0, 0, 0);
     const response = await fetch(`${API_URL}/shifts?date=${date}`, {
       method: 'GET',
       headers: {
