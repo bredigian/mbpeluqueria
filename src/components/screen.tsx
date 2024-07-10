@@ -57,7 +57,12 @@ export default function Screen({ children, className }: Props) {
       socket.on('reserve-shift', async (data: IShift) => {
         if (Notification.permission === 'granted')
           new Notification('¡Te han reservado un turno! ✅💈', {
-            body: `${data?.user?.name} ha reservado un turno para la fecha ${DateTime.fromISO(data.timestamp as string).toLocaleString(DateTime.DATETIME_SHORT)}.`,
+            body: `${data?.user?.name} ha reservado un turno para la fecha ${DateTime.fromISO(
+              data.timestamp as string,
+            )
+              .setZone('America/Argentina/Buenos_Aires')
+              .setLocale('es-AR')
+              .toLocaleString(DateTime.DATETIME_SHORT)}.`,
             icon: '/favicon.ico',
             badge: '/favicon.ico',
           });
@@ -68,7 +73,12 @@ export default function Screen({ children, className }: Props) {
       socket.on('cancel-shift', async (data: IShift) => {
         if (Notification.permission === 'granted')
           new Notification('¡Turno cancelado! ❌💈', {
-            body: `${data?.user?.name} ha cancelado el turno de la fecha ${DateTime.fromISO(data.timestamp as string).toLocaleString(DateTime.DATETIME_SHORT)}.`,
+            body: `${data?.user?.name} ha cancelado el turno de la fecha ${DateTime.fromISO(
+              data.timestamp as string,
+            )
+              .setZone('America/Argentina/Buenos_Aires')
+              .setLocale('es-AR')
+              .toLocaleString(DateTime.DATETIME_SHORT)}.`,
             icon: '/favicon.ico',
             badge: '/favicon.ico',
           });

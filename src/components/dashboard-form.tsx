@@ -23,14 +23,11 @@ import { IShift } from '@/types/shifts.types';
 import { IWeekday } from '@/types/weekdays.types';
 import { Label } from './ui/label';
 import { connectWebsocket } from '@/lib/io';
-import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
 import { useDialog } from '@/hooks/use-dialog';
-import { useRouter } from 'next/navigation';
 import { useShiftStore } from '@/store/shifts.store';
 import { useState } from 'react';
 import { useWeekdayStore } from '@/store/weekdays.store';
-import { useWorkhourStore } from '@/store/workhours.store';
 import { userStore } from '@/store/user.store';
 
 type Props = {

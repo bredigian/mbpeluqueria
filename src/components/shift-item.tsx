@@ -44,9 +44,13 @@ export function ShiftItemSkeleton() {
 const CANCELLATION_LIMIT = 3600000;
 
 export function ShiftItem({ data, isForAdmin }: Props) {
-  const date = DateTime.fromISO(data.timestamp as string);
+  const date = DateTime.fromISO(data.timestamp as string)
+    .setZone('America/Argentina/Buenos_Aires')
+    .setLocale('es-AR');
 
-  const today = DateTime.now();
+  const today = DateTime.now()
+    .setZone('America/Argentina/Buenos_Aires')
+    .setLocale('es-AR');
 
   const isPast = today.toMillis() > date.toMillis() ? true : false;
 
@@ -69,13 +73,11 @@ export function ShiftItem({ data, isForAdmin }: Props) {
           <div className={cn('flex flex-col gap-2', isPast && 'line-through')}>
             <small className='text-base opacity-75'>
               {!isForAdmin
-                ? date
-                    .setLocale('es-AR')
-                    .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+                ? date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
                 : data.user?.name}
             </small>
             <span className='text-3xl font-medium'>
-              {date.setLocale('es-AR').toLocaleString(DateTime.TIME_SIMPLE)}
+              {date.toLocaleString(DateTime.TIME_SIMPLE)}
             </span>
           </div>
           {!isForAdmin
