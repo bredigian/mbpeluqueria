@@ -10,13 +10,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from './ui/alert-dialog';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { Button } from './ui/button';
 import Cookies from 'js-cookie';
+import { DateTime } from 'luxon';
 import { connectWebsocket } from '@/lib/io';
 import { toast } from 'sonner';
 import { useDialog } from '@/hooks/use-dialog';
-import { usePathname } from 'next/navigation';
 import { useShiftStore } from '@/store/shifts.store';
 import { useState } from 'react';
 
@@ -29,7 +30,8 @@ export const CancelShiftDialog = ({ id, user_name }: Props) => {
   const [submitting, setSubmitting] = useState(false);
   const { show, handleDialog } = useDialog();
   const pathname = usePathname();
-  const { cancelShift, getAllByUserId, getNextByUserId } = useShiftStore();
+  const { cancelShift, getAllByUserId, getNextByUserId, getOfDate } =
+    useShiftStore();
 
   const handleCancel = async () => {
     setSubmitting(true);
@@ -42,7 +44,18 @@ export const CancelShiftDialog = ({ id, user_name }: Props) => {
 
       toast.success('Turno cancelado exitosamente.');
       if (pathname.includes('history')) await getAllByUserId(token as string);
-      else await getNextByUserId(token as string);
+      else if (pathname.includes('shifts')) {
+        await getOfDate(
+          token as string,
+          DateTime.fromISO(cancelled.timestamp as string).set({
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          }),
+        );
+        handleDialog();
+      } else await getNextByUserId(token as string);
     } catch (error) {
       if (error instanceof Error) toast.error(error.message);
     }
