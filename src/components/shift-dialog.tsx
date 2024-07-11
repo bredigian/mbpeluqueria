@@ -24,9 +24,10 @@ import { useState } from 'react';
 type Props = {
   id: string;
   user_name: string;
+  isForAdmin?: boolean;
 };
 
-export const CancelShiftDialog = ({ id, user_name }: Props) => {
+export const CancelShiftDialog = ({ id, user_name, isForAdmin }: Props) => {
   const [submitting, setSubmitting] = useState(false);
   const { show, handleDialog } = useDialog();
   const pathname = usePathname();
@@ -44,7 +45,10 @@ export const CancelShiftDialog = ({ id, user_name }: Props) => {
 
       toast.success('Turno cancelado exitosamente.');
       if (pathname.includes('history')) await getAllByUserId(token as string);
-      else if (pathname.includes('shifts') || pathname === '/dashboard') {
+      else if (
+        pathname.includes('shifts') ||
+        (pathname === '/dashboard' && isForAdmin)
+      ) {
         await getOfDate(
           token as string,
           DateTime.fromISO(cancelled.timestamp as string).set({

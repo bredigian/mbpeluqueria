@@ -96,6 +96,7 @@ export function ShiftItem({ data, isForAdmin }: Props) {
                       <CancelShiftDialog
                         id={data.id as string}
                         user_name={data.user?.name as string}
+                        isForAdmin={isForAdmin}
                       />
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
@@ -122,6 +123,7 @@ export function ShiftItem({ data, isForAdmin }: Props) {
                       <CancelShiftDialog
                         id={data.id as string}
                         user_name={data.user?.name as string}
+                        isForAdmin={isForAdmin}
                       />
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
