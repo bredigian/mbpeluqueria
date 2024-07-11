@@ -18,7 +18,7 @@ export const NoticesCarousel = ({ notices }: Props) => {
           <NoticeItem
             key={notice.id}
             data={notice}
-            className='embla__slide mx-2 shrink-0 grow basis-full list-none'
+            className='embla__slide mx-2 shrink-0 grow basis-3/4 list-none'
             isForUser
           />
         ))}

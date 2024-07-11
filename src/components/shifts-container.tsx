@@ -1,65 +1,24 @@
-import { RedirectType, redirect } from 'next/navigation';
-import { ShiftItem, ShiftItemSkeleton } from './shift-item';
-import { getNextByUserId, getOfDate } from '@/services/shifts.service';
+'use client';
 
-import { Button } from './ui/button';
+import { ShiftItem, ShiftItemSkeleton } from './shift-item';
+
+import Cookies from 'js-cookie';
 import { DateTime } from 'luxon';
 import { IShift } from '@/types/shifts.types';
-import Link from 'next/link';
-import ReserveShiftDialogContainer from './reserve-shift-dialog-container';
-import { Skeleton } from './ui/skeleton';
-import { Subtitle } from './ui/subtitle';
-import { Suspense } from 'react';
-import { TResponse } from '@/types/responses.types';
 import { cn } from '@/lib/utils';
-import { cookies } from 'next/headers';
+import { useEffect } from 'react';
+import { useLoading } from '@/hooks/use-loading';
+import { useRouter } from 'next/navigation';
+import { useShiftStore } from '@/store/shifts.store';
 
 export function ShiftsContainerSkeleton() {
   return (
     <section className='flex flex-col gap-6'>
-      <aside className='flex items-start justify-between gap-4'>
-        <Skeleton className='h-6 w-44' />
-        <Skeleton className='h-8 w-20' />
-      </aside>
       <ul className='flex flex-col gap-6 last:mb-4'>
         <ShiftItemSkeleton />
         <ShiftItemSkeleton />
         <ShiftItemSkeleton />
       </ul>
-    </section>
-  );
-}
-
-export async function ShiftsContainer() {
-  const token = cookies().get('token');
-
-  const shifts = (await getNextByUserId(token?.value as string)) as TResponse;
-
-  return (
-    <section className='flex flex-col gap-6'>
-      {shifts instanceof Error ? (
-        <span>{shifts.message}</span>
-      ) : (
-        <>
-          <aside className='flex items-center justify-between gap-4'>
-            <Subtitle className='overflow-hidden text-ellipsis text-nowrap'>
-              Próximos turnos
-            </Subtitle>
-            <Suspense fallback={<div>Loading...</div>}>
-              <ReserveShiftDialogContainer />
-            </Suspense>
-          </aside>
-          <ul className='flex flex-col gap-6 last:mb-4'>
-            {(shifts as IShift[]).length > 0 ? (
-              (shifts as IShift[]).map((shift) => (
-                <ShiftItem key={shift.id} data={shift} />
-              ))
-            ) : (
-              <span>No tenés turnos agendados.</span>
-            )}
-          </ul>
-        </>
-      )}
     </section>
   );
 }
@@ -67,61 +26,59 @@ export async function ShiftsContainer() {
 type Props = {
   query: string;
   isShiftsPath?: boolean;
+  isForAdmin?: boolean;
 };
 
-export function AdminShiftsContainerSkeleton() {
+export function ShiftsContainer({ query, isShiftsPath, isForAdmin }: Props) {
+  const token = Cookies.get('token');
+  const { status, handleStatus } = useLoading();
+  const { shifts, getOfDate, getNextByUserId } = useShiftStore();
+  const { push } = useRouter();
+
+  const fetchData = async () => {
+    try {
+      handleStatus('pending');
+
+      const date = DateTime.fromISO(query).set({
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+      });
+
+      if (isForAdmin) await getOfDate(token as string, date);
+      else await getNextByUserId(token as string);
+
+      setTimeout(() => {
+        handleStatus('ready');
+      }, 200);
+    } catch (error) {
+      handleStatus('error');
+    }
+  };
+
+  useEffect(() => {
+    if (!token) push('/');
+    fetchData();
+  }, [query]);
+
+  if (status === 'pending') return <ShiftsContainerSkeleton />;
+  if (status === 'error') return <div>Error</div>;
+
   return (
-    <section className='flex flex-col gap-6'>
-      <ul className='flex flex-col gap-6 last:mb-4'>
-        <ShiftItemSkeleton />
-        <ShiftItemSkeleton />
-        <ShiftItemSkeleton />
-      </ul>
-    </section>
+    <ul
+      className={cn(
+        'flex flex-col gap-6 last:mb-4',
+        isForAdmin && !isShiftsPath ? 'max-h-[356px] overflow-auto' : '',
+      )}
+    >
+      {(shifts as IShift[]).length > 0 ? (
+        (shifts as IShift[]).map((shift) => (
+          <ShiftItem key={shift.id} data={shift} isForAdmin={isForAdmin} />
+        ))
+      ) : (
+        <span>No tenés turnos agendados.</span>
+      )}
+    </ul>
   );
-}
-
-export async function AdminShiftsContainer({ query, isShiftsPath }: Props) {
-  const token = cookies().get('token');
-  if (!token) redirect('/', RedirectType.push);
-
-  const date = DateTime.fromISO(query).set({
-    hour: 0,
-    minute: 0,
-    second: 0,
-    millisecond: 0,
-  });
-
-  const shifts = (await getOfDate(token?.value as string, date)) as TResponse;
-
-  if (query)
-    return (
-      <section className='flex flex-col gap-6'>
-        {shifts instanceof Error ? (
-          <span>{shifts.message}</span>
-        ) : (
-          <ul
-            className={cn(
-              'flex flex-col gap-6 last:mb-4',
-              !isShiftsPath && 'max-h-[356px] overflow-auto',
-            )}
-          >
-            {(shifts as IShift[]).length > 0 ? (
-              (shifts as IShift[]).map((shift) => (
-                <ShiftItem key={shift.id} data={shift} isForAdmin />
-              ))
-            ) : (
-              <span>No tenés turnos agendados.</span>
-            )}
-          </ul>
-        )}
-        {!isShiftsPath && (
-          <Link href={'/dashboard/shifts'}>
-            <Button className='w-full' variant='secondary'>
-              Ver todos los turnos
-            </Button>
-          </Link>
-        )}
-      </section>
-    );
 }

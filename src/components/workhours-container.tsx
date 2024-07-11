@@ -1,11 +1,13 @@
-import { RedirectType, redirect } from 'next/navigation';
 import { WorkhourItem, WorkhourItemSkeleton } from './workhour-item';
+import { useEffect, useState } from 'react';
 
+import Cookies from 'js-cookie';
 import { IWeekday } from '@/types/weekdays.types';
 import { IWorkhour } from '@/types/workhours.types';
-import { cookies } from 'next/headers';
-import { getAll } from '@/services/weekdays.service';
-import { getAll as getAllWorkhours } from '@/services/workhours.service';
+import { useLoading } from '@/hooks/use-loading';
+import { useRouter } from 'next/navigation';
+import { useWeekdayStore } from '@/store/weekdays.store';
+import { useWorkhourStore } from '@/store/workhours.store';
 
 type Props = {
   query: string;
@@ -23,27 +25,48 @@ export function WorkhoursContainerSkeleton() {
   );
 }
 
-export async function WorkhoursContainer({ query }: Props) {
+export function WorkhoursContainer({ query }: Props) {
   if (!query) return <></>;
 
-  const token = cookies().get('token');
-  if (!token) redirect('/', RedirectType.push);
+  const token = Cookies.get('token');
+  const { workhours, getAllWorkhours } = useWorkhourStore();
+  const { weekdays, getAll } = useWeekdayStore();
+  const { status, handleStatus } = useLoading();
+  const { push } = useRouter();
 
-  const weekdays = await getAll(token?.value as string);
-  const workhours = await getAllWorkhours(token?.value as string);
+  const [selectedWeekday, setSelectedWeekday] = useState<IWeekday | null>();
 
-  if (weekdays instanceof Error) return <span>{weekdays.message}</span>;
-  if (workhours instanceof Error) return <span>{workhours.message}</span>;
+  const fetchData = async () => {
+    try {
+      handleStatus('pending');
+      await getAll(token as string);
+      await getAllWorkhours(token as string);
+    } catch (error) {
+      handleStatus('error');
+    }
+  };
 
-  const selectedWeekday = query
-    ? (weekdays as IWeekday[]).find(
-        (weekday) => weekday.id?.toLowerCase() === query.toLowerCase(),
-      )
-    : weekdays;
+  useEffect(() => {
+    if (!token) push('/');
+    fetchData();
+  }, [query]);
+
+  useEffect(() => {
+    setSelectedWeekday(
+      weekdays?.find((item) => item.id?.toLowerCase() === query.toLowerCase()),
+    );
+
+    setTimeout(() => {
+      handleStatus('ready');
+    }, 200);
+  }, [weekdays]);
+
+  if (status === 'pending') return <WorkhoursContainerSkeleton />;
+  if (status === 'error') return <div>Error</div>;
 
   return (
     <section className='flex flex-col gap-6 last:mb-6'>
-      {(workhours as IWorkhour[]).map((workhour) => {
+      {(workhours as IWorkhour[])?.map((workhour) => {
         return (
           <WorkhourItem
             key={workhour.id}

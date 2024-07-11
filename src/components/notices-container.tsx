@@ -1,11 +1,12 @@
 import { NoticeItem, NoticeItemSkeleton } from './notice-item';
-import { RedirectType, redirect } from 'next/navigation';
 
+import Cookies from 'js-cookie';
 import { INotice } from '@/types/notices.types';
 import { NoticesCarousel } from './notices-carousel';
-import { TResponse } from '@/types/responses.types';
-import { cookies } from 'next/headers';
-import { getAll } from '@/services/notices.service';
+import { useEffect } from 'react';
+import { useLoading } from '@/hooks/use-loading';
+import { useNoticeStore } from '@/store/notices.store';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   canHandleNotices: boolean;
@@ -23,40 +24,72 @@ export function NoticesContainerSkeleton() {
   );
 }
 
-export async function NoticesContainer({ canHandleNotices }: Props) {
-  const token = cookies().get('token');
-  if (!token) redirect('/', RedirectType.push);
+export function NoticesContainer({ canHandleNotices }: Props) {
+  const token = Cookies.get('token');
+  const { notices, getAll } = useNoticeStore();
+  const { status, handleStatus } = useLoading();
+  const { push } = useRouter();
 
-  const notices = (await getAll(token?.value as string)) as TResponse;
+  const fetchData = async () => {
+    try {
+      await getAll(token as string);
+
+      setTimeout(() => {
+        handleStatus('ready');
+      }, 200);
+    } catch (error) {
+      handleStatus('error');
+    }
+  };
+
+  useEffect(() => {
+    if (!token) push('/');
+    fetchData();
+  }, []);
+
+  if (status === 'pending') return <NoticesContainerSkeleton />;
+  if (status === 'error') return <div>Error</div>;
 
   return (
-    <section>
-      {notices instanceof Error ? (
-        <span>{notices.message}</span>
+    <ul className='flex flex-col gap-6'>
+      {(notices as INotice[]).length > 0 ? (
+        (notices as INotice[]).map((notice) => (
+          <NoticeItem
+            key={notice.id as string}
+            data={notice}
+            canHandle={canHandleNotices}
+          />
+        ))
       ) : (
-        <ul className='flex flex-col gap-6'>
-          {(notices as INotice[]).length > 0 ? (
-            (notices as INotice[]).map((notice) => (
-              <NoticeItem
-                key={notice.id as string}
-                data={notice}
-                canHandle={canHandleNotices}
-              />
-            ))
-          ) : (
-            <span>No se encontraron avisos.</span>
-          )}
-        </ul>
+        <span>No se encontraron avisos.</span>
       )}
-    </section>
+    </ul>
   );
 }
 
-export async function NoticesContainerForUser() {
-  const token = cookies().get('token');
-  if (!token) redirect('/', RedirectType.push);
+export function NoticesContainerForUser() {
+  const token = Cookies.get('token');
+  const { notices, getAll } = useNoticeStore();
+  const { status, handleStatus } = useLoading();
+  const { push } = useRouter();
 
-  const notices = (await getAll(token?.value as string)) as TResponse;
+  const fetchData = async () => {
+    try {
+      await getAll(token as string);
+      setTimeout(() => {
+        handleStatus('ready');
+      }, 200);
+    } catch (error) {
+      handleStatus('error');
+    }
+  };
+
+  useEffect(() => {
+    if (!token) push('/');
+    fetchData();
+  }, []);
+
+  if (status === 'pending' || status === 'error') return <></>;
 
   return (
     <section className={(notices as INotice[]).length < 1 ? 'hidden' : ''}>

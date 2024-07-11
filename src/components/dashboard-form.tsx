@@ -23,11 +23,11 @@ import { IShift } from '@/types/shifts.types';
 import { IWeekday } from '@/types/weekdays.types';
 import { Label } from './ui/label';
 import { connectWebsocket } from '@/lib/io';
-import { createShift } from '@/services/shifts.service';
-import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
 import { useDialog } from '@/hooks/use-dialog';
+import { useShiftStore } from '@/store/shifts.store';
 import { useState } from 'react';
+import { useWeekdayStore } from '@/store/weekdays.store';
 import { userStore } from '@/store/user.store';
 
 type Props = {
@@ -53,6 +53,8 @@ export const FormReserveShift = ({
   const [assignedShifts, setAssignedShifts] = useState<IShift[]>([]);
 
   const { name, id } = userStore();
+  const { getNextByUserId, createShift } = useShiftStore();
+  const { getAllWithUnavailableWorkhours } = useWeekdayStore();
 
   const [dayError, setDayError] = useState(false);
   const [hourError, setHourError] = useState(false);
@@ -91,10 +93,10 @@ export const FormReserveShift = ({
 
       const socket = connectWebsocket(name as string);
       socket.emit('reserve-shift', reserved, () => socket.disconnect());
-      revalidateDataByTag('notifications');
 
       toast.success('Turno asignado exitosamente.');
-      revalidateDataByTag('shifts');
+      await getAllWithUnavailableWorkhours(token as string);
+      await getNextByUserId(token as string);
 
       handleDialog();
     } catch (error) {
@@ -102,13 +104,13 @@ export const FormReserveShift = ({
     }
   };
 
-  const weekdaysWithAssignedWorkhours = availableDays.map((weekday) => {
+  const weekdaysWithAssignedWorkhours = availableDays?.map((weekday) => {
     const dates = weekday.assignedWorkhours?.map((shift) => {
-      const date = DateTime.fromISO(shift.timestamp as string);
+      const date = new Date(shift.timestamp as string);
 
       return {
-        date: date.toISO(),
-        weekday: date.weekday,
+        date: date.toDateString(),
+        weekday: date.getDay(),
       };
     });
     const datesOccurence = dates?.reduce((acc, curr) => {

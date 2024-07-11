@@ -4,15 +4,16 @@ import { DateTime } from 'luxon';
 import { INotification } from '@/types/notifications.types';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
-import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
-import { update } from '@/services/notifications.service';
+import { useNotificationStore } from '@/store/notifications.store';
 
 type Props = {
   notification: INotification;
 };
 
 export function NotificationItem({ notification }: Props) {
+  const { getAll, update } = useNotificationStore();
+
   const notificationTimestamp = DateTime.fromISO(
     notification.timestamp as string,
   )
@@ -31,8 +32,8 @@ export function NotificationItem({ notification }: Props) {
       const token = Cookies.get('token');
       toast.promise(update(token as string, notification?.id as string), {
         loading: 'Modificando...',
-        success: () => {
-          revalidateDataByTag('notifications');
+        success: async () => {
+          await getAll(token as string);
           return 'Notificación marcada como leída.';
         },
       });

@@ -40,7 +40,9 @@ type Props = {
 };
 
 export function NoticeItem({ data, canHandle, className, isForUser }: Props) {
-  const date = DateTime.fromISO(data.timestamp as string);
+  const date = DateTime.fromISO(data.timestamp as string)
+    .setZone('America/Argentina/Buenos_Aires')
+    .setLocale('es-AR');
 
   return (
     <li className={className}>

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -5,15 +7,11 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import {
-  HistoryContainer,
-  HistoryContainerSkeleton,
-} from '@/components/history-container';
 
+import { HistoryContainer } from '@/components/history-container';
 import Link from 'next/link';
 import { Paragraph } from '@/components/ui/paragraph';
 import Screen from '@/components/screen';
-import { Suspense } from 'react';
 import { Title } from '@/components/ui/title';
 
 export default function HistoryPage() {
@@ -38,9 +36,7 @@ export default function HistoryPage() {
       <Paragraph>
         En esta sección visualizarás el historial de tus turnos agendados.
       </Paragraph>
-      <Suspense fallback={<HistoryContainerSkeleton />}>
-        <HistoryContainer />
-      </Suspense>
+      <HistoryContainer />
     </Screen>
   );
 }

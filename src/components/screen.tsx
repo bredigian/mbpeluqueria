@@ -9,7 +9,7 @@ import { DateTime } from 'luxon';
 import { IShift } from '@/types/shifts.types';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { connectWebsocket } from '@/lib/io';
-import { revalidateDataByTag } from '@/lib/actions';
+import { useNotificationStore } from '@/store/notifications.store';
 import { userStore } from '@/store/user.store';
 
 type Props = {
@@ -17,7 +17,9 @@ type Props = {
   className?: string;
 };
 export default function Screen({ children, className }: Props) {
+  const token = Cookies.get('token');
   const { name, role, verifySession } = userStore();
+  const { getAll } = useNotificationStore();
 
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
@@ -27,7 +29,6 @@ export default function Screen({ children, className }: Props) {
     const isHome = pathname === '/';
     setLoading(true);
 
-    const token = Cookies.get('token');
     if (!token) {
       if (!isHome) push('/');
     } else {
@@ -56,21 +57,32 @@ export default function Screen({ children, className }: Props) {
       socket.on('reserve-shift', async (data: IShift) => {
         if (Notification.permission === 'granted')
           new Notification('¡Te han reservado un turno! ✅💈', {
-            body: `${data?.user?.name} ha reservado un turno para la fecha ${DateTime.fromISO(data.timestamp as string).toLocaleString(DateTime.DATETIME_SHORT)}.`,
+            body: `${data?.user?.name} ha reservado un turno para la fecha ${DateTime.fromISO(
+              data.timestamp as string,
+            )
+              .setZone('America/Argentina/Buenos_Aires')
+              .setLocale('es-AR')
+              .toLocaleString(DateTime.DATETIME_SHORT)}.`,
             icon: '/favicon.ico',
             badge: '/favicon.ico',
           });
-        revalidateDataByTag('notifications');
+
+        await getAll(token as string);
       });
 
       socket.on('cancel-shift', async (data: IShift) => {
         if (Notification.permission === 'granted')
           new Notification('¡Turno cancelado! ❌💈', {
-            body: `${data?.user?.name} ha cancelado el turno de la fecha ${DateTime.fromISO(data.timestamp as string).toLocaleString(DateTime.DATETIME_SHORT)}.`,
+            body: `${data?.user?.name} ha cancelado el turno de la fecha ${DateTime.fromISO(
+              data.timestamp as string,
+            )
+              .setZone('America/Argentina/Buenos_Aires')
+              .setLocale('es-AR')
+              .toLocaleString(DateTime.DATETIME_SHORT)}.`,
             icon: '/favicon.ico',
             badge: '/favicon.ico',
           });
-        revalidateDataByTag('notifications');
+        await getAll(token as string);
       });
 
       return () => {

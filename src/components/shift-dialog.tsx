@@ -10,37 +10,56 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from './ui/alert-dialog';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { Button } from './ui/button';
 import Cookies from 'js-cookie';
-import { cancel } from '@/services/shifts.service';
+import { DateTime } from 'luxon';
 import { connectWebsocket } from '@/lib/io';
-import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
 import { useDialog } from '@/hooks/use-dialog';
+import { useShiftStore } from '@/store/shifts.store';
 import { useState } from 'react';
 
 type Props = {
   id: string;
   user_name: string;
+  isForAdmin?: boolean;
 };
 
-export const CancelShiftDialog = ({ id, user_name }: Props) => {
+export const CancelShiftDialog = ({ id, user_name, isForAdmin }: Props) => {
   const [submitting, setSubmitting] = useState(false);
   const { show, handleDialog } = useDialog();
+  const pathname = usePathname();
+  const { cancelShift, getAllByUserId, getNextByUserId, getOfDate } =
+    useShiftStore();
 
   const handleCancel = async () => {
     setSubmitting(true);
     try {
       const token = Cookies.get('token');
-      const cancelled = await cancel(token as string, id);
+      const cancelled = await cancelShift(token as string, id);
 
       const socket = connectWebsocket(user_name as string);
       socket.emit('cancel-shift', cancelled, () => socket.disconnect());
-      revalidateDataByTag('notifications');
 
       toast.success('Turno cancelado exitosamente.');
-      revalidateDataByTag('shifts');
+      if (pathname.includes('history')) await getAllByUserId(token as string);
+      else if (
+        pathname.includes('shifts') ||
+        (pathname === '/dashboard' && isForAdmin)
+      ) {
+        await getOfDate(
+          token as string,
+          DateTime.fromISO(cancelled.timestamp as string).set({
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          }),
+        );
+        handleDialog();
+      } else await getNextByUserId(token as string);
     } catch (error) {
       if (error instanceof Error) toast.error(error.message);
     }
