@@ -104,13 +104,13 @@ export const FormReserveShift = ({
     }
   };
 
-  const weekdaysWithAssignedWorkhours = availableDays.map((weekday) => {
+  const weekdaysWithAssignedWorkhours = availableDays?.map((weekday) => {
     const dates = weekday.assignedWorkhours?.map((shift) => {
-      const date = DateTime.fromISO(shift.timestamp as string);
+      const date = new Date(shift.timestamp as string);
 
       return {
-        date: date.toISO(),
-        weekday: date.weekday,
+        date: date.toDateString(),
+        weekday: date.getDay(),
       };
     });
     const datesOccurence = dates?.reduce((acc, curr) => {

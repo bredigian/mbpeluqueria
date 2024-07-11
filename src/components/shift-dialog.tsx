@@ -44,7 +44,7 @@ export const CancelShiftDialog = ({ id, user_name }: Props) => {
 
       toast.success('Turno cancelado exitosamente.');
       if (pathname.includes('history')) await getAllByUserId(token as string);
-      else if (pathname.includes('shifts')) {
+      else if (pathname.includes('shifts') || pathname === '/dashboard') {
         await getOfDate(
           token as string,
           DateTime.fromISO(cancelled.timestamp as string).set({
