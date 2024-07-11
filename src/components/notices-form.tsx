@@ -10,10 +10,9 @@ import Cookies from 'js-cookie';
 import { INotice } from '@/types/notices.types';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
-import { create } from '@/services/notices.service';
-import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
+import { useNoticeStore } from '@/store/notices.store';
 
 type Props = { handleDialog: () => void };
 
@@ -24,12 +23,13 @@ export const AddNoticeForm = ({ handleDialog }: Props) => {
     formState: { errors, isSubmitting },
   } = useForm<INotice>();
 
+  const { create } = useNoticeStore();
+
   const onSubmit = async (values: INotice) => {
     try {
       const token = Cookies.get('token');
       await create(token as string, values);
 
-      revalidateDataByTag('notices');
       toast.success('Aviso agregado exitosamente.');
 
       handleDialog();

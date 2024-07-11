@@ -16,10 +16,9 @@ import { AddNoticeForm } from './notices-form';
 import { Button } from './ui/button';
 import Cookies from 'js-cookie';
 import NoticesAddIcon from './icons/notices-add-icon';
-import { deleteById } from '@/services/notices.service';
-import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
 import { useDialog } from '@/hooks/use-dialog';
+import { useNoticeStore } from '@/store/notices.store';
 
 export const AddNoticeDialog = () => {
   const { show, handleDialog } = useDialog();
@@ -51,13 +50,13 @@ type Props = {
 
 export const DeleteNoticeDialog = ({ id }: Props) => {
   const { show, handleDialog } = useDialog();
+  const { deleteById } = useNoticeStore();
 
   const handleDelete = async () => {
     try {
       const token = Cookies.get('token');
       await deleteById(token as string, id);
 
-      revalidateDataByTag('notices');
       toast.success('Aviso eliminado exitosamente.');
       handleDialog();
     } catch (error) {

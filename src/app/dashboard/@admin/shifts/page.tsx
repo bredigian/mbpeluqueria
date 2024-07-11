@@ -1,7 +1,5 @@
-import {
-  AdminShiftsContainer,
-  AdminShiftsContainerSkeleton,
-} from '@/components/shifts-container';
+'use client';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,7 +13,7 @@ import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { Paragraph } from '@/components/ui/paragraph';
 import Screen from '@/components/screen';
-import { Suspense } from 'react';
+import { ShiftsContainer } from '@/components/shifts-container';
 import { Title } from '@/components/ui/title';
 
 type Props = {
@@ -56,12 +54,7 @@ export default function ShiftsPage({ searchParams }: Props) {
       <aside>
         <DatePickerBar />
       </aside>
-      <Suspense
-        key={query?.toLocaleString()}
-        fallback={<AdminShiftsContainerSkeleton />}
-      >
-        <AdminShiftsContainer query={query as string} isShiftsPath />
-      </Suspense>
+      <ShiftsContainer query={query as string} isShiftsPath isForAdmin />
     </Screen>
   );
 }

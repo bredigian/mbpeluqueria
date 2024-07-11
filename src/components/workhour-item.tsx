@@ -7,9 +7,8 @@ import Cookies from 'js-cookie';
 import { IWeekday } from '@/types/weekdays.types';
 import { Skeleton } from './ui/skeleton';
 import { Switch } from './ui/switch';
-import { handleWorkhour } from '@/services/workhours.service';
-import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
+import { useWorkhourStore } from '@/store/workhours.store';
 
 type Props = {
   workhour: IWorkhour;
@@ -35,6 +34,8 @@ export function WorkhourItem({ workhour, selectedWeekday }: Props) {
     ? true
     : false;
 
+  const { handleWorkhour } = useWorkhourStore();
+
   const handleEnable = async () => {
     try {
       const payload: IWorkhourByWeekdayToCreate = {
@@ -46,13 +47,11 @@ export function WorkhourItem({ workhour, selectedWeekday }: Props) {
         loading: 'Modificando...',
         success: (data) => {
           return 'id' in data
-            ? 'Horario habilitado exitosamente.'
+            ? 'Horario activado exitosamente.'
             : 'Horario desactivado exitosamente.';
         },
         error: 'Ocurrió un error al modificar el estado del horario.',
       });
-      revalidateDataByTag('workhours');
-      revalidateDataByTag('weekdays');
     } catch (error) {
       if (error instanceof Error) toast.error(error.message);
     }

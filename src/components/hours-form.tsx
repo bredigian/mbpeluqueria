@@ -15,9 +15,9 @@ import {
 import Cookies from 'js-cookie';
 import { IWorkhour } from '@/types/workhours.types';
 import { Label } from './ui/label';
-import { create } from '@/services/workhours.service';
 import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
+import { useWorkhourStore } from '@/store/workhours.store';
 
 const HOURS = Array.from({ length: 24 }, (v, i) => i.toString());
 const MINUTES = [0, 15, 30, 45].map((i) => i.toString());
@@ -33,6 +33,8 @@ export const AddWorkhourForm = ({ handleDialog }: Props) => {
     formState: { errors, isSubmitting },
   } = useForm<IWorkhour>();
 
+  const { create } = useWorkhourStore();
+
   const onSubmit = async (values: IWorkhour) => {
     try {
       const payload: IWorkhour = {
@@ -42,8 +44,6 @@ export const AddWorkhourForm = ({ handleDialog }: Props) => {
 
       const token = Cookies.get('token');
       await create(token as string, payload);
-      revalidateDataByTag('workhours');
-      revalidateDataByTag('weekdays');
 
       toast.success('Horario creado exitosamente.');
       handleDialog();

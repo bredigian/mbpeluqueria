@@ -1,37 +1,51 @@
-import { RedirectType, redirect } from 'next/navigation';
-
+import { Button } from './ui/button';
+import Cookies from 'js-cookie';
 import { IWeekday } from '@/types/weekdays.types';
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { ReserveShiftDialog } from './dashboard-dialog';
-import { TResponse } from '@/types/responses.types';
-import { cookies } from 'next/headers';
-import { getAllWithUnavailableWorkhours } from '@/services/weekdays.service';
+import { useEffect } from 'react';
+import { useLoading } from '@/hooks/use-loading';
+import { useRouter } from 'next/navigation';
+import { useWeekdayStore } from '@/store/weekdays.store';
 
-export default async function ReserveShiftDialogContainer() {
-  const token = cookies().get('token');
-  if (!token) redirect('/', RedirectType.push);
+export default function ReserveShiftDialogContainer() {
+  const token = Cookies.get('token');
+  const { push } = useRouter();
+  const { status, handleStatus } = useLoading();
+  const {
+    availableWeekdays,
+    unAvailableWeekdays,
+    getAllWithUnavailableWorkhours,
+  } = useWeekdayStore();
 
-  const weekdays = (await getAllWithUnavailableWorkhours(
-    token?.value as string,
-  )) as TResponse;
+  const fetchData = async () => {
+    try {
+      await getAllWithUnavailableWorkhours(token as string);
+      setTimeout(() => {
+        handleStatus('ready');
+      }, 200);
+    } catch (error) {
+      handleStatus('error');
+    }
+  };
 
-  if (weekdays instanceof Error) return <span>{weekdays.message}</span>;
+  useEffect(() => {
+    if (!token) push('/');
+    fetchData();
+  }, []);
 
-  const availableDays = (weekdays as IWeekday[]).filter(
-    (weekday) => weekday.WorkhoursByWeekday.length > 0,
-  );
-
-  const unavailableDays = (weekdays as IWeekday[]).filter((weekday) => {
-    if (weekday.WorkhoursByWeekday.length === 0) return true;
-
-    return false;
-  });
+  if (status === 'pending')
+    return (
+      <Button disabled type='button' variant='secondary'>
+        <ReloadIcon className='h-4 w-4 animate-spin' />
+      </Button>
+    );
+  if (status === 'error') return <></>;
 
   return (
-    <>
-      <ReserveShiftDialog
-        availableDays={availableDays as IWeekday[]}
-        unavailableDays={unavailableDays as IWeekday[]}
-      />
-    </>
+    <ReserveShiftDialog
+      availableDays={availableWeekdays as IWeekday[]}
+      unavailableDays={unAvailableWeekdays as IWeekday[]}
+    />
   );
 }

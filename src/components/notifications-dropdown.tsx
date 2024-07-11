@@ -19,15 +19,15 @@ import { Button } from './ui/button';
 import Cookies from 'js-cookie';
 import { INotification } from '@/types/notifications.types';
 import { NotificationItem } from './notification-item';
-import { deleteAll } from '@/services/notifications.service';
-import { revalidateDataByTag } from '@/lib/actions';
 import { toast } from 'sonner';
+import { useNotificationStore } from '@/store/notifications.store';
 
 type Props = {
   notifications: INotification[];
 };
 
 export const NotificationsDropdown = ({ notifications }: Props) => {
+  const { getAll, deleteAll } = useNotificationStore();
   const quantity = notifications.filter(
     (notification) => !notification.readed,
   ).length;
@@ -37,8 +37,8 @@ export const NotificationsDropdown = ({ notifications }: Props) => {
       const token = Cookies.get('token');
       toast.promise(deleteAll(token as string), {
         loading: 'Limpiando...',
-        success: () => {
-          revalidateDataByTag('notifications');
+        success: async () => {
+          await getAll(token as string);
           return 'Todas las notificaciones han sido eliminadas.';
         },
       });
