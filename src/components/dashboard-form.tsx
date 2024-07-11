@@ -106,11 +106,12 @@ export const FormReserveShift = ({
 
   const weekdaysWithAssignedWorkhours = availableDays?.map((weekday) => {
     const dates = weekday.assignedWorkhours?.map((shift) => {
-      const date = new Date(shift.timestamp as string);
+      const auxDate = new Date(shift.timestamp as string);
+      const date = DateTime.fromJSDate(auxDate);
 
       return {
-        date: date.toDateString(),
-        weekday: date.getDay(),
+        date: date.toLocaleString(DateTime.DATE_SHORT),
+        weekday: date.weekday === 7 ? 0 : date.weekday,
       };
     });
     const datesOccurence = dates?.reduce((acc, curr) => {
