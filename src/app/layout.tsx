@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 
 import { GeistSans } from 'geist/font/sans';
+import GoogleAnalytics from '@/components/google-analytics';
 import { Toaster } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -43,6 +44,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='es'>
+      <GoogleAnalytics />
       <body
         className={cn(
           'dark flex min-h-screen flex-col bg-primary-foreground text-primary antialiased lg:flex-row',
