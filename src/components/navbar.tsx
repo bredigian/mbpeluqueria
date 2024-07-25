@@ -27,7 +27,7 @@ export default function Navbar({ role }: Props) {
   return (
     <nav
       id='navbar'
-      className='sticky bottom-0 flex w-full items-center justify-evenly bg-primary-foreground/25 p-1 backdrop-blur-sm'
+      className='sticky bottom-0 mx-auto flex w-full max-w-screen-sm items-center justify-evenly bg-primary-foreground/25 p-1 backdrop-blur-sm'
     >
       {!isAdmin ? (
         <Link

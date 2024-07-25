@@ -47,7 +47,7 @@ export default function RootLayout({
       <GoogleAnalytics />
       <body
         className={cn(
-          'dark flex min-h-screen flex-col bg-primary-foreground text-primary antialiased lg:flex-row',
+          'dark flex min-h-screen flex-col bg-primary-foreground text-primary antialiased',
           GeistSans.className,
         )}
         id='body'

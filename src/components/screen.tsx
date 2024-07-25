@@ -101,7 +101,7 @@ export default function Screen({ children, className }: Props) {
   const navHeight = document.getElementById('navbar')?.offsetHeight;
   return (
     <main
-      className={cn('w-full p-6', className)}
+      className={cn('mx-auto w-full max-w-screen-sm p-6', className)}
       style={{
         minHeight: pathname === '/' ? '100vh' : `calc(100vh - ${navHeight}px)`,
       }}
