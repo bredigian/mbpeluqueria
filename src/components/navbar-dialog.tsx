@@ -46,7 +46,10 @@ export const LogoutDialog = ({ isAdmin }: Props) => {
             onClick={handleDialog}
             className='flex w-32 flex-col items-center gap-2'
           >
-            <IoLogOutOutline size={24} />
+            <IoLogOutOutline
+              size={24}
+              className='duration-200 active:scale-95'
+            />
             <small className='font-semibold'>Cerrar sesión</small>
           </div>
         ) : (
