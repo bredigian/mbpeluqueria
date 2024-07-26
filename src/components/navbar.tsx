@@ -27,7 +27,7 @@ export default function Navbar({ role }: Props) {
   return (
     <nav
       id='navbar'
-      className='sticky bottom-0 flex w-full items-center justify-evenly bg-primary-foreground/25 p-1 backdrop-blur-sm'
+      className='sticky bottom-0 mx-auto flex w-full max-w-screen-sm items-center justify-evenly bg-primary-foreground/25 p-1 backdrop-blur-sm'
     >
       {!isAdmin ? (
         <Link
@@ -37,7 +37,10 @@ export default function Navbar({ role }: Props) {
           {pathname === '/dashboard/history' ? (
             <IoCalendarNumber size={24} />
           ) : (
-            <IoCalendarNumberOutline size={24} />
+            <IoCalendarNumberOutline
+              size={24}
+              className='duration-200 active:scale-95'
+            />
           )}
           <small className='font-semibold'>Historial</small>
         </Link>
@@ -49,7 +52,7 @@ export default function Navbar({ role }: Props) {
           {pathname === '/dashboard/hours' ? (
             <IoTime size={24} />
           ) : (
-            <IoTimeOutline size={24} />
+            <IoTimeOutline size={24} className='duration-200 active:scale-95' />
           )}
           <small className='font-semibold'>Horarios</small>
         </Link>
@@ -61,7 +64,7 @@ export default function Navbar({ role }: Props) {
           width={1000}
           height={1000}
           quality={100}
-          className='h-auto w-20 -translate-y-8 self-center rounded-full'
+          className='h-auto w-20 -translate-y-8 self-center rounded-full duration-200 active:scale-95'
         />
       </Link>
       {!isAdmin ? (
@@ -74,7 +77,10 @@ export default function Navbar({ role }: Props) {
           {pathname === '/dashboard/notices' ? (
             <IoMegaphone size={24} />
           ) : (
-            <IoMegaphoneOutline size={24} />
+            <IoMegaphoneOutline
+              size={24}
+              className='duration-200 active:scale-95'
+            />
           )}
           <small className='font-semibold'>Avisos</small>
         </Link>
