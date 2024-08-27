@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+import { useEffect, useState } from 'react';
 
 import { Button } from './ui/button';
 import { Calendar } from './ui/calendar';
@@ -26,7 +27,6 @@ import { connectWebsocket } from '@/lib/io';
 import { toast } from 'sonner';
 import { useDialog } from '@/hooks/use-dialog';
 import { useShiftStore } from '@/store/shifts.store';
-import { useState } from 'react';
 import { useWeekdayStore } from '@/store/weekdays.store';
 import { userStore } from '@/store/user.store';
 
@@ -58,6 +58,11 @@ export const FormReserveShift = ({
 
   const [dayError, setDayError] = useState(false);
   const [hourError, setHourError] = useState(false);
+
+  const [month, setMonth] = useState<Date>(new Date());
+  const [disabledDates, setDisabledDates] = useState<string[]>([]);
+
+  const popover = useDialog();
 
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
@@ -104,44 +109,68 @@ export const FormReserveShift = ({
     }
   };
 
-  const weekdaysWithAssignedWorkhours = availableDays?.map((weekday) => {
-    const dates = weekday.assignedWorkhours?.map((shift) => {
-      const auxDate = new Date(shift.timestamp as string);
-      const date = DateTime.fromJSDate(auxDate);
+  useEffect(() => {
+    const selectedDate = DateTime.fromJSDate(month);
+    const lastDayOfMonth = selectedDate.endOf('month');
 
-      return {
-        date: date.toLocaleString(DateTime.DATE_SHORT),
-        weekday: date.weekday === 7 ? 0 : date.weekday,
-      };
+    let dates = [];
+    for (let index = selectedDate.day; index <= lastDayOfMonth.day; index++) {
+      const date = DateTime.local(
+        selectedDate.year,
+        selectedDate.month,
+        index,
+      ).setLocale('es-AR');
+
+      dates.push(date.toISO());
+    }
+
+    const datesWithAssignedShifts = dates.map((date) => {
+      const shifts = availableDays
+        .find((day) => day.number === DateTime.fromISO(date as string).weekday)
+        ?.assignedWorkhours?.filter(
+          (item) =>
+            DateTime.fromISO(item.timestamp as string)
+              .set({ hour: 0, minute: 0 })
+              .toMillis() === DateTime.fromISO(date as string).toMillis(),
+        )
+        .map((shift) =>
+          DateTime.fromISO(shift.timestamp as string)
+            .setLocale('es-AR')
+            .toISO(),
+        );
+
+      return { date, shifts };
     });
-    const datesOccurence = dates?.reduce((acc, curr) => {
-      const key = `${curr.date}-${curr.weekday}`;
-      if (!acc[key]) {
-        acc[key] = { date: curr.date, count: 0 };
-      }
-      acc[key].count += 1;
 
-      return acc;
-    }, {} as any);
+    const completeDates = datesWithAssignedShifts
+      .filter((date) => (date?.shifts?.length as number) > 0)
+      .map((date) => {
+        const workhoursEnabledByWeekday = availableDays
+          .find(
+            (day) =>
+              day.number === DateTime.fromISO(date.date as string).weekday,
+          )
+          ?.WorkhoursByWeekday.map(({ workhour }) => ({
+            hour: workhour.hours,
+            minutes: workhour.minutes,
+          }));
 
-    return {
-      weekdayNumber: weekday.number,
-      assignedWorkhours: Object.values(datesOccurence),
-    };
-  });
+        const isComplete = workhoursEnabledByWeekday?.every(
+          ({ hour, minutes }) =>
+            date.shifts?.includes(
+              DateTime.fromISO(date.date as string)
+                .set({ hour: hour as number, minute: minutes as number })
+                .setLocale('es-AR')
+                .toISO(),
+            ),
+        );
 
-  const disabledDates = weekdaysWithAssignedWorkhours.flatMap((item) =>
-    item.assignedWorkhours
-      .filter(
-        (shift) =>
-          (shift as { date: string; count: number })?.count ===
-          availableDays.find((weekday) => weekday.number === item.weekdayNumber)
-            ?.WorkhoursByWeekday?.length,
-      )
-      ?.map((z) => new Date((z as { date: string; count: number }).date)),
-  );
+        return { ...date, complete: isComplete };
+      })
+      .filter((item) => item.complete as boolean);
 
-  const popover = useDialog();
+    setDisabledDates(completeDates?.map((item) => item.date as string));
+  }, [month]);
 
   return (
     <form
@@ -165,8 +194,14 @@ export const FormReserveShift = ({
             className='mt-2 w-auto p-0'
             align='center'
             side='bottom'
-            onEscapeKeyDown={popover.handleDialog}
-            onFocusOutside={popover.handleDialog}
+            onEscapeKeyDown={() => {
+              popover.handleDialog();
+              setMonth(new Date());
+            }}
+            onFocusOutside={() => {
+              popover.handleDialog();
+              setMonth(new Date());
+            }}
           >
             <Controller
               control={control}
@@ -183,7 +218,7 @@ export const FormReserveShift = ({
                   selected={field.value as Date}
                   onSelect={field.onChange}
                   initialFocus={false}
-                  fromMonth={new Date()}
+                  onMonthChange={(value) => setMonth(value)}
                   onDayClick={(value) => {
                     setDayError(false);
 
@@ -194,9 +229,10 @@ export const FormReserveShift = ({
                     setAssignedShifts(assignedShifts);
 
                     popover.handleDialog();
+                    setMonth(new Date());
                   }}
                   disabled={[
-                    ...disabledDates,
+                    ...disabledDates.map((item) => new Date(item)),
                     { before: new Date() },
                     {
                       dayOfWeek: unavailableDays.map(
