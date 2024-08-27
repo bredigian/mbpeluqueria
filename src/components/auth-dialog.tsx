@@ -19,6 +19,7 @@ import {
   DrawerTrigger,
 } from './ui/drawer';
 
+import { BsWhatsapp } from 'react-icons/bs';
 import { Button } from './ui/button';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 import { RecoveryPasswordForm } from './auth-form';
@@ -68,26 +69,26 @@ export const HelpDialog = () => {
             <ChevronRightIcon className='mt-2 min-h-4 min-w-4' />
             <p>
               El sistema tuvo una actualización tanto visual como de base de
-              datos, por lo tanto deberás crear tu usuario DESDE CERO.
+              datos, por lo tanto deberás crear tu usuario{' '}
+              <strong>desde cero</strong>.
             </p>
           </li>
           <li className='flex gap-2'>
             <ChevronRightIcon className='mt-2 min-h-4 min-w-4' />
             <p>
               Al crear el usuario nuevo se solicitará un email, el cual será
-              indispensable en caso de necesitar una recuperación de contraseña.
-            </p>
-          </li>
-          <li className='flex gap-2'>
-            <ChevronRightIcon className='mt-2 min-h-4 min-w-4' />
-            <p>
-              En caso de que hayas reservado un turno para la{' '}
-              <strong>primera semana de Julio</strong>, este mismo será
-              respetado pero no será visible en tu historial de turnos.
+              indispensable que sea <strong>válido</strong> en caso de necesitar
+              una recuperación de contraseña.
             </p>
           </li>
         </ul>
         <DrawerFooter>
+          <a href='https://wa.link/tcg9ro' target='_blank'>
+            <Button className='flex w-full items-center gap-2'>
+              <span>Contactar a soporte</span>
+              <BsWhatsapp size={16} color='hsl(var(--primary-foreground))' />
+            </Button>
+          </a>
           <DrawerClose>
             <Button variant='outline' className='w-full'>
               Cerrar
