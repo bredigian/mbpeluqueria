@@ -9,11 +9,14 @@ import Settings from '@/components/settings';
 import { ShiftsContainer } from '@/components/shifts-container';
 import { Subtitle } from '@/components/ui/subtitle';
 import { Title } from '@/components/ui/title';
+import { userStore } from '@/store/user.store';
 
 export default function Home() {
   const today = DateTime.now()
     .setZone('America/Argentina/Buenos_Aires')
     .setLocale('es-AR');
+
+  const { name } = userStore();
 
   return (
     <Screen className='flex flex-col gap-6'>
@@ -23,8 +26,8 @@ export default function Home() {
         <Settings />
       </header>
       <Paragraph>
-        Acá podrás visualizar tus próximos turnos asignados, así como también
-        agendar uno nuevo.
+        ¡Hola <strong>{name?.split(' ')[0]}</strong>! Acá podrás visualizar tus
+        próximos turnos asignados, así como también agendar uno nuevo.
       </Paragraph>
       <section className='flex flex-col gap-6'>
         <aside className='flex w-full items-center justify-between gap-4'>
