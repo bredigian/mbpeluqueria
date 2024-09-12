@@ -151,6 +151,7 @@ export const SignupForm = () => {
     try {
       const payload: IUser = {
         ...values,
+        email: values.email.toLowerCase(),
         phone_number: values.phone_number.trim(),
         role: ERole.USER,
       };
