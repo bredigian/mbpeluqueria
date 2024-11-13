@@ -188,6 +188,10 @@ export const SignupForm = () => {
                   value: true,
                   message: 'El atributo es requerido.',
                 },
+                pattern: {
+                  value: /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?:\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/,
+                  message: 'El nombre ingresado no es válido.',
+                },
               })}
               id='name'
               placeholder='Martin Bordon'
@@ -224,9 +228,17 @@ export const SignupForm = () => {
                   value: true,
                   message: 'El atributo es requerido.',
                 },
+                pattern: {
+                  value: /^\+?[0-9]+(\s[0-9]+)*(\s[0-9]+-[0-9]+)?$/,
+                  message: 'El núm. de telefono ingresado no es válido.',
+                },
+                minLength: {
+                  value: 10,
+                  message: 'Debe contener al menos 10 caracteres',
+                },
               })}
               id='phone_number'
-              placeholder='2281123456'
+              placeholder='+54 2281 12-3456'
             />
             {errors.phone_number && (
               <small className='text-red-500'>
