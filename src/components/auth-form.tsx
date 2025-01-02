@@ -125,10 +125,8 @@ export const SigninForm = () => {
             >
               {!isSubmitting ? 'Iniciar sesión' : 'Iniciando sesión'}
             </Button>
-            {/* <div className='flex w-full items-center gap-2'> */}
             <HelpDialog />
             <ForgotPasswordDialog />
-            {/* </div> */}
           </div>
         </form>
       </CardContent>
@@ -205,7 +203,7 @@ export const SignupForm = () => {
             )}
           </div>
           <div className='flex flex-col gap-4'>
-            <Label htmlFor='email'>Email</Label>
+            <Label htmlFor='email'>Correo electrónico</Label>
             <Input
               {...register('email', {
                 required: {
@@ -214,7 +212,7 @@ export const SignupForm = () => {
                 },
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: 'El email no es válido.',
+                  message: 'El correo no es válido.',
                 },
               })}
               id='email'
@@ -309,7 +307,7 @@ export const RecoveryPasswordForm = ({ handleDialog }: Props) => {
   const onSubmit = async (values: IPasswordRecovery) => {
     try {
       await recoverPassword(values);
-      toast.success('Email enviado exitosamente.');
+      toast.success('Se ha enviado el correo. Revisa tu bandeja de entrada.');
 
       handleDialog();
     } catch (error) {
@@ -327,7 +325,7 @@ export const RecoveryPasswordForm = ({ handleDialog }: Props) => {
       className='flex flex-col gap-4'
     >
       <div className='flex flex-col gap-4'>
-        <Label htmlFor='email'>Email</Label>
+        <Label htmlFor='email'>Correo electrónico</Label>
         <Input
           {...register('email', {
             required: {
@@ -336,7 +334,7 @@ export const RecoveryPasswordForm = ({ handleDialog }: Props) => {
             },
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: 'El email no es válido.',
+              message: 'El correo no es válido.',
             },
           })}
           id='email'
@@ -344,6 +342,13 @@ export const RecoveryPasswordForm = ({ handleDialog }: Props) => {
         {errors.email && (
           <small className='text-red-500'>{errors.email.message}</small>
         )}
+        <a
+          href='https://wa.link/ddgw64'
+          target='_blank'
+          className='text-sm text-blue-800 underline'
+        >
+          ¿El correo no llega? Hace click acá.
+        </a>
       </div>
       <AlertDialogFooter>
         <AlertDialogCancel onClick={handleDialog}>Cancelar</AlertDialogCancel>

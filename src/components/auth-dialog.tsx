@@ -43,7 +43,7 @@ export const ForgotPasswordDialog = () => {
         <AlertDialogHeader>
           <AlertDialogTitle>¿Olvidaste tu contraseña?</AlertDialogTitle>
           <AlertDialogDescription>
-            Ingresá el email asociado a tu cuenta para cambiar tu contraseña.
+            Ingresá el correo asociado a tu cuenta para cambiar tu contraseña.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <RecoveryPasswordForm handleDialog={handleDialog} />
