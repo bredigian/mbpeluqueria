@@ -1,15 +1,14 @@
 'use client';
 
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from './ui/alert-dialog';
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from './ui/drawer';
 
 import { Button } from './ui/button';
 import { IoLogOutOutline } from 'react-icons/io5';
@@ -39,8 +38,8 @@ export const LogoutDialog = ({ isAdmin }: Props) => {
   };
 
   return (
-    <AlertDialog open={show}>
-      <AlertDialogTrigger asChild={isAdmin}>
+    <Drawer open={show}>
+      <DrawerTrigger asChild={isAdmin}>
         {!isAdmin ? (
           <div
             onClick={handleDialog}
@@ -61,20 +60,22 @@ export const LogoutDialog = ({ isAdmin }: Props) => {
             Cerrar sesión
           </Button>
         )}
-      </AlertDialogTrigger>
-      <AlertDialogContent onEscapeKeyDown={handleDialog}>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            ¿Estás seguro que deseas cerrar sesión?
-          </AlertDialogTitle>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleDialog}>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={handleLogout}>
-            Confirmar
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      </DrawerTrigger>
+      <DrawerContent onEscapeKeyDown={handleDialog}>
+        <DrawerHeader>
+          <DrawerTitle>¿Estás seguro que deseas cerrar sesión?</DrawerTitle>
+        </DrawerHeader>
+        <DrawerFooter>
+          <Button type='button' onClick={handleLogout}>
+            Salir
+          </Button>
+          <DrawerClose onClick={handleDialog} asChild>
+            <Button variant='outline' className='w-full'>
+              Cancelar
+            </Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
