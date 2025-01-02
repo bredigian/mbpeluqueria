@@ -21,7 +21,6 @@ import {
 
 import { BsWhatsapp } from 'react-icons/bs';
 import { Button } from './ui/button';
-import { ChevronRightIcon } from '@radix-ui/react-icons';
 import { RecoveryPasswordForm } from './auth-form';
 import { useDialog } from '@/hooks/use-dialog';
 
@@ -31,7 +30,12 @@ export const ForgotPasswordDialog = () => {
   return (
     <AlertDialog open={show}>
       <AlertDialogTrigger asChild>
-        <Button type='button' variant='secondary' onClick={handleDialog}>
+        <Button
+          type='button'
+          variant='secondary'
+          onClick={handleDialog}
+          className='col-span-4 sm:col-span-3'
+        >
           Olvidé la contraseña
         </Button>
       </AlertDialogTrigger>
@@ -52,7 +56,7 @@ export const HelpDialog = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant='secondary' className='w-full'>
+        <Button variant='secondary' className='col-span-2 w-full sm:col-span-3'>
           Ayuda
         </Button>
       </DrawerTrigger>
@@ -60,32 +64,17 @@ export const HelpDialog = () => {
         <DrawerHeader>
           <DrawerTitle>Ayuda</DrawerTitle>
           <DrawerDescription>
-            A continuación se mostrará una lista con ciertos aspectos a tener en
-            cuenta:
+            ¿Tenés problemas para ingresar al sistema?
           </DrawerDescription>
         </DrawerHeader>
-        <ul className='flex flex-col gap-4 p-4'>
-          <li className='flex gap-2'>
-            <ChevronRightIcon className='mt-2 min-h-4 min-w-4' />
-            <p>
-              El sistema tuvo una actualización tanto visual como de base de
-              datos, por lo tanto deberás crear tu usuario{' '}
-              <strong>desde cero</strong>.
-            </p>
-          </li>
-          <li className='flex gap-2'>
-            <ChevronRightIcon className='mt-2 min-h-4 min-w-4' />
-            <p>
-              Al crear el usuario nuevo se solicitará un email, el cual será
-              indispensable que sea <strong>válido</strong> en caso de necesitar
-              una recuperación de contraseña.
-            </p>
-          </li>
-        </ul>
+        <p className='px-4 text-center'>
+          Contactate con el desarrollador mediante WhatsApp para llegar a una
+          solución.
+        </p>
         <DrawerFooter>
           <a href='https://wa.link/tcg9ro' target='_blank'>
             <Button className='flex w-full items-center gap-2'>
-              <span>Contactar a soporte</span>
+              <span>Contactar</span>
               <BsWhatsapp size={16} color='hsl(var(--primary-foreground))' />
             </Button>
           </a>

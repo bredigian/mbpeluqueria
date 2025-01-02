@@ -70,7 +70,7 @@ export const SigninForm = () => {
           className='flex w-full flex-col gap-6'
         >
           <div className='flex flex-col gap-4'>
-            <Label htmlFor='phone_number'>Núm. de Teléfono</Label>
+            <Label htmlFor='phone_number'>Número de teléfono</Label>
             <Input
               {...register('phone_number', {
                 required: {
@@ -117,14 +117,18 @@ export const SigninForm = () => {
               <small className='text-red-500'>{errors.password.message}</small>
             )}
           </div>
-          <div className='flex w-full flex-col gap-2'>
-            <Button type='submit' disabled={isSubmitting} className='mt-6'>
+          <div className='grid w-full grid-cols-6 gap-2'>
+            <Button
+              type='submit'
+              disabled={isSubmitting}
+              className='col-span-full mt-6'
+            >
               {!isSubmitting ? 'Iniciar sesión' : 'Iniciando sesión'}
             </Button>
-            <div className='flex w-full items-center gap-2'>
-              <HelpDialog />
-              <ForgotPasswordDialog />
-            </div>
+            {/* <div className='flex w-full items-center gap-2'> */}
+            <HelpDialog />
+            <ForgotPasswordDialog />
+            {/* </div> */}
           </div>
         </form>
       </CardContent>
